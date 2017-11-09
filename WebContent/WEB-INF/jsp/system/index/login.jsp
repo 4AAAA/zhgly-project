@@ -105,9 +105,9 @@
 						</div>
 					</div>
 				</div>
-				<div style="float:right;padding-right:10%;">
+				<div style="float:right;padding-right:10%;margin-top:-10px;">
 					<div style="float: left;margin-top:3px;margin-right:2px;">
-						<font color="white">记住密码</font>
+						<font color="white" size="2px">记住密码</font>
 					</div>
 					<div style="float: left;">
 						<input name="form-field-checkbox" id="saveid" type="checkbox"
@@ -117,15 +117,15 @@
 				<div class="form-actions">
 					<div style="width:86%;padding-left:8%;">
 
-						<div style="float: left;padding-top:2px;">
-							<i><img src="static/login/yan.png" /></i>
+						<div style="float: left;padding-top:2px;margin-left:-10px;">
+							<i><img src="static/login/yan.png" style="width:35px" /></i>
 						</div>
 						<div style="float: left;" class="codediv">
 							<input type="text" name="code" id="code" class="login_code"
-								style="height:16px; padding-top:4px;" />
+								style="height:20px;margin-top:2px; padding-top:4px;" />
 						</div>
 						<div style="float: left;">
-							<i><img style="height:22px;" id="codeImg" alt="点击更换" title="点击更换" src="" /></i>
+							<i><img style="height:30px;margin-top:2px" id="codeImg" alt="点击更换" title="点击更换" src="" /></i>
 						</div>
 						<c:if test="${pd.isZhuce == 'yes' }">
 						<span class="pull-right" style="padding-right:3%;"><a href="javascript:changepage(1);" class="btn btn-success">注册</a></span>
@@ -136,7 +136,7 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FHqq313596790 2100</span></font>
+					<font color="white"><span id="nameerr">Copyright © liuyw 2017</span></font>
 				</div>
 			</div>
 		</div>
@@ -198,8 +198,8 @@
 				<div class="form-actions">
 					<div style="width:86%;padding-left:8%;">
 
-						<div style="float: left;padding-top:2px;">
-							<i><img src="static/login/yan.png" /></i>
+						<div style="float: left;padding-top:2px;margin-left:-10px">
+							<i><img src="static/login/yan.png" style="width:35px" /></i>
 						</div>
 						<div style="float: left;" class="codediv">
 							<input type="text" name="rcode" id="rcode" class="login_code"

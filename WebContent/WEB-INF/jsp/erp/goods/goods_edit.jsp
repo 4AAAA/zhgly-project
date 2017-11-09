@@ -37,8 +37,8 @@
 								<td colspan="10"><input type="text" name="TITLE" id="TITLE" value="${pd.TITLE}" maxlength="255" placeholder="这里输入商品名称" title="商品名称" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品编码:</td>
-								<td><input type="text" name="BIANMA" id="BIANMA" value="${pd.BIANMA}" maxlength="30" placeholder="这里输入商品编码" title="商品编码" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">配置型号:</td>
+								<td><input type="text" name="BIANMA" id="BIANMA" value="${pd.BIANMA}" maxlength="30" placeholder="这里输入配置型号" title="商品编码" style="width:98%;"/></td>
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品品牌:</td>
 								<td>
 									<select class="chosen-select form-control" name="SPBRAND_ID" id="SPBRAND_ID" data-placeholder="请选择品牌" style="vertical-align:top;width:210px;" >

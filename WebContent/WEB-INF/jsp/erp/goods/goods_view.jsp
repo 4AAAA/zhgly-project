@@ -30,7 +30,7 @@
 								<td colspan="10" style="padding-top: 13px;">${pd.TITLE}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品编码:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">配置型号:</td>
 								<td style="padding-top: 13px;">${pd.BIANMA}</td>
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品品牌:</td>
 								<td style="padding-top: 13px;">${pd.BNAME}</td>

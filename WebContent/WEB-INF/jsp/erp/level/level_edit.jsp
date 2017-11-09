@@ -32,8 +32,8 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">级别:</td>
-								<td><input type="text" name="TITLE" id="TITLE" value="${pd.TITLE}" maxlength="100" placeholder="这里输入级别" title="级别" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">订单类型:</td>
+								<td><input type="text" name="TITLE" id="TITLE" value="${pd.TITLE}" maxlength="100" placeholder="这里输入订单类型" title="级别" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -73,7 +73,7 @@
 			if($("#TITLE").val()==""){
 				$("#TITLE").tips({
 					side:3,
-		            msg:'请输入级别',
+		            msg:'请输入订单类型',
 		            bg:'#AE81FF',
 		            time:2
 		        });

@@ -27,12 +27,12 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="remarks/${msg }.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="REMARKS_ID" id="REMARKS_ID" value="${pd.REMARKS_ID}"/>
+					<form action="attachment/${msg }.do" name="Form" id="Form" method="post">
+						<input type="hidden" name="REMARKS_ID" id="REMARKS_ID" value="${pd.ATTACHMENT_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修员:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">随机附件:</td>
 								<td>
 								<textarea name="REMARKS" id="REMARKS" maxlength="1000" placeholder="这里输入维修员" title="备注" style="width:98%;">${pd.REMARKS}</textarea>
 								</td>

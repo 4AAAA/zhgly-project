@@ -56,7 +56,7 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">级别</th>
+									<th class="center">订单类型</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>

@@ -3,7 +3,7 @@
 					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 				</script>
 
-				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+<!-- 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 						
 						<button class="btn btn-info" onclick="changeMenus();" title="切换菜单">
@@ -14,7 +14,7 @@
 							<i class="ace-icon fa fa-signal"></i>
 						</button>
 
-						<!-- #section:basics/sidebar.layout.shortcuts -->
+						#section:basics/sidebar.layout.shortcuts
 						<button class="btn btn-warning" title="" id="adminzidian" onclick="alert('这只是个图标而已,不是按钮');">
 							<i class="ace-icon fa fa-book"></i>
 						</button>
@@ -23,7 +23,7 @@
 							<i class="ace-icon fa fa-cogs"></i>
 						</button>
 
-						<!-- /section:basics/sidebar.layout.shortcuts -->
+						/section:basics/sidebar.layout.shortcuts
 					</div>
 
 					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
@@ -35,13 +35,13 @@
 
 						<span class="btn btn-danger"></span>
 					</div>
-				</div><!-- /.sidebar-shortcuts -->
+				</div>/.sidebar-shortcuts -->
 
-				<ul class="nav nav-list">
+				<ul class="nav nav-list" style="margin-top:20px">
 					<li class="">
 						<a href="main/index">
-							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text">后台首页</span>
+							<i class="menu-icon fa fa-gavel blue"></i>
+							<span class="menu-text">财务分析</span>
 						</a>
 						<b class="arrow"></b>
 					</li>

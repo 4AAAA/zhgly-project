@@ -71,7 +71,7 @@
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">商品名称</th>
 									<th class="center">仓库存量</th>
-									<th class="center">商品编码</th>
+									<th class="center">配置型号</th>
 									<th class="center">商品类别</th>
 									<th class="center">品牌</th>
 								</tr>

@@ -109,6 +109,7 @@ public class RemarksController extends BaseController {
 		mv.setViewName("erp/remarks/remarks_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
+		System.out.println("ooooooooooooooooooooo==>"+Jurisdiction.getHC());
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}

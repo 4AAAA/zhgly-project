@@ -29,10 +29,9 @@ setTimeout("top.hangge()",500);
 		<div class="main-content">
 			<div class="main-content-inner">
 				<div class="page-content">
-					<div class="hr hr-18 dotted hr-double"></div>
 					<div class="row">
 						<div class="col-xs-12">
-							<div  style="width: 800px;">
+							<div  style="width: 1000px;">
 								<table class="table table-striped table-bordered table-hover">
 									<tr>
 										<td style="width: 100px;">总进货金额</td>
@@ -46,14 +45,38 @@ setTimeout("top.hangge()",500);
 									</tr>
 								</table>
 							</div>
-							<div id="main" style="width: 650px;height:300px;"></div>
+							<div id="main" style="width: 1000px;height:300px;"></div>
+							
+							<div style="margin-left:100px">
+								<jsp:include page="../../FusionChartsHTMLRenderer.jsp" flush="true">
+									<jsp:param name="chartSWF" value="static/FusionCharts/Line.swf" />
+									<jsp:param name="strURL" value="" />
+									<jsp:param name="strXML" value="${str2}" />
+									<jsp:param name="chartId" value="myNext" />
+									<jsp:param name="chartWidth" value="800" />
+									<jsp:param name="chartHeight" value="300" />
+									<jsp:param name="debugMode" value="false" />
+								</jsp:include>
+							</div>
+							<div style="margin-left:25px">
+								<jsp:include page="../../FusionChartsHTMLRenderer.jsp" flush="true">
+									<jsp:param name="chartSWF" value="static/FusionCharts/Column3D.swf" />
+									<jsp:param name="strURL" value="" />
+								    <jsp:param name="strXML" value="${str1}" />
+									<jsp:param name="chartId" value="myNext" />
+									<jsp:param name="chartWidth" value="890" />
+									<jsp:param name="chartHeight" value="380" />
+									<jsp:param name="debugMode" value="false" />
+								</jsp:include>
+							</div>
+							
 							
 							<script type="text/javascript">
 						        // 基于准备好的dom，初始化echarts实例
 						        var myChart = echarts.init(document.getElementById('main'));
 						
 						        // 指定图表的配置项和数据
-								var option = {
+/* 								var option = {
 						            title: {
 						                text: '客户统计'
 						            },
@@ -78,7 +101,39 @@ setTimeout("top.hangge()",500);
 						                }
 						               }
 						            ]
-						        };	        
+						        };	 */       
+						        
+						        
+						        var option = {
+						                title: {
+						                    text: '销售统计分析'
+						                },
+						                tooltip: {},
+						                legend: {
+						                    data:['订单总数','30天内新增订单']
+						                },
+						                xAxis: {
+						                    data: ["订单总数：${pd.userCount}","30天内新增订单：${pd.newUuserCount}"]
+						                },
+						                yAxis: {},
+						                series: [{
+						                    name: '',
+						                    type: 'bar',	
+						                    barWidth: 150,
+						                    data:  [${pd.userCount},${pd.newUuserCount}],
+							                itemStyle: {
+							                    normal: {
+							                        color: function(params) {
+							                            // build a color map as your need.
+							                            var colorList = ['#c23531','#003366'];
+							                            return colorList[params.dataIndex];
+							                        }
+						               		
+							                    }
+						                			
+							                }
+						                }]
+						            };
 
 						        // 使用刚指定的配置项和数据显示图表。
 						        myChart.setOption(option);
@@ -87,7 +142,7 @@ setTimeout("top.hangge()",500);
 						</div>
 						<!-- /.col -->
 						
-						<div class="span6" style="padding-top: 13px;">
+<%-- 						<div class="span6" style="padding-top: 13px;">
 									<div class="tabbable">
 								            <ul class="nav nav-tabs" id="myTab">
 								              <li class="active"><a data-toggle="tab" href="#home"><i class="green icon-home bigger-110"></i>折线图</a></li>
@@ -98,16 +153,7 @@ setTimeout("top.hangge()",500);
 												<table style="width:865px;" border="0px;">
 													<tr>
 														<td>
-															<jsp:include
-															page="../../FusionChartsHTMLRenderer.jsp" flush="true">
-															<jsp:param name="chartSWF" value="static/FusionCharts/Line.swf" />
-															<jsp:param name="strURL" value="" />
-															<jsp:param name="strXML" value="${str2}" />
-															<jsp:param name="chartId" value="myNext" />
-															<jsp:param name="chartWidth" value="860" />
-															<jsp:param name="chartHeight" value="300" />
-															<jsp:param name="debugMode" value="false" />
-															</jsp:include>
+				
 														</td>
 													</tr>
 												</table>
@@ -116,23 +162,14 @@ setTimeout("top.hangge()",500);
 												 <table style="width:865px;" border="0px;">
 													<tr>
 														<td>
-															<jsp:include
-															page="../../FusionChartsHTMLRenderer.jsp" flush="true">
-															<jsp:param name="chartSWF" value="static/FusionCharts/Column3D.swf" />
-															<jsp:param name="strURL" value="" />
-															<jsp:param name="strXML" value="${str1}" />
-															<jsp:param name="chartId" value="myNext" />
-															<jsp:param name="chartWidth" value="860" />
-															<jsp:param name="chartHeight" value="300" />
-															<jsp:param name="debugMode" value="false" />
-															</jsp:include>
+
 														</td>
 													</tr>
 												</table>
 											  </div>
 								            </div>
 									</div>
-								 </div><!--/span-->		
+								 </div><!--/span-->		 --%>
 						
 					</div>
 					<!-- /.row -->
