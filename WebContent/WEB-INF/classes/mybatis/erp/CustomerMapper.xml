@@ -21,7 +21,10 @@
 		REMARKS1,	
 		REMARKS2,
 		USERNAME,	
-		CUSTOMER_ID
+		CUSTOMER_ID,
+		DEVICE,
+		PLAN,
+		PAY
 	</sql>
 	
 	<!-- 字段值 -->
@@ -38,7 +41,10 @@
 		#{REMARKS1},	
 		#{REMARKS2},
 		#{USERNAME},	
-		#{CUSTOMER_ID}
+		#{CUSTOMER_ID},
+		#{DEVICE},
+		#{PLAN},
+		#{PAY}
 	</sql>
 	
 	<!-- 新增-->
@@ -74,8 +80,12 @@
 			MONEY = #{MONEY},
 			LEVEL = #{LEVEL},
 			REMARKS1 = #{REMARKS1},
-			REMARKS2 = #{REMARKS2},
-		CUSTOMER_ID = CUSTOMER_ID
+		 	REMARKS2 = #{REMARKS2},
+		    CUSTOMER_ID = CUSTOMER_ID,
+			DEVICE = #{DEVICE},
+			PLAN = #{PLAN},
+			PAY = #{PAY}
+			
 		where 
 		CUSTOMER_ID = #{CUSTOMER_ID}
 	</update>
@@ -106,6 +116,9 @@
 			a.REMARKS2,
 			a.USERNAME,	
 			a.CUSTOMER_ID,
+			a.DEVICE,
+			a.PLAN,
+			a.PAY,
 			b.TITLE
 		from 
 		<include refid="tableName"></include> a

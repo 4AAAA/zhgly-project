@@ -58,14 +58,6 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修天数:</td>
-								<td style="padding-top: 13px;">${pd.QQ}</td>
-							</tr>							
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">随机附件:</td>
-								<td style="padding-top: 13px;">${pd.REMARKS2}</td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">维修员:</td>
 <%-- 								<td>
 									<select name="REMARKS1" id="REMARKS1" placeholder="请选择" style="width:98%;background-color:#EBEBEB" disabled="disabled" >
@@ -76,6 +68,31 @@
 								</td> --%>
 								<td style="padding-top: 13px;">${pd.REMARKS1}</td>
 							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修设备:</td>
+								<td style="padding-top: 13px;">${pd.DEVICE}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修天数:</td>
+								<td style="padding-top: 13px;">${pd.QQ}</td>
+							</tr>							
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">随机附件:</td>
+								<td style="padding-top: 13px;">${pd.REMARKS2}</td>
+							</tr>
+
+
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>
+
+								<td style="padding-top: 13px;">${pd.PLAN}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">付款方式:</td>
+
+								<td style="padding-top: 13px;">${pd.PAY}</td>
+							</tr>
+							
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">故障描述:</td>
 								<td style="padding-top: 13px;">${pd.ADDRESS}</td>

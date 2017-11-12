@@ -27,8 +27,13 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
+import com.fh.service.erp.attachment.AttachmentManager;
 import com.fh.service.erp.customer.CustomerManager;
+import com.fh.service.erp.device.DeviceManager;
+import com.fh.service.erp.device.impl.DeviceService;
 import com.fh.service.erp.level.LevelManager;
+import com.fh.service.erp.pay.PayManager;
+import com.fh.service.erp.plan.PlanManager;
 import com.fh.service.erp.remarks.RemarksManager;
 
 /** 
@@ -47,6 +52,14 @@ public class CustomerController extends BaseController {
 	private RemarksManager remarksService;
 	@Resource(name="levelService")
 	private LevelManager levelService;
+	@Resource(name="deviceService")
+	private DeviceManager deviceService;
+	@Resource(name="planService")
+	private PlanManager planService;
+	@Resource(name="payService")
+	private PayManager payService;
+	@Resource(name="attachmentService")
+	private AttachmentManager attachmentService;
 	
 	/**保存
 	 * @param
@@ -147,11 +160,23 @@ public class CustomerController extends BaseController {
 		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
 		List<PageData>	varList = remarksService.listAll(pd);
 		List<PageData>	varListL = levelService.listAll(pd);
+		//维修设备
+		List<PageData> deviceList = deviceService.listAll(pd);
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		//随机附件
+		List<PageData> attachmentList = attachmentService.listAll(pd);
 		mv.setViewName("erp/customer/customer_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
 		mv.addObject("varListL", varListL);
+		mv.addObject("deviceList",deviceList);
+		mv.addObject("planList",planList);
+		mv.addObject("payList",payList);
+		mv.addObject("attachmentList",attachmentList);
 		return mv;
 	}	
 	
@@ -168,11 +193,23 @@ public class CustomerController extends BaseController {
 		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
 		List<PageData>	varList = remarksService.listAll(pd);
 		List<PageData>	varListL = levelService.listAll(pd);
+		//维修设备
+		List<PageData>	deviceList = deviceService.listAll(pd);
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		//随机附件
+		List<PageData> attachmentList = attachmentService.listAll(pd);
 		mv.setViewName("erp/customer/customer_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
 		mv.addObject("varListL", varListL);
+		mv.addObject("deviceList",deviceList);
+		mv.addObject("planList",planList);
+		mv.addObject("payList",payList);
+		mv.addObject("attachmentList",attachmentList);
 		return mv;
 	}	
 	

@@ -40,10 +40,9 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">客户微信:</td>
 								<td><input type="text" name="WEIXIN" id="WEIXIN" value="${pd.WEIXIN}" maxlength="100" placeholder="这里输入客户微信" title="微信" style="width:98%;"/></td>
 							</tr>
-
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修天数:</td>
-								<td><input type="number" name="QQ" id="QQ" value="${pd.QQ}" maxlength="32" placeholder="这里输入维修天数" title="QQ" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">订单金额:</td>
+								<td><input type="number" name="MONEY" id="MONEY" value="${pd.MONEY}" maxlength="32" placeholder="这里输入订单金额" title="消费金额" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">订单类型:</td>
@@ -60,20 +59,56 @@
 								<td>
 									<select name="REMARKS1" id="REMARKS1" placeholder="请选择维修员" style="width:98%;" >
 									<c:forEach items="${varList}" var="var">
-										<option value="${var.REMARKS }">${var.REMARKS }</option>
+										<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.REMARKS1}">selected</c:if>>${var.REMARKS }</option>
 									</c:forEach>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">订单金额:</td>
-								<td><input type="number" name="MONEY" id="MONEY" value="${pd.MONEY}" maxlength="32" placeholder="这里输入订单金额" title="消费金额" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修设备:</td>
+								<td>
+									<select name="DEVICE" id="DEVICE" placeholder="请选择维修设备" style="width:98%;" >
+										<c:forEach items="${deviceList}" var="var">
+											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.DEVICE}">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修天数:</td>
+								<td><input type="number" name="QQ" id="QQ" value="${pd.QQ}" maxlength="32" placeholder="这里输入维修天数" title="QQ" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">随机附件:</td>
-								<td><input type="text" name="REMARKS2" id="REMARKS2" value="${pd.REMARKS2}" maxlength="1000" placeholder="这里输入订单备注" title="备注(2)" style="width:98%;"/></td>
+								<td>
+									<select name="REMARKS2" id="REMARKS2" placeholder="请选择随机附件" style="width:98%;" >
+										<c:forEach items="${attachmentList}" var="var">
+											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.ATTACHMENT}">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
 							</tr>
-
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>
+								<td>
+									<select name="PLAN" id="PLAN" placeholder="请选择维修进度" style="width:98%;" >
+										<c:forEach items="${planList}" var="var">
+											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.PLAN}">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">付款方式:</td>
+								<td>
+									<select name="PAY" id="PAY" placeholder="请选择付款方式" style="width:98%;" >
+										<c:forEach items="${payList}" var="var">
+											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.PAY}">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">故障描述:</td>
 								<td>
