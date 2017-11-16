@@ -32,7 +32,7 @@
 							
 						<!-- 检索  -->
 						<form action="level/list.do" method="post" name="Form" id="Form">
-						<table style="margin-top:5px;">
+<%-- 						<table style="margin-top:5px;">
 							<tr>
 								<td>
 									<div class="nav-search">
@@ -46,7 +46,7 @@
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
 								</c:if>
 							</tr>
-						</table>
+						</table> --%>
 						<!-- 检索  -->
 					
 						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
@@ -141,11 +141,11 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-mini btn-success" onclick="add();">新增</a>
+									<a class="btn btn-primary btn-sm" onclick="add();">新增</a>
 									</c:if>
-									<c:if test="${QX.del == 1 }">
+<%-- 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-									</c:if>
+									</c:if> --%>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>

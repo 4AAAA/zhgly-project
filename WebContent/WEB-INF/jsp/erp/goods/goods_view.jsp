@@ -63,11 +63,11 @@
 </div>
 <!-- /.main-container -->
 
-<c:if test="${'edit' == msg }">
+<%-- <c:if test="${'edit' == msg }">
 	<div>
 		<iframe name="treeFrame" id="treeFrame" frameborder="0" src="<%=basePath%>/goodsmx/viewList.do?MASTER_ID=${pd.GOODS_ID}" style="margin:0 auto;width:805px;height:368px;;"></iframe>
 	</div>
-</c:if>
+</c:if> --%>
 
 	<!-- 页面底部js¨ -->
 	<%@ include file="../../system/index/foot.jsp"%>

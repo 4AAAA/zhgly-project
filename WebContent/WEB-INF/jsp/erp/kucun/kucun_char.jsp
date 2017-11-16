@@ -25,9 +25,8 @@
 		<div class="main-content">
 			<div class="main-content-inner">
 				<div class="page-content">
-					<div class="hr hr-18 dotted hr-double"></div>
 					<div class="row">
-						<div class="col-xs-12">
+						<div class="col-xs-12" style="margin-top:40px">
 
 						<table border="0" width="50%">
 							<tr>
@@ -38,8 +37,8 @@
 									<jsp:param name="strURL" value="" />
 									<jsp:param name="strXML" value="${strXML}" />
 									<jsp:param name="chartId" value="myNext" />
-									<jsp:param name="chartWidth" value="500" />
-									<jsp:param name="chartHeight" value="300" />
+									<jsp:param name="chartWidth" value="1000" />
+									<jsp:param name="chartHeight" value="400" />
 									<jsp:param name="debugMode" value="false" />
 									</jsp:include>
 								</td>

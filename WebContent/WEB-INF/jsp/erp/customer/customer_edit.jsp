@@ -148,6 +148,30 @@
 		$(top.hangge());
 		//保存
 		function save(){
+			
+			
+			if($("#MONEY").val()==""){
+				$("#MONEY").tips({
+					side:3,
+		            msg:'订单金额不能为空',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#MONEY").focus();
+			return false;
+			} 
+			if($("#QQ").val()==""){
+				$("#QQ").tips({
+					side:3,
+		            msg:'维修天数不能为空',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#QQ").focus();
+			return false;
+			} 
+			
+			
 
 			$("#Form").submit();
 			$("#zhongxin").hide();
