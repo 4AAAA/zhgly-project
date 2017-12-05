@@ -61,7 +61,7 @@
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">订单编号</th>
 									<th class="center">客户手机</th>
-									<th class="center">订单金额</th>
+									<th class="center">客户名称</th>
 									<th class="center">订单类型</th>
 									<th class="center">维修进度</th>
 									<th class="center">订单时间</th>
@@ -83,27 +83,37 @@
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.NAME}</td>
 											<td class='center'>${var.PHONE}</td>
-											<td class='center'>${var.MONEY}&nbsp;元</td>
+											<td class='center'>${var.WEIXIN}</td>
 											<td class='center'>${var.TITLE}</td>
 											<td class='center'>
 												<c:if test="${var.PLAN=='已修复' }">
 													<span class="btn-success">
-													  已修复
+													  &nbsp;已修复&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.PLAN=='无法修复' }">
-													<span class="btn-danger">
-													  无法修复
+													<span class=""  style="color:#8B008B">
+													  &nbsp;无法修复&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.PLAN=='待取走' }">
 													<span class="btn-warning">
-													  待取走
+													  &nbsp;待取走&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.PLAN=='修复中' }">
 													<span class="btn-info">
-													  修复中
+													  &nbsp;修复中&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.PLAN=='待检修' }">
+													<span class="btn-danger">
+													  &nbsp;待检修&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.PLAN=='超过1个月未取' }">
+													<span class="" style="color:#888888">
+													  &nbsp;超过1个月未取&nbsp;
 												    </span>
 												</c:if>
 											</td>

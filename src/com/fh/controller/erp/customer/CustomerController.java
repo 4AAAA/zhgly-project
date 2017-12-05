@@ -77,6 +77,14 @@ public class CustomerController extends BaseController {
 		pd.put("CUSTOMER_ID", this.get32UUID());		//主键
 		pd.put("CTIME", Tools.date2Str(new Date()));	//建档时间
 		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		if("".equals(pd.getString("QQ"))||pd.getString("QQ").isEmpty()) {
+			pd.put("QQ", 0);
+		}
+		if("".equals(pd.getString("MONEY"))||pd.getString("MONEY").isEmpty()) {
+			pd.put("MONEY", 0);
+		}
+		
+		
 		customerService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");

@@ -28,27 +28,33 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">订单编号:</td>
-								<td style="padding-top: 13px;">${pd.NAME}</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-danger">&nbsp;客户信息&nbsp;</span></td>	
+								<td></td>																						   
 							</tr>
+
 <%-- 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">随机附件:</td>
 								<td style="padding-top: 13px;">${pd.AGE}</td>
 							</tr> --%>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">客户手机:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">客户手机:</td>
 								<td style="padding-top: 13px;">${pd.PHONE}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">客户微信:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">客户名称:</td>
 								<td style="padding-top: 13px;">${pd.WEIXIN}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">订单金额:</td>
-								<td style="padding-top: 13px;">${pd.MONEY}&nbsp;元</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-info">&nbsp;订单信息&nbsp;</span></td>																							   
+								<td></td>	
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">订单类型:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">订单编号:</td>
+								<td style="padding-top: 13px;">${pd.NAME}</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">订单类型:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择" title="级别" style="width:98%;background-color:#EBEBEB" disabled="disabled">
 									<c:forEach items="${varListL}" var="var">
@@ -58,7 +64,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修员:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">维修员:</td>
 <%-- 								<td>
 									<select name="REMARKS1" id="REMARKS1" placeholder="请选择" style="width:98%;background-color:#EBEBEB" disabled="disabled" >
 									<c:forEach items="${varList}" var="var">
@@ -69,33 +75,43 @@
 								<td style="padding-top: 13px;">${pd.REMARKS1}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修设备:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">维修设备:</td>
 								<td style="padding-top: 13px;">${pd.DEVICE}</td>
 							</tr>
+							
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修天数:</td>
-								<td style="padding-top: 13px;">${pd.QQ}</td>
-							</tr>							
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">随机附件:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">随机附件:</td>
 								<td style="padding-top: 13px;">${pd.REMARKS2}</td>
 							</tr>
 
 
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">维修进度:</td>
 
 								<td style="padding-top: 13px;">${pd.PLAN}</td>
 							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">付款方式:</td>
 
-								<td style="padding-top: 13px;">${pd.PAY}</td>
-							</tr>
 							
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">故障描述:</td>
+								<td style="width:80px;text-align: right;padding-top: 13px;">故障描述:</td>
 								<td style="padding-top: 13px;">${pd.ADDRESS}</td>
+							</tr>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-success">&nbsp;结算管理&nbsp;</span></td>																							   
+								<td></td>	
+							</tr>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">订单金额:</td>
+								<td style="padding-top: 13px;">${pd.MONEY}&nbsp;元</td>
+							</tr>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">维修成本:</td>
+								<td style="padding-top: 13px;">${pd.QQ}&nbsp;元</td>
+							</tr>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">付款方式:</td>
+
+								<td style="padding-top: 13px;">${pd.PAY}</td>
 							</tr>
 
 						</table>

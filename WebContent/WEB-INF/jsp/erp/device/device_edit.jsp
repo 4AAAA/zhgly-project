@@ -34,7 +34,7 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">维修设备:</td>
 								<td>
-								<textarea name="REMARKS" id="REMARKS" maxlength="1000" placeholder="这里输入维修员" title="备注" style="width:98%;">${pd.REMARKS}</textarea>
+								<textarea name="REMARKS" id="REMARKS" maxlength="1000" placeholder="这里输入维修设备" title="备注" style="width:98%;">${pd.REMARKS}</textarea>
 								</td>
 							</tr>
 							<tr>
