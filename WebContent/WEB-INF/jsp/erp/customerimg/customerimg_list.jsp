@@ -34,17 +34,43 @@
 						<form action="customerimg/list.do" method="post" name="Form" id="Form">
 						<input name="CUSTOMER_ID" id="CUSTOMER_ID" type="hidden" value="${pd.CUSTOMER_ID }" />
 						<table style="margin-top:5px;">
+							<tr>
+								<td>
+									<div class="nav-search">
+										<span class="input-icon">
+											<input type="text" placeholder="机器编码" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="输入编号或手机关键词"/>
+											<i class="ace-icon fa fa-search nav-search-icon"></i>
+										</span>
+									</div>
+								</td>
+								<c:if test="${QX.cha == 1 }">
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
+								</c:if>
+								<%--导出功能预留 <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if> --%>
+							</tr>
 						</table>
+						<!-- 检索  -->
 						<!-- 检索  -->
 					
 						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
 							<thead>
-								<tr>
+<!-- 								<tr>
 									<th class="center" style="width:35px;">
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">描述</th>
+									<th class="center">记录日期</th>
+									<th class="center">操作</th>
+								</tr> -->
+								<tr>
+									<th class="center" style="width:35px;">
+									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
+									</th>
+									<th class="center" style="width:50px;">序号</th>
+									<th class="center">机器编码</th>
+									<th class="center">维修进度</th>
+									<th class="center">机器详情</th>
 									<th class="center">记录日期</th>
 									<th class="center">操作</th>
 								</tr>
@@ -61,6 +87,39 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.CUSTOMERIMG_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'>${var.CODE}</td>
+											<td class='center'>
+												<c:if test="${var.STATUS=='已修复' }">
+													<span class="btn-success">
+													  &nbsp;已修复&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.STATUS=='无法修复' }">
+													<span class=""  style="color:#8B008B">
+													  &nbsp;无法修复&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.STATUS=='待取走' }">
+													<span class="btn-warning">
+													  &nbsp;待取走&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.STATUS=='修复中' }">
+													<span class="btn-info">
+													  &nbsp;修复中&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.STATUS=='待检修' }">
+													<span class="btn-danger">
+													  &nbsp;待检修&nbsp;
+												    </span>
+												</c:if>
+												<c:if test="${var.STATUS=='超过1个月未取' }">
+													<span class="" style="color:#888888">
+													  &nbsp;超过1个月未取&nbsp;
+												    </span>
+												</c:if>
+											</td>
 											<td class='center'><a style="cursor:pointer;" onclick="viewC('${var.CUSTOMERIMG_ID}')">[查看详情]</a></td>
 											<td class='center'>${var.CTIME}</td>
 											<td class="center">

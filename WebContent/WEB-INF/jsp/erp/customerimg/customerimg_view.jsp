@@ -22,15 +22,82 @@
 			<div class="page-content">
 				<div class="row">
 					<div class="col-xs-12">
+	<form action="customerimg/${msg }.do" name="Form" id="Form" method="post">
+						<input type="hidden" name="CUSTOMERIMG_ID" id="CUSTOMERIMG_ID" value="${pd.CUSTOMERIMG_ID}"/>
+						<input type="hidden" name="CUSTOMER_ID" id="CUSTOMER_ID" value="${pd.CUSTOMER_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
-							<tr>
+<%-- 							<tr>
 								<td>
-									<div>${pd.CDESCRIPTION}</div>
+									<textarea name="CDESCRIPTION" id="CDESCRIPTION" style="display: none;" placeholder="这里输入描述" title="描述">${pd.CDESCRIPTION}</textarea>
+									<script id="editor1" type="text/plain" style="width:100%;height:320px;">${pd.CDESCRIPTION}</script>
 								</td>
 							</tr>
+							<tr>
+								<td style="text-align: center;" colspan="10">
+									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+								</td>
+							</tr> --%>
+							
+					
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">主板:</td>
+								<td>${pd.MAINBOARD}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">显卡:</td>						
+								<td>${pd.DISPLAYCARD}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">光存储:</td>
+								<td>${pd.STORAGE}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">CPU:</td>						
+								<td>${pd.CPU}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">内存:</td>
+								<td>${pd.MEMORY}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">硬盘:</td>						
+								<td>${pd.DISK}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">声卡:</td>
+								<td>${pd.VOIDCARD}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">显示器:</td>						
+								<td>${pd.DISPLAYER}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">鼠标键盘:</td>
+								<td>${pd.KEYBOARD}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">散热器:</td>						
+								<td>${pd.RADIATOR}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">打印机:</td>
+								<td>${pd.PRINTER}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>
+								<td>
+								${pd.STATUS}
+								</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注1:</td>
+								<td>${pd.REMARK1}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注2:</td>						
+								<td>${pd.REMARK2}</td>
+							</tr>																
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">描述:</td>
+								<td colspan="10" style="padding-top: 13px;"><div>${pd.CDESCRIPTION}</div></td>
+							</tr>
+
+															
+				
+							
+							
 						</table>
 						</div>
+						<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
+					</form>
 					</div>
 					<!-- /.col -->
 				</div>

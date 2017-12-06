@@ -12,7 +12,23 @@
 		CDESCRIPTION,	
 		CTIME,	
 		CUSTOMER_ID,	
-		CUSTOMERIMG_ID
+		CUSTOMERIMG_ID,
+		MAINBOARD,
+		DISPLAYCARD,
+		STORAGE,
+		CPU,
+		MEMORY,
+		DISK,
+		VOIDCARD,
+		DISPLAYER,
+		KEYBOARD,
+		RADIATOR,
+		PRINTER,
+		OTHERS,
+		REMARK1,
+		REMARK2,
+		CODE,
+		STATUS
 	</sql>
 	
 	<!-- 字段值 -->
@@ -20,7 +36,23 @@
 		#{CDESCRIPTION},	
 		#{CTIME},	
 		#{CUSTOMER_ID},	
-		#{CUSTOMERIMG_ID}
+		#{CUSTOMERIMG_ID},
+		#{MAINBOARD},
+		#{DISPLAYCARD},
+		#{STORAGE},
+		#{CPU},
+		#{MEMORY},
+		#{DISK},
+		#{VOIDCARD},
+		#{DISPLAYER},
+		#{KEYBOARD},
+		#{RADIATOR},
+		#{PRINTER},
+		#{OTHERS},
+		#{REMARK1},
+		#{REMARK2},
+		#{CODE},
+		#{STATUS}
 	</sql>
 	
 	<!-- 新增-->
@@ -48,7 +80,22 @@
 		<include refid="tableName"></include>
 		set 
 			CDESCRIPTION = #{CDESCRIPTION},
-		CUSTOMERIMG_ID = CUSTOMERIMG_ID
+			MAINBOARD =	#{MAINBOARD},
+		    DISPLAYCARD = #{DISPLAYCARD},
+		    STORAGE = #{STORAGE},
+		    CPU = #{CPU},
+		    MEMORY = #{MEMORY},
+		    DISK = #{DISK},
+		    VOIDCARD = #{VOIDCARD},
+		    DISPLAYER = #{DISPLAYER},
+		    KEYBOARD = #{KEYBOARD},
+		    RADIATOR = #{RADIATOR},
+		    PRINTER = #{PRINTER},
+		    OTHERS = #{OTHERS},
+		    REMARK1 = #{REMARK1},
+		    REMARK2 = #{REMARK2},
+		    STATUS = #{STATUS},
+		    CUSTOMERIMG_ID = CUSTOMERIMG_ID
 		where 
 		CUSTOMERIMG_ID = #{CUSTOMERIMG_ID}
 	</update>
@@ -73,11 +120,11 @@
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+			
+					CODE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
+					STATUS LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				
 				)
 		</if>
 		and CUSTOMER_ID = #{pd.CUSTOMER_ID}

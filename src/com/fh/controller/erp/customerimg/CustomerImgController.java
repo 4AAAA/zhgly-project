@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
+import com.fh.util.CodeRandomUtil;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.erp.customerimg.CustomerImgManager;
+import com.fh.service.erp.plan.PlanManager;
 
 /** 
  * 说明：客户跟踪描述
@@ -37,6 +39,8 @@ public class CustomerImgController extends BaseController {
 	String menuUrl = "customerimg/list.do"; //菜单地址(权限用)
 	@Resource(name="customerimgService")
 	private CustomerImgManager customerimgService;
+	@Resource(name="planService")
+	private PlanManager planService;
 	
 	/**保存
 	 * @param
@@ -51,6 +55,8 @@ public class CustomerImgController extends BaseController {
 		pd = this.getPageData();
 		pd.put("CUSTOMERIMG_ID", this.get32UUID());	//主键
 		pd.put("CTIME", Tools.date2Str(new Date()));	//记录日期
+		//设备编号
+		pd.put("CODE",CodeRandomUtil.getDeviceCode());
 		customerimgService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -122,9 +128,14 @@ public class CustomerImgController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		
 		mv.setViewName("erp/customerimg/customerimg_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("planList",planList);
 		return mv;
 	}	
 	
@@ -138,9 +149,14 @@ public class CustomerImgController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = customerimgService.findById(pd);	//根据ID读取
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		
 		mv.setViewName("erp/customerimg/customerimg_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("planList",planList);
 		return mv;
 	}	
 	
@@ -154,9 +170,14 @@ public class CustomerImgController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = customerimgService.findById(pd);	//根据ID读取
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		
 		mv.setViewName("erp/customerimg/customerimg_view");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("planList",planList);
 		return mv;
 	}
 	

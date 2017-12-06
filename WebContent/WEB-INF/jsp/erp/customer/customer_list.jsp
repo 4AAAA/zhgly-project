@@ -65,7 +65,7 @@
 									<th class="center">订单类型</th>
 									<th class="center">维修进度</th>
 									<th class="center">订单时间</th>
-									<th class="center">订单跟踪</th>
+									<th class="center">维修设备跟踪</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
