@@ -10,12 +10,8 @@
 <html lang="en">
 	<head>
 	<base href="<%=basePath%>">
-	 	<!-- 下拉框 -->
-	<link rel="stylesheet" href="static/ace/css/chosen.css" />
 	<!-- jsp文件头和头部 -->
 	<%@ include file="../../system/index/top.jsp"%>
-
-
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -29,31 +25,17 @@
 					
 					<form action="customer/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="CUSTOMER_ID" id="CUSTOMER_ID" value="${pd.CUSTOMER_ID}"/>
+						<input type="hidden" name="COMPANY_ID" id="COMPANY_ID" value="${pd.COMPANY_ID}"/>
 						<input type="hidden" name="WEIXIN" id="WEIXIN" value="${pd.WEIXIN}"/>
 						<input type="hidden" name="PHONE" id="PHONE" value="${pd.PHONE}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 
-
 							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">姓名:</td>
 								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="100" placeholder="这里输入姓名" title="姓名" style="width:98%;"/></td>
 							</tr> 
-							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-danger">&nbsp;客户信息&nbsp;</span></td>	
-								<td></td>																						   
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">客户名称:</td>
-								<td id="xzsp">
-								<select class="chosen-select form-control" name="COMPANY_ID" id="COMPANY_ID" data-placeholder="请选择客户" style="vertical-align:top;width:100px;" >
-										<option value=""></option>
-										<c:forEach items="${companyList}" var="var">
-											<option value="${var.COMPANY_ID }" <c:if test="${var.COMPANY_ID == pd.COMPANY_ID}">selected</c:if>>${var.NAME}</option>
-										</c:forEach>
-								</select>
-								</td>
-							</tr>
+						
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-info">&nbsp;订单信息&nbsp;</span></td>																							   
 								<td></td>	
@@ -119,7 +101,7 @@
 								<textarea rows="" cols="" name="ADDRESS" id="ADDRESS" title="地址" style="width:98%;">${pd.ADDRESS}</textarea>
 								</td>
 							</tr>
-					
+						
 							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单金额:</td>
 								<td><input type="number" onblur="count1();" name="MONEY" id="MONEY" value="${pd.MONEY}" maxlength="11" placeholder="这里输入订单金额(默认为0元)" title="消费金额" style="width:98%;"/></td>
@@ -178,20 +160,10 @@
 	<%@ include file="../../system/index/foot.jsp"%>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-	<!-- 删除时确认窗口 -->
-	<script src="static/ace/js/bootbox.js"></script>
-	<!-- ace scripts -->
-	<script src="static/ace/js/ace/ace.js"></script>
-	<!-- 下拉框 -->
-	<script src="static/ace/js/chosen.jquery.js"></script>
-	<!-- 日期框 -->
-	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
-	<!--提示框-->
-	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
 		
-			//浮点数相减
+		//浮点数相减
 		   function accSub(num1,num2){  
 		       var r1,r2,m;  
 		       try{  
@@ -250,17 +222,20 @@
 			$("#BILLFEE").val(accSub(MONEY,QQ));
 		}
 		
-
 		
 		//保存
 		function save(){
+			
+			
 
+
+			
+			
 
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
 		}
-		
 		
 		$(function() {
 			//欠费和利润不可输入
@@ -268,31 +243,7 @@
 			$("#OUTMONEY").css("color","gray");
 			$("#BILLFEE").attr("readonly","readonly");
 			$("#BILLFEE").css("color","gray");
-			//下拉框
-			if(!ace.vars['touch']) {
-				$('.chosen-select').chosen({allow_single_deselect:true}); 
-				$(window)
-				.off('resize.chosen')
-				.on('resize.chosen', function() {
-					$('.chosen-select').each(function() {
-						 var $this = $(this);
-						 $this.next().css({'width': $this.parent().width()});
-					});
-				}).trigger('resize.chosen');
-				$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
-					if(event_name != 'sidebar_collapsed') return;
-					$('.chosen-select').each(function() {
-						 var $this = $(this);
-						 $this.next().css({'width': $this.parent().width()});
-					});
-				});
-				$('#chosen-multiple-style .btn').on('click', function(e){
-					var target = $(this).find('input[type=radio]');
-					var which = parseInt(target.val());
-					if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
-					 else $('#form-field-select-4').removeClass('tag-input-style');
-				});
-			}
+
 		});
 		
 		</script>

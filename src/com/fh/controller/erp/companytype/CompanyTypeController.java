@@ -1,4 +1,4 @@
-package com.fh.controller.erp.customerimg;
+package com.fh.controller.erp.companytype;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -19,28 +19,24 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
-import com.fh.util.CodeRandomUtil;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
-import com.fh.service.erp.customerimg.CustomerImgManager;
-import com.fh.service.erp.plan.PlanManager;
+import com.fh.service.erp.companytype.CompanyTypeManager;
+import com.fh.service.erp.level.LevelManager;
 
 /** 
- * 说明：客户跟踪描述
+ * 说明：客户级别
  * 创建人：FH Q313596790
- * 创建时间：2017-03-04
+ * 创建时间：2017-02-19
  */
 @Controller
-@RequestMapping(value="/customerimg")
-public class CustomerImgController extends BaseController {
+@RequestMapping(value="/companyType")
+public class CompanyTypeController extends BaseController {
 	
-	String menuUrl = "customerimg/list.do"; //菜单地址(权限用)
-	@Resource(name="customerimgService")
-	private CustomerImgManager customerimgService;
-	@Resource(name="planService")
-	private PlanManager planService;
+	String menuUrl = "companyType/list.do"; //菜单地址(权限用)
+	@Resource(name="companyTypeService")
+	private CompanyTypeManager companyTypeService;
 	
 	/**保存
 	 * @param
@@ -48,16 +44,14 @@ public class CustomerImgController extends BaseController {
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"新增CustomerImg");
+		logBefore(logger, Jurisdiction.getUsername()+"新增Level");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("CUSTOMERIMG_ID", this.get32UUID());	//主键
-		pd.put("CTIME", Tools.date2Str(new Date()));	//记录日期
-		//设备编号
-		pd.put("CODE",CodeRandomUtil.getDeviceCode());
-		customerimgService.save(pd);
+		pd.put("LEVEL_ID", this.get32UUID());	//主键
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		companyTypeService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -69,11 +63,11 @@ public class CustomerImgController extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"删除CustomerImg");
+		logBefore(logger, Jurisdiction.getUsername()+"删除Level");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		customerimgService.delete(pd);
+		companyTypeService.delete(pd);
 		out.write("success");
 		out.close();
 	}
@@ -84,12 +78,12 @@ public class CustomerImgController extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"修改CustomerImg");
+		logBefore(logger, Jurisdiction.getUsername()+"修改Level");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		customerimgService.edit(pd);
+		companyTypeService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -101,24 +95,21 @@ public class CustomerImgController extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"列表CustomerImg");
+		logBefore(logger, Jurisdiction.getUsername()+"列表Level");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
 		String keywords = pd.getString("keywords");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
-		//维修进度
-		List<PageData> planList = planService.listAll(pd);
+		pd.put("USERNAME", Jurisdiction.getUsername());
 		page.setPd(pd);
-		List<PageData>	varList = customerimgService.list(page);	//列出CustomerImg列表
-		mv.setViewName("erp/customerimg/customerimg_list");
+		List<PageData>	varList = companyTypeService.list(page);	//列出Level列表
+		mv.setViewName("erp/companyType/companyType_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
-		mv.addObject("planList", planList);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -132,14 +123,9 @@ public class CustomerImgController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
-		//维修进度
-		List<PageData> planList = planService.listAll(pd);
-		
-		mv.setViewName("erp/customerimg/customerimg_edit");
+		mv.setViewName("erp/companyType/companyType_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
-		mv.addObject("planList",planList);
 		return mv;
 	}	
 	
@@ -152,38 +138,12 @@ public class CustomerImgController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = customerimgService.findById(pd);	//根据ID读取
-		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
-		//维修进度
-		List<PageData> planList = planService.listAll(pd);
-		
-		mv.setViewName("erp/customerimg/customerimg_edit");
+		pd = companyTypeService.findById(pd);	//根据ID读取
+		mv.setViewName("erp/companyType/companyType_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
-		mv.addObject("planList",planList);
 		return mv;
 	}	
-	
-	 /**查看详情
-	 * @param
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/viewC")
-	public ModelAndView viewC()throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		pd = customerimgService.findById(pd);	//根据ID读取
-		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
-		//维修进度
-		List<PageData> planList = planService.listAll(pd);
-		
-		mv.setViewName("erp/customerimg/customerimg_view");
-		mv.addObject("msg", "edit");
-		mv.addObject("pd", pd);
-		mv.addObject("planList",planList);
-		return mv;
-	}
 	
 	 /**批量删除
 	 * @param
@@ -192,7 +152,7 @@ public class CustomerImgController extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"批量删除CustomerImg");
+		logBefore(logger, Jurisdiction.getUsername()+"批量删除Level");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -201,7 +161,7 @@ public class CustomerImgController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			customerimgService.deleteAll(ArrayDATA_IDS);
+			companyTypeService.deleteAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
@@ -217,24 +177,20 @@ public class CustomerImgController extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"导出CustomerImg到excel");
+		logBefore(logger, Jurisdiction.getUsername()+"导出Level到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("描述");	//1
-		titles.add("记录日期");	//2
-		titles.add("商户ID");	//3
+		titles.add("级别");	//1
 		dataMap.put("titles", titles);
-		List<PageData> varOList = customerimgService.listAll(pd);
+		List<PageData> varOList = companyTypeService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).getString("CDESCRIPTION"));	    //1
-			vpd.put("var2", varOList.get(i).getString("CTIME"));	    //2
-			vpd.put("var3", varOList.get(i).getString("CUSTOMER_ID"));	    //3
+			vpd.put("var1", varOList.get(i).getString("TITLE"));	    //1
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

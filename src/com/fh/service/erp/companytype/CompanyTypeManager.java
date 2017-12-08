@@ -1,16 +1,16 @@
-package com.fh.service.erp.customer;
+package com.fh.service.erp.companytype;
 
 import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： 客户管理接口
+ * 说明： 客户级别接口
  * 创建人：FH Q313596790
- * 创建时间：2017-02-18
+ * 创建时间：2017-02-19
  * @version
  */
-public interface CustomerManager{
+public interface CompanyTypeManager{
 
 	/**新增
 	 * @param pd
@@ -35,12 +35,6 @@ public interface CustomerManager{
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
-	
-	/**列表-关联客户
-	 * @param page
-	 * @throws Exception
-	 */
-	public List<PageData> listCompany(Page page)throws Exception;
 	
 	/**列表(全部)
 	 * @param pd

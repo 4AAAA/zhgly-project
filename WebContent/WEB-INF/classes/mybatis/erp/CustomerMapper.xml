@@ -24,7 +24,11 @@
 		CUSTOMER_ID,
 		DEVICE,
 		PLAN,
-		PAY
+		PAY,
+		COMPANY_ID,
+		INCOME,
+		OUTMONEY,
+		BILLFEE
 	</sql>
 	
 	<!-- 字段值 -->
@@ -44,7 +48,11 @@
 		#{CUSTOMER_ID},
 		#{DEVICE},
 		#{PLAN},
-		#{PAY}
+		#{PAY},
+		#{COMPANY_ID},
+		#{INCOME},
+		#{OUTMONEY},
+		#{BILLFEE}
 	</sql>
 	
 	<!-- 新增-->
@@ -84,7 +92,10 @@
 		    CUSTOMER_ID = CUSTOMER_ID,
 			DEVICE = #{DEVICE},
 			PLAN = #{PLAN},
-			PAY = #{PAY}
+			PAY = #{PAY},
+			INCOME = #{INCOME},
+			OUTMONEY = #{OUTMONEY},
+			BILLFEE = #{BILLFEE}
 			
 		where 
 		CUSTOMER_ID = #{CUSTOMER_ID}
@@ -119,12 +130,24 @@
 			a.DEVICE,
 			a.PLAN,
 			a.PAY,
-			b.TITLE
+			a.COMPANY_ID,
+			a.INCOME,
+		    a.OUTMONEY,
+		    a.BILLFEE,
+			b.TITLE,
+			c.REMARKS,
+			d.REMARKS PEOPLE
 		from 
 		<include refid="tableName"></include> a
 		left join ERP_LEVEL b
 		on 
 			a.LEVEL = b.LEVEL_ID
+		left join ERP_PLAN c
+		on 
+			a.PLAN = c.PLAN_ID
+		left join ERP_REMARKS d
+		on 
+			a.REMARKS1 = d.REMARKS_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
@@ -151,6 +174,84 @@
 		<if test="pd.USERNAME!=null and pd.USERNAME!=''">
 			and a.USERNAME = #{pd.USERNAME} 
 		</if>
+		<if test="pd.LEVEL!=null and pd.LEVEL!=''">
+			and a.LEVEL = #{pd.LEVEL} 
+		</if>
+		<if test="pd.PLAN!=null and pd.PLAN!=''">
+			and a.PLAN = #{pd.PLAN} 
+		</if>
+		<if test="pd.REMARKS1!=null and pd.REMARKS1!=''">
+			and a.REMARKS1 = #{pd.REMARKS1} 
+		</if>
+		order by a.CTIME desc
+	</select>
+	
+		<!-- 列表-关联客户 -->
+	<select id="companylistPage" parameterType="page" resultType="pd">
+		select
+			a.NAME,	
+			a.AGE,	
+			a.PHONE,	
+			a.ADDRESS,	
+			a.QQ,	
+			a.WEIXIN,	
+			a.CTIME,	
+			a.MONEY,	
+			a.LEVEL,	
+			a.REMARKS1,	
+			a.REMARKS2,
+			a.USERNAME,	
+			a.CUSTOMER_ID,
+			a.DEVICE,
+			a.PLAN,
+			a.PAY,
+			a.COMPANY_ID,
+			a.INCOME,
+		    a.OUTMONEY,
+		    a.BILLFEE,
+			b.TITLE,
+			c.REMARKS
+		from 
+		<include refid="tableName"></include> a
+		left join ERP_LEVEL b
+		on 
+			a.LEVEL = b.LEVEL_ID
+		left join ERP_PLAN c
+		on 
+			a.PLAN = c.PLAN_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					a.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					a.PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or 
+					a.ADDRESS LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or 
+					a.WEIXIN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or 
+					a.REMARKS1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or 
+					a.USERNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.lastStart!=null and pd.lastStart!=''">
+			and a.CTIME &gt;= #{pd.lastStart} 
+		</if>
+		<if test="pd.lastEnd!=null and pd.lastEnd!=''">
+			and a.CTIME &lt;= #{pd.lastEnd} 
+		</if>
+		<if test="pd.USERNAME!=null and pd.USERNAME!=''">
+			and a.USERNAME = #{pd.USERNAME} 
+		</if>
+		<if test="pd.LEVEL!=null and pd.LEVEL!=''">
+			and a.LEVEL = #{pd.LEVEL} 
+		</if>
+		<if test="pd.PLAN!=null and pd.PLAN!=''">
+			and a.PLAN = #{pd.PLAN} 
+		</if>
+		and COMPANY_ID = #{pd.COMPANY_ID}
 		order by a.CTIME desc
 	</select>
 	

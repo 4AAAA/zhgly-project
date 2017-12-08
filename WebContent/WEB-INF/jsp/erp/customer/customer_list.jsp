@@ -37,13 +37,37 @@
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="输入编号或手机关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="输入编号或手机关键词"/>
+											<input type="text" placeholder="订单编号/客户名称" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="输入编号或手机关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
 								</td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束日期" title="结束日期"/></td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="LEVEL" id="LEVEL" data-placeholder="订单类型" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${levelList}" var="var">
+											<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.LEVEL }">selected</c:if>>${var.TITLE }</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="PLAN" id="PLAN" data-placeholder="维修进度" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${planList}" var="var">
+											<option value="${var.PLAN_ID }" <c:if test="${var.PLAN_ID == pd.PLAN }">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="REMARKS1" id="REMARKS1" data-placeholder="维修员" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${peopleList}" var="var">
+											<option value="${var.REMARKS_ID }" <c:if test="${var.REMARKS_ID == pd.REMARKS1 }">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
@@ -59,9 +83,9 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">订单编号</th>
-									<th class="center">客户手机</th>
+									<th class="center">订单编号</th>									
 									<th class="center">客户名称</th>
+									<th class="center">维修员</th>
 									<th class="center">订单类型</th>
 									<th class="center">维修进度</th>
 									<th class="center">订单时间</th>
@@ -82,36 +106,36 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.NAME}</td>
-											<td class='center'>${var.PHONE}</td>
 											<td class='center'>${var.WEIXIN}</td>
+											<td class='center'>${var.PEOPLE}</td>											
 											<td class='center'>${var.TITLE}</td>
 											<td class='center'>
-												<c:if test="${var.PLAN=='已修复' }">
+												<c:if test="${var.REMARKS=='已修复' }">
 													<span class="btn-success">
 													  &nbsp;已修复&nbsp;
 												    </span>
 												</c:if>
-												<c:if test="${var.PLAN=='无法修复' }">
+												<c:if test="${var.REMARKS=='无法修复' }">
 													<span class=""  style="color:#8B008B">
 													  &nbsp;无法修复&nbsp;
 												    </span>
 												</c:if>
-												<c:if test="${var.PLAN=='待取走' }">
+												<c:if test="${var.REMARKS=='待取走' }">
 													<span class="btn-warning">
 													  &nbsp;待取走&nbsp;
 												    </span>
 												</c:if>
-												<c:if test="${var.PLAN=='修复中' }">
+												<c:if test="${var.REMARKS=='修复中' }">
 													<span class="btn-info">
 													  &nbsp;修复中&nbsp;
 												    </span>
 												</c:if>
-												<c:if test="${var.PLAN=='待检修' }">
+												<c:if test="${var.REMARKS=='待检修' }">
 													<span class="btn-danger">
 													  &nbsp;待检修&nbsp;
 												    </span>
 												</c:if>
-												<c:if test="${var.PLAN=='超过1个月未取' }">
+												<c:if test="${var.REMARKS=='超过1个月未取' }">
 													<span class="" style="color:#888888">
 													  &nbsp;超过1个月未取&nbsp;
 												    </span>
@@ -132,6 +156,9 @@
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
+									   			    <a class="btn btn-xs btn-info" title="结算" onclick="count('${var.CUSTOMER_ID}');">
+														<i class="menu-icon fa fa-bar-chart-o " title="结算"></i>
+													</a>
 													<c:if test="${QX.del == 1 }">
 													<a class="btn btn-xs btn-danger" onclick="del('${var.CUSTOMER_ID}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
@@ -302,7 +329,7 @@
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>customer/goAdd.do';
 			 diag.Width = 450;
-			 diag.Height = 600;
+			 diag.Height = 530;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -324,7 +351,7 @@
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="跟踪记录";
+			 diag.Title ="维修设备跟踪";
 			 diag.URL = '<%=basePath%>customerimg/list.do?CUSTOMER_ID='+CUSTOMER_ID;
 			 diag.Width = 800;
 			 diag.Height = 600;
@@ -336,7 +363,9 @@
 			 };
 			 diag.show();
 			}
-				
+
+
+		
 		//删除
 		function del(Id){
 			bootbox.confirm("确定要删除吗?", function(result) {
@@ -344,21 +373,39 @@
 					top.jzts();
 					var url = "<%=basePath%>customer/delete.do?CUSTOMER_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
-						tosearch();
+						if("success" == data.result){
+							nextPage(${page.currentPage});
+						}else if("false" == data.result){
+							top.hangge();
+							bootbox.dialog({
+								message: "<span class='bigger-110'>您的订单还存在维修设备跟踪记录，清空记录后再操作订单删除!</span>",
+								buttons: 			
+								{
+									"button" :
+									{
+										"label" : "确定",
+										"className" : "btn-sm btn-success"
+									}
+								}
+							});
+						}
 					});
 				}
 			});
 		}
+		
+	
+		
 		
 		//修改
 		function edit(Id){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑";
+			 diag.Title ="订单修改";
 			 diag.URL = '<%=basePath%>customer/goEdit.do?CUSTOMER_ID='+Id;
 			 diag.Width = 450;
-			 diag.Height = 555;
+			 diag.Height = 530;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 
@@ -370,6 +417,28 @@
 			 };
 			 diag.show();
 		}
+		
+		//结算
+		function count(Id){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="订单结算";
+			 diag.URL = '<%=basePath%>customer/goCount.do?CUSTOMER_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 420;
+			 diag.Modal = false;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮 
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 tosearch();
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
 		
 		//查看
 		function view(Id){

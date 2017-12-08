@@ -74,19 +74,24 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">打印机:</td>
 								<td>${pd.PRINTER}</td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>
-								<td>
-								${pd.STATUS}
-								</td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注1:</td>
 								<td>${pd.REMARK1}</td>
+								
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>							
+								<td>
+									<select name="STATUS" id="STATUS" placeholder="请选择" title="级别" style="width:98%;background-color:#EBEBEB" disabled="disabled">
+									<c:forEach items="${planList}" var="var">
+										<option value="${var.PLAN_ID }" <c:if test="${var.PLAN_ID == pd.STATUS }">selected</c:if>>${var.REMARKS }</option>
+									</c:forEach>
+									</select>
+								</td>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注2:</td>						
 								<td>${pd.REMARK2}</td>
 							</tr>																
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">描述:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修记录:</td>
 								<td colspan="10" style="padding-top: 13px;"><div>${pd.CDESCRIPTION}</div></td>
 							</tr>
 

@@ -28,7 +28,9 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.erp.attachment.AttachmentManager;
+import com.fh.service.erp.company.CompanyManager;
 import com.fh.service.erp.customer.CustomerManager;
+import com.fh.service.erp.customerimg.CustomerImgManager;
 import com.fh.service.erp.device.DeviceManager;
 import com.fh.service.erp.device.impl.DeviceService;
 import com.fh.service.erp.level.LevelManager;
@@ -60,6 +62,10 @@ public class CustomerController extends BaseController {
 	private PayManager payService;
 	@Resource(name="attachmentService")
 	private AttachmentManager attachmentService;
+	@Resource(name="customerimgService")
+	private CustomerImgManager customerimgService;
+	@Resource(name="companyService")
+	private CompanyManager companyService;
 	
 	/**保存
 	 * @param
@@ -77,13 +83,30 @@ public class CustomerController extends BaseController {
 		pd.put("CUSTOMER_ID", this.get32UUID());		//主键
 		pd.put("CTIME", Tools.date2Str(new Date()));	//建档时间
 		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		
+		//客户
+		if(!"".equals(pd.getString("COMPANY_ID"))) {
+			PageData company = companyService.findById(pd);
+			pd.put("WEIXIN", company.getString("NAME"));
+			pd.put("PHONE", company.getString("PHONE"));
+		}
+
+		//金额初始化为0
 		if("".equals(pd.getString("QQ"))||pd.getString("QQ").isEmpty()) {
 			pd.put("QQ", 0);
 		}
 		if("".equals(pd.getString("MONEY"))||pd.getString("MONEY").isEmpty()) {
 			pd.put("MONEY", 0);
 		}
-		
+		if("".equals(pd.getString("INCOME"))||pd.getString("INCOME").isEmpty()) {
+			pd.put("INCOME", 0);
+		}
+		if("".equals(pd.getString("OUTMONEY"))||pd.getString("OUTMONEY").isEmpty()) {
+			pd.put("OUTMONEY", 0);
+		}
+		if("".equals(pd.getString("BILLFEE"))||pd.getString("BILLFEE").isEmpty()) {
+			pd.put("BILLFEE", 0);
+		}
 		
 		customerService.save(pd);
 		mv.addObject("msg","success");
@@ -96,14 +119,32 @@ public class CustomerController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/delete")
-	public void delete(PrintWriter out) throws Exception{
+	@ResponseBody
+	public Object delete() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"删除Customer");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
+		
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		customerService.delete(pd);
-		out.write("success");
-		out.close();
+		Page page = new Page();
+		page.setPd(pd);
+		List<PageData>	varList = customerimgService.list(page);	//列出CustomerImg列表
+		
+		//当订单下有设备跟踪信息则不能删除
+		if(varList.size()>0){
+			errInfo = "false";
+		}else{
+			customerService.delete(pd);
+		}
+		map.put("result", errInfo);
+		
+		
+//		out.write("success");
+//		out.close();
+		
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**修改
@@ -147,14 +188,63 @@ public class CustomerController extends BaseController {
 			pd.put("lastEnd", lastLoginEnd+" 00:00:00");
 		} 
 		pd.put("USERNAME", Jurisdiction.getUsername());
+		//订单类型
+		List<PageData>	levelList = levelService.listAll(pd);
+		//维修进度
+		List<PageData>	planList = planService.listAll(pd);
+		//维修员
+		List<PageData>	peopleList = remarksService.listAll(pd);
 		page.setPd(pd);
 		List<PageData>	varList = customerService.list(page);	//列出Customer列表
 		mv.setViewName("erp/customer/customer_list");
 		mv.addObject("varList", varList);
+		mv.addObject("levelList", levelList);
+		mv.addObject("planList", planList);
+		mv.addObject("peopleList", peopleList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
+	
+	/**列表-关联客户
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listCompany")
+	public ModelAndView listCompany(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表Customer");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		String lastLoginStart = pd.getString("lastStart");	//开始时间
+		String lastLoginEnd = pd.getString("lastEnd");		//结束时间
+		if(lastLoginStart != null && !"".equals(lastLoginStart)){
+			pd.put("lastStart", lastLoginStart+" 00:00:00");
+		}
+		if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
+			pd.put("lastEnd", lastLoginEnd+" 00:00:00");
+		} 
+		pd.put("USERNAME", Jurisdiction.getUsername());
+		//客户类型
+		List<PageData>	levelList = levelService.listAll(pd);
+		//维修进度
+		List<PageData>	planList = planService.listAll(pd);
+		page.setPd(pd);
+		List<PageData>	varList = customerService.listCompany(page);	//列出关联客户的订单列表
+		mv.setViewName("erp/company/customer_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("levelList", levelList);
+		mv.addObject("planList", planList);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
 	
 	/**去新增页面
 	 * @param
@@ -176,7 +266,45 @@ public class CustomerController extends BaseController {
 		List<PageData> payList = payService.listAll(pd);
 		//随机附件
 		List<PageData> attachmentList = attachmentService.listAll(pd);
+		Page page = new Page();
+		page.setPd(pd);
+		//客户列表
+		List<PageData>	companyList = companyService.list(page);	//列出Customer列表
+		
 		mv.setViewName("erp/customer/customer_edit");
+		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
+		mv.addObject("varList", varList);
+		mv.addObject("varListL", varListL);
+		mv.addObject("deviceList",deviceList);
+		mv.addObject("planList",planList);
+		mv.addObject("payList",payList);
+		mv.addObject("companyList",companyList);
+		mv.addObject("attachmentList",attachmentList);
+		return mv;
+	}	
+	
+	/**去新增页面-关联客户
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goAddCompany")
+	public ModelAndView goAddCompany()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		List<PageData>	varList = remarksService.listAll(pd);
+		List<PageData>	varListL = levelService.listAll(pd);
+		//维修设备
+		List<PageData> deviceList = deviceService.listAll(pd);
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		//随机附件
+		List<PageData> attachmentList = attachmentService.listAll(pd);
+		mv.setViewName("erp/company/customer_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
@@ -188,12 +316,97 @@ public class CustomerController extends BaseController {
 		return mv;
 	}	
 	
+	
 	 /**去修改页面
 	 * @param
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goEdit")
 	public ModelAndView goEdit()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = customerService.findById(pd);	//根据ID读取
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		
+		Page page = new Page();
+		page.setPd(pd);
+		List<PageData>	varList = remarksService.listAll(pd);
+		List<PageData>	varListL = levelService.listAll(pd);
+		//维修设备
+		List<PageData>	deviceList = deviceService.listAll(pd);
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		//随机附件
+		List<PageData> attachmentList = attachmentService.listAll(pd);
+		//客户列表
+		List<PageData>	companyList = companyService.listAll(pd);	//列出Customer列表
+		
+		mv.setViewName("erp/customer/customer_edit");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		mv.addObject("varList", varList);
+		mv.addObject("varListL", varListL);
+		mv.addObject("deviceList",deviceList);
+		mv.addObject("planList",planList);
+		mv.addObject("payList",payList);
+		mv.addObject("attachmentList",attachmentList);
+		mv.addObject("companyList",companyList);
+		return mv;
+	}	
+	
+	 /**去结算页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goCount")
+	public ModelAndView goCount()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = customerService.findById(pd);	//根据ID读取
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		
+		Page page = new Page();
+		page.setPd(pd);
+		List<PageData>	varList = remarksService.listAll(pd);
+		List<PageData>	varListL = levelService.listAll(pd);
+		//维修设备
+		List<PageData>	deviceList = deviceService.listAll(pd);
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		//随机附件
+		List<PageData> attachmentList = attachmentService.listAll(pd);
+		//客户列表
+		List<PageData>	companyList = companyService.list(page);	//列出Customer列表
+		
+		mv.setViewName("erp/customer/customer_count");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		mv.addObject("varList", varList);
+		mv.addObject("varListL", varListL);
+		mv.addObject("deviceList",deviceList);
+		mv.addObject("planList",planList);
+		mv.addObject("payList",payList);
+		mv.addObject("attachmentList",attachmentList);
+		mv.addObject("companyList",companyList);
+		return mv;
+	}	
+	
+	
+	
+	
+	
+	 /**去修改页面-关联客户
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goEditCompany")
+	public ModelAndView goEditCompany()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -209,7 +422,7 @@ public class CustomerController extends BaseController {
 		List<PageData> payList = payService.listAll(pd);
 		//随机附件
 		List<PageData> attachmentList = attachmentService.listAll(pd);
-		mv.setViewName("erp/customer/customer_edit");
+		mv.setViewName("erp/company/customer_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
@@ -220,6 +433,41 @@ public class CustomerController extends BaseController {
 		mv.addObject("attachmentList",attachmentList);
 		return mv;
 	}	
+	
+	
+	 /**去结算页面-关联客户
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goCountCompany")
+	public ModelAndView goCountCompany()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = customerService.findById(pd);	//根据ID读取
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		List<PageData>	varList = remarksService.listAll(pd);
+		List<PageData>	varListL = levelService.listAll(pd);
+		//维修设备
+		List<PageData>	deviceList = deviceService.listAll(pd);
+		//维修进度
+		List<PageData> planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		//随机附件
+		List<PageData> attachmentList = attachmentService.listAll(pd);
+		mv.setViewName("erp/company/customer_count");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		mv.addObject("varList", varList);
+		mv.addObject("varListL", varListL);
+		mv.addObject("deviceList",deviceList);
+		mv.addObject("planList",planList);
+		mv.addObject("payList",payList);
+		mv.addObject("attachmentList",attachmentList);
+		return mv;
+	}	
+	
 	
 	 /**查看页面
 	 * @param
@@ -233,11 +481,35 @@ public class CustomerController extends BaseController {
 		pd = customerService.findById(pd);	//根据ID读取
 		List<PageData>	varList = remarksService.listAll(pd);
 		List<PageData>	varListL = levelService.listAll(pd);
+		List<PageData>	planList = planService.listAll(pd);
 		mv.setViewName("erp/customer/customer_view");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
 		mv.addObject("varListL", varListL);
+		mv.addObject("planList", planList);
+		return mv;
+	}
+	
+	 /**查看页面-关联客户
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goViewCompany")
+	public ModelAndView goViewCompany()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = customerService.findById(pd);	//根据ID读取
+		List<PageData>	varList = remarksService.listAll(pd);
+		List<PageData>	varListL = levelService.listAll(pd);
+		List<PageData>	planList = planService.listAll(pd);
+		mv.setViewName("erp/company/customer_view");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		mv.addObject("varList", varList);
+		mv.addObject("varListL", varListL);
+		mv.addObject("planList", planList);
 		return mv;
 	}
 	

@@ -1,4 +1,4 @@
-package com.fh.service.erp.customer.impl;
+package com.fh.service.erp.company.impl;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -6,16 +6,17 @@ import org.springframework.stereotype.Service;
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
+import com.fh.service.erp.company.CompanyManager;
 import com.fh.service.erp.customer.CustomerManager;
 
 /** 
  * 说明： 客户管理
- * 创建人：FH Q313596790
- * 创建时间：2017-02-18
+ * 创建人：liuyw	
+ * 创建时间：2017-12-06
  * @version
  */
-@Service("customerService")
-public class CustomerService implements CustomerManager{
+@Service("companyService")
+public class CompanyService implements CompanyManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -25,7 +26,7 @@ public class CustomerService implements CustomerManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception{
-		dao.save("CustomerMapper.save", pd);
+		dao.save("CompanyMapper.save", pd);
 	}
 	
 	/**删除
@@ -33,7 +34,7 @@ public class CustomerService implements CustomerManager{
 	 * @throws Exception
 	 */
 	public void delete(PageData pd)throws Exception{
-		dao.delete("CustomerMapper.delete", pd);
+		dao.delete("CompanyMapper.delete", pd);
 	}
 	
 	/**修改
@@ -41,7 +42,7 @@ public class CustomerService implements CustomerManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
-		dao.update("CustomerMapper.edit", pd);
+		dao.update("CompanyMapper.edit", pd);
 	}
 	
 	/**列表
@@ -50,16 +51,7 @@ public class CustomerService implements CustomerManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("CustomerMapper.datalistPage", page);
-	}
-	
-	/**列表-关联客户
-	 * @param page
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<PageData> listCompany(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("CustomerMapper.companylistPage", page);
+		return (List<PageData>)dao.findForList("CompanyMapper.datalistPage", page);
 	}
 	
 	/**列表(全部)
@@ -68,7 +60,7 @@ public class CustomerService implements CustomerManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("CustomerMapper.listAll", pd);
+		return (List<PageData>)dao.findForList("CompanyMapper.listAll", pd);
 	}
 	
 	/**通过id获取数据
@@ -76,7 +68,7 @@ public class CustomerService implements CustomerManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("CustomerMapper.findById", pd);
+		return (PageData)dao.findForObject("CompanyMapper.findById", pd);
 	}
 	
 	/**批量删除
@@ -84,7 +76,7 @@ public class CustomerService implements CustomerManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("CustomerMapper.deleteAll", ArrayDATA_IDS);
+		dao.delete("CompanyMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
 }

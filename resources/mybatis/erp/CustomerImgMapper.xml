@@ -113,9 +113,32 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-		<include refid="Field"></include>
+			a.CDESCRIPTION,	
+			a.CTIME,	
+			a.CUSTOMER_ID,	
+			a.CUSTOMERIMG_ID,	
+			a.MAINBOARD,	
+			a.DISPLAYCARD,	
+			a.STORAGE,	
+			a.CPU,	
+			a.MEMORY,	
+			a.DISK,	
+			a.VOIDCARD,
+			a.DISPLAYER,	
+			a.KEYBOARD,
+			a.RADIATOR,
+			a.PRINTER,
+			a.OTHERS,
+			a.REMARK1,
+			a.REMARK2,
+			a.CODE,
+			a.STATUS,
+			b.REMARKS
 		from 
-		<include refid="tableName"></include>
+		<include refid="tableName"></include>a
+		left join ERP_PLAN b
+		on 
+			a.STATUS = b.PLAN_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
@@ -126,6 +149,9 @@
 					STATUS LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
 				
 				)
+		</if>
+		<if test="pd.STATUS!=null and pd.STATUS!=''">
+			and a.STATUS = #{pd.STATUS} 
 		</if>
 		and CUSTOMER_ID = #{pd.CUSTOMER_ID}
 		order by CTIME desc

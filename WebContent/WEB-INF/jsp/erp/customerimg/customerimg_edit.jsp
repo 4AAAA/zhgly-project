@@ -79,24 +79,25 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">打印机:</td>
 								<td><input type="text" name="PRINTER" id="PRINTER" value="${pd.PRINTER}" maxlength="30" placeholder="这里输入品牌/型号" title="商品编码" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注1:</td>
+								<td><input type="text" name="REMARK1" id="REMARK1" value="${pd.REMARK1}" maxlength="30" placeholder="这里输入品牌/型号" title="商品编码" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								
 								<td style="width:75px;text-align: right;padding-top: 13px;">维修进度:</td>
 								<td>
 									<select name="STATUS" id="STATUS" placeholder="请选择维修进度" style="width:98%;" >
 										<c:forEach items="${planList}" var="var">
-											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.STATUS}">selected</c:if>>${var.REMARKS }</option>
+											<option value="${var.PLAN_ID }" <c:if test="${var.PLAN_ID == pd.STATUS}">selected</c:if>>${var.REMARKS }</option>
 										</c:forEach>
 									</select>
 								</td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">备注1:</td>
-								<td><input type="text" name="REMARK1" id="REMARK1" value="${pd.REMARK1}" maxlength="30" placeholder="这里输入品牌/型号" title="商品编码" style="width:98%;"/></td>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注2:</td>						
 								<td><input type="text" name="REMARK2" id="REMARK2" value="${pd.REMARK2}" maxlength="30" placeholder="这里输入品牌/型号" title="商品编码" style="width:98%;"/></td>								
 							</tr>	
 			
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品描述:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">维修记录:</td>
 								<td colspan="10">
 								<textarea name="CDESCRIPTION" id="CDESCRIPTION" style="display: none;" placeholder="这里输入描述" title="描述">${pd.CDESCRIPTION}</textarea>
 								 <script id="editor1" type="text/plain" style="width:88%;height:200px;">${pd.CDESCRIPTION}</script>
@@ -141,7 +142,7 @@
 		//保存
 		function save(){
  			$("#CDESCRIPTION").val(getContent1());
-			if($("#CDESCRIPTION").val()==""){
+/* 			if($("#CDESCRIPTION").val()==""){
 				$("#CDESCRIPTION").tips({
 					side:3,
 		            msg:'请输入描述',
@@ -150,7 +151,7 @@
 		        });
 				$("#CDESCRIPTION").focus();
 			return false;
-			} 
+			}  */
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

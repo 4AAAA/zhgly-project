@@ -31,23 +31,24 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="customerimg/list.do" method="post" name="Form" id="Form">
-						<input name="CUSTOMER_ID" id="CUSTOMER_ID" type="hidden" value="${pd.CUSTOMER_ID }" />
+						<form action="company/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="机器编码" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="输入编号或手机关键词"/>
+											<input type="text" placeholder="编号/姓名/手机/门店" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="输入编号或手机关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
 								</td>
+								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始日期" title="开始日期"/></td>
+								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束日期" title="结束日期"/></td>
 								<td style="padding-left:5px">
-									<select class="chosen-select form-control" name="STATUS" id="STATUS" data-placeholder="维修进度" style="vertical-align:top;width:120px;" >
+									<select class="chosen-select form-control" name="LEVEL" id="LEVEL" data-placeholder="客户级别" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
-										<c:forEach items="${planList}" var="var">
-											<option value="${var.PLAN_ID }" <c:if test="${var.PLAN_ID == pd.STATUS }">selected</c:if>>${var.REMARKS }</option>
+										<c:forEach items="${companyTypeList}" var="var">
+											<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.LEVEL }">selected</c:if>>${var.TITLE }</option>
 										</c:forEach>
 									</select>
 								</td>
@@ -58,28 +59,21 @@
 							</tr>
 						</table>
 						<!-- 检索  -->
-						<!-- 检索  -->
 					
 						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
 							<thead>
-<!-- 								<tr>
-									<th class="center" style="width:35px;">
-									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
-									</th>
-									<th class="center" style="width:50px;">序号</th>
-									<th class="center">描述</th>
-									<th class="center">记录日期</th>
-									<th class="center">操作</th>
-								</tr> -->
 								<tr>
 									<th class="center" style="width:35px;">
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">机器编码</th>
-									<th class="center">维修进度</th>
-									<th class="center">机器详情</th>
-									<th class="center">记录日期</th>
+									<th class="center">客户编号</th>
+									<th class="center">客户姓名</th>
+									<th class="center">客户手机</th>
+									<th class="center">门店名称</th>
+									<th class="center">客户级别</th>					
+									<th class="center">建档时间</th>
+									<th class="center">订单跟踪</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -92,56 +86,32 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.CUSTOMERIMG_ID}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.COMPANY_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.CODE}</td>
-											<td class='center'>
-												<c:if test="${var.REMARKS=='已修复' }">
-													<span class="btn-success">
-													  &nbsp;已修复&nbsp;
-												    </span>
-												</c:if>
-												<c:if test="${var.REMARKS=='无法修复' }">
-													<span class=""  style="color:#8B008B">
-													  &nbsp;无法修复&nbsp;
-												    </span>
-												</c:if>
-												<c:if test="${var.REMARKS=='待取走' }">
-													<span class="btn-warning">
-													  &nbsp;待取走&nbsp;
-												    </span>
-												</c:if>
-												<c:if test="${var.REMARKS=='修复中' }">
-													<span class="btn-info">
-													  &nbsp;修复中&nbsp;
-												    </span>
-												</c:if>
-												<c:if test="${var.REMARKS=='待检修' }">
-													<span class="btn-danger">
-													  &nbsp;待检修&nbsp;
-												    </span>
-												</c:if>
-												<c:if test="${var.REMARKS=='超过1个月未取' }">
-													<span class="" style="color:#888888">
-													  &nbsp;超过1个月未取&nbsp;
-												    </span>
-												</c:if>
-											</td>
-											<td class='center'><a style="cursor:pointer;" onclick="viewC('${var.CUSTOMERIMG_ID}')">[查看详情]</a></td>
+											<td class='center'>${var.NAME}</td>
+											<td class='center'>${var.PHONE}</td>
+											<td class='center'>${var.WEIXIN}</td>
+											<td class='center'>${var.TITLE}</td>
+										
 											<td class='center'>${var.CTIME}</td>
+											<td class='center'><a style="cursor:pointer;" onclick="chaImg('${var.COMPANY_ID}')">[查看跟踪记录]</a></td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
+													<a class="btn btn-warning btn-xs" title="查看" onclick="view('${var.COMPANY_ID}');">
+														<i class="ace-icon fa fa-eye bigger-120" title="查看"></i>
+													</a>
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.CUSTOMERIMG_ID}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.COMPANY_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.CUSTOMERIMG_ID}');">
+													<a class="btn btn-xs btn-danger" onclick="del('${var.COMPANY_ID}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -153,9 +123,16 @@
 														</button>
 			
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+															<li>
+																<a style="cursor:pointer;" onclick="view('${var.COMPANY_ID}');" class="tooltip-success" data-rel="tooltip" title="查看">
+																	<span class="green">
+																		<i class="ace-icon fa fa-eye bigger-120"></i>
+																	</span>
+																</a>
+															</li>
 															<c:if test="${QX.edit == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${var.CUSTOMERIMG_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${var.COMPANY_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -164,7 +141,7 @@
 															</c:if>
 															<c:if test="${QX.del == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="del('${var.CUSTOMERIMG_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="del('${var.COMPANY_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -198,11 +175,11 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-mini btn-success" onclick="add('${pd.CUSTOMER_ID}');">新增</a>
+									<a class="btn btn-primary btn-sm" onclick="add();">新增客户</a>
 									</c:if>
-									<c:if test="${QX.del == 1 }">
+<%-- 未开放批量删除功能				    <c:if test="${QX.del == 1 }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-									</c:if>
+									</c:if> --%>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
@@ -296,34 +273,74 @@
 		});
 		
 		//新增
-		function add(CUSTOMER_ID){
+		function add(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>customerimg/goAdd.do?CUSTOMER_ID='+CUSTOMER_ID;
-			 diag.Width = 800;
-			 diag.Height = 500;
+			 diag.URL = '<%=basePath%>company/goAdd.do';
+			 diag.Width = 450;
+			 diag.Height = 400;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 tosearch();
+					 if('${page.currentPage}' == '0'){
+						 tosearch();
+					 }else{
+						 tosearch();
+					 }
 				}
 				diag.close();
 			 };
 			 diag.show();
 		}
+				
+		//跟踪记录
+		function chaImg(COMPANY_ID){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="订单跟踪";
+			 diag.URL = '<%=basePath%>customer/listCompany.do?COMPANY_ID='+COMPANY_ID;
+			 diag.Width = 820;
+			 diag.Height = 600;
+			 diag.Modal = false;			//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.CancelEvent = function(){ //关闭事件
+				diag.close();
+			 };
+			 diag.show();
+			}
+				
+
+		
 		
 		//删除
 		function del(Id){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>customerimg/delete.do?CUSTOMERIMG_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>company/delete.do?COMPANY_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
-						nextPage(${page.currentPage});
+						if("success" == data.result){
+							nextPage(${page.currentPage});
+						}else if("false" == data.result){
+							top.hangge();
+							bootbox.dialog({
+								message: "<span class='bigger-110'>您的客户还存在订单信息，清空客户订单后再操作客户删除!</span>",
+								buttons: 			
+								{
+									"button" :
+									{
+										"label" : "确定",
+										"className" : "btn-sm btn-success"
+									}
+								}
+							});
+						}
 					});
 				}
 			});
@@ -334,35 +351,38 @@
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>customerimg/goEdit.do?CUSTOMERIMG_ID='+Id;
-			 diag.Width = 800;
-			 diag.Height = 500;
+			 diag.Title ="客户修改";
+			 diag.URL = '<%=basePath%>company/goEdit.do?COMPANY_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 400;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage(${page.currentPage});
+					 tosearch();
 				}
 				diag.close();
 			 };
 			 diag.show();
 		}
 		
-		//查看详情
-		function viewC(Id){
+		//查看
+		function view(Id){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="机器详情";
-			 diag.URL = '<%=basePath%>customerimg/viewC.do?CUSTOMERIMG_ID='+Id;
-			 diag.Width = 800;
-			 diag.Height = 500;
+			 diag.Title ="查看";
+			 diag.URL = '<%=basePath%>company/goView.do?COMPANY_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 620;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 
 			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 tosearch();
+				}
 				diag.close();
 			 };
 			 diag.show();
@@ -397,14 +417,14 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>customerimg/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>company/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									 $.each(data.list, function(i, list){
-											nextPage(${page.currentPage});
+											tosearch();
 									 });
 								}
 							});
@@ -416,7 +436,7 @@
 		
 		//导出excel
 		function toExcel(){
-			window.location.href='<%=basePath%>customerimg/excel.do';
+			window.location.href='<%=basePath%>company/excel.do';
 		}
 	</script>
 

@@ -39,11 +39,8 @@
 								<td style="width:80px;text-align: right;padding-top: 13px;">姓名:</td>
 								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="100" placeholder="这里输入姓名" title="姓名" style="width:98%;"/></td>
 							</tr> 
-							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-danger">&nbsp;客户信息&nbsp;</span></td>	
-								<td></td>																						   
-							</tr>
-							<tr>
+				
+							<tr style="display:none">
 								<td style="width:75px;text-align: right;padding-top: 13px;">客户名称:</td>
 								<td id="xzsp">
 								<select class="chosen-select form-control" name="COMPANY_ID" id="COMPANY_ID" data-placeholder="请选择客户" style="vertical-align:top;width:100px;" >
@@ -54,12 +51,9 @@
 								</select>
 								</td>
 							</tr>
-							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-info">&nbsp;订单信息&nbsp;</span></td>																							   
-								<td></td>	
-							</tr>
+			
 
-							<tr>
+							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单类型:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择订单类别" title="级别" style="width:98%;" >
@@ -69,7 +63,7 @@
 									</select>
 								</td>
 							</tr>
-							<tr>
+							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修员:</td>
 								<td>
 									<select name="REMARKS1" id="REMARKS1" placeholder="请选择维修员" style="width:98%;" >
@@ -79,7 +73,7 @@
 									</select>
 								</td>
 							</tr>
-							<tr>
+							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修设备:</td>
 								<td>
 									<select name="DEVICE" id="DEVICE" placeholder="请选择维修设备" style="width:98%;" >
@@ -91,7 +85,7 @@
 							</tr>
 
 
-							<tr>
+							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">随机附件:</td>
 								<td>
 									<select name="REMARKS2" id="REMARKS2" placeholder="请选择随机附件"  style="width:98%;" >
@@ -101,7 +95,7 @@
 									</select>
 								</td>
 							</tr>
-							<tr>
+							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修进度:</td>
 								<td>
 									<select name="PLAN" id="PLAN" placeholder="请选择维修进度" style="width:98%;" >
@@ -112,35 +106,38 @@
 								</td>
 							</tr>
 
-							<tr>
+							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">故障描述:</td>
 								<td>
 								<!-- <input type="text" name="ADDRESS" id="" value="" maxlength="1000" placeholder="这里输入故障描述" title="" style="width:98%;"/> -->
 								<textarea rows="" cols="" name="ADDRESS" id="ADDRESS" title="地址" style="width:98%;">${pd.ADDRESS}</textarea>
 								</td>
 							</tr>
-					
-							<tr style="display:none">
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-success">&nbsp;结算管理&nbsp;</span></td>																							   
+								<td></td>	
+							</tr>
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单金额:</td>
 								<td><input type="number" onblur="count1();" name="MONEY" id="MONEY" value="${pd.MONEY}" maxlength="11" placeholder="这里输入订单金额(默认为0元)" title="消费金额" style="width:98%;"/></td>
 							</tr>
-							<tr style="display:none">
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">实收金额:</td>
 								<td><input type="number" onblur="count1();" name="INCOME" id="INCOME" value="${pd.INCOME}" maxlength="11" placeholder="这里输入实收金额(默认为0元)" title="QQ" style="width:98%;"/></td>
 							</tr>
-							<tr style="display:none">
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">欠费金额:</td>
 								<td><input type="number" name="OUTMONEY" id="OUTMONEY" value="${pd.OUTMONEY}" maxlength="11" placeholder="点击自动计算：订单金额-实收金额" title="QQ" style="width:98%;"/></td>
 							</tr>
-							<tr style="display:none">
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修成本:</td>
 								<td><input type="number" onblur="count1();" name="QQ" id="QQ" value="${pd.QQ}" maxlength="11" placeholder="这里输入维修成本(默认为0元)" title="QQ" style="width:98%;"/></td>
 							</tr>
-							<tr style="display:none">
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">利润:</td>
 								<td><input type="number" name="BILLFEE" id="BILLFEE" value="${pd.BILLFEE}" maxlength="11" placeholder="点击自动计算：订单金额-维修成本" title="QQ" style="width:98%;"/></td>
 							</tr>
-							<tr style="display:none">
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">付款方式:</td>
 								<td>
 									<select name="PAY" id="PAY" placeholder="请选择付款方式" style="width:98%;" >

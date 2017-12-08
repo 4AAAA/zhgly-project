@@ -1,58 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="CustomerMapper">
+<mapper namespace="CompanyMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		ERP_CUSTOMER
+		ERP_COMPANY
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		NAME,	
-		AGE,	
+		CODE,
+		NAME,		
 		PHONE,	
-		ADDRESS,	
-		QQ,	
+		ADDRESS,			
 		WEIXIN,	
 		CTIME,	
-		MONEY,	
-		LEVEL,	
-		REMARKS1,	
-		REMARKS2,
-		USERNAME,	
-		CUSTOMER_ID,
-		DEVICE,
-		PLAN,
-		PAY,
-		COMPANY_ID,
+		MONEY,
 		INCOME,
-		OUTMONEY,
-		BILLFEE
+		OUTMONEY,	
+		LEVEL,	
+		REMARKS1,		
+		USERNAME,	
+		COMPANY_ID,
+		BILLFEE,
+		BASEMONEY,
+		COUNTBILL
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{NAME},	
-		#{AGE},	
+		#{CODE},	
+		#{NAME},			
 		#{PHONE},	
-		#{ADDRESS},	
-		#{QQ},	
+		#{ADDRESS},			
 		#{WEIXIN},	
 		#{CTIME},	
-		#{MONEY},	
-		#{LEVEL},	
-		#{REMARKS1},	
-		#{REMARKS2},
-		#{USERNAME},	
-		#{CUSTOMER_ID},
-		#{DEVICE},
-		#{PLAN},
-		#{PAY},
-		#{COMPANY_ID},
+		#{MONEY},
 		#{INCOME},
-		#{OUTMONEY},
-		#{BILLFEE}
+		#{OUTMONEY},		
+		#{LEVEL},	
+		#{REMARKS1},		
+		#{USERNAME},	
+		#{COMPANY_ID},
+		#{BILLFEE},
+		#{COUNTBILL},
+		#{BASEMONEY}
 	</sql>
 	
 	<!-- 新增-->
@@ -71,7 +63,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			CUSTOMER_ID = #{CUSTOMER_ID}
+			COMPANY_ID = #{COMPANY_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -79,26 +71,21 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			NAME = #{NAME},
-			AGE = #{AGE},
+			NAME = #{NAME},			
 			PHONE = #{PHONE},
-			ADDRESS = #{ADDRESS},
-			QQ = #{QQ},
+			ADDRESS = #{ADDRESS},			
 			WEIXIN = #{WEIXIN},
 			MONEY = #{MONEY},
 			LEVEL = #{LEVEL},
-			REMARKS1 = #{REMARKS1},
-		 	REMARKS2 = #{REMARKS2},
-		    CUSTOMER_ID = CUSTOMER_ID,
-			DEVICE = #{DEVICE},
-			PLAN = #{PLAN},
-			PAY = #{PAY},
-			INCOME = #{INCOME},
-			OUTMONEY = #{OUTMONEY},
-			BILLFEE = #{BILLFEE}
-			
+			REMARKS1 = #{REMARKS1},	
+			BILLFEE = #{BILLFEE},
+		    COUNTBILL = #{COUNTBILL},	
+		    INCOME = #{INCOME},	
+		    OUTMONEY = #{OUTMONEY},	
+		    BASEMONEY = #{BASEMONEY},	
+		COMPANY_ID = COMPANY_ID
 		where 
-		CUSTOMER_ID = #{CUSTOMER_ID}
+		COMPANY_ID = #{COMPANY_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -108,50 +95,38 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			CUSTOMER_ID = #{CUSTOMER_ID}
+			COMPANY_ID = #{COMPANY_ID}
 	</select>
 	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-			a.NAME,	
-			a.AGE,	
+			a.CODE,	
+			a.NAME,			
 			a.PHONE,	
-			a.ADDRESS,	
-			a.QQ,	
+			a.ADDRESS,					
 			a.WEIXIN,	
 			a.CTIME,	
 			a.MONEY,	
 			a.LEVEL,	
-			a.REMARKS1,	
-			a.REMARKS2,
+			a.REMARKS1,				
 			a.USERNAME,	
-			a.CUSTOMER_ID,
-			a.DEVICE,
-			a.PLAN,
-			a.PAY,
 			a.COMPANY_ID,
-			a.INCOME,
-		    a.OUTMONEY,
-		    a.BILLFEE,
-			b.TITLE,
-			c.REMARKS,
-			d.REMARKS PEOPLE
+			a.BILLFEE,
+			a.COUNTBILL,
+			a.BASEMONEY,
+			b.TITLE
 		from 
 		<include refid="tableName"></include> a
-		left join ERP_LEVEL b
+		left join ERP_COMPANYTYPE b
 		on 
 			a.LEVEL = b.LEVEL_ID
-		left join ERP_PLAN c
-		on 
-			a.PLAN = c.PLAN_ID
-		left join ERP_REMARKS d
-		on 
-			a.REMARKS1 = d.REMARKS_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
+					a.CODE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
 					a.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
 					a.PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
@@ -177,81 +152,6 @@
 		<if test="pd.LEVEL!=null and pd.LEVEL!=''">
 			and a.LEVEL = #{pd.LEVEL} 
 		</if>
-		<if test="pd.PLAN!=null and pd.PLAN!=''">
-			and a.PLAN = #{pd.PLAN} 
-		</if>
-		<if test="pd.REMARKS1!=null and pd.REMARKS1!=''">
-			and a.REMARKS1 = #{pd.REMARKS1} 
-		</if>
-		order by a.CTIME desc
-	</select>
-	
-		<!-- 列表-关联客户 -->
-	<select id="companylistPage" parameterType="page" resultType="pd">
-		select
-			a.NAME,	
-			a.AGE,	
-			a.PHONE,	
-			a.ADDRESS,	
-			a.QQ,	
-			a.WEIXIN,	
-			a.CTIME,	
-			a.MONEY,	
-			a.LEVEL,	
-			a.REMARKS1,	
-			a.REMARKS2,
-			a.USERNAME,	
-			a.CUSTOMER_ID,
-			a.DEVICE,
-			a.PLAN,
-			a.PAY,
-			a.COMPANY_ID,
-			a.INCOME,
-		    a.OUTMONEY,
-		    a.BILLFEE,
-			b.TITLE,
-			c.REMARKS
-		from 
-		<include refid="tableName"></include> a
-		left join ERP_LEVEL b
-		on 
-			a.LEVEL = b.LEVEL_ID
-		left join ERP_PLAN c
-		on 
-			a.PLAN = c.PLAN_ID
-		where 1=1
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-					a.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					a.PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					or 
-					a.ADDRESS LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					or 
-					a.WEIXIN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					or 
-					a.REMARKS1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					or 
-					a.USERNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-				)
-		</if>
-		<if test="pd.lastStart!=null and pd.lastStart!=''">
-			and a.CTIME &gt;= #{pd.lastStart} 
-		</if>
-		<if test="pd.lastEnd!=null and pd.lastEnd!=''">
-			and a.CTIME &lt;= #{pd.lastEnd} 
-		</if>
-		<if test="pd.USERNAME!=null and pd.USERNAME!=''">
-			and a.USERNAME = #{pd.USERNAME} 
-		</if>
-		<if test="pd.LEVEL!=null and pd.LEVEL!=''">
-			and a.LEVEL = #{pd.LEVEL} 
-		</if>
-		<if test="pd.PLAN!=null and pd.PLAN!=''">
-			and a.PLAN = #{pd.PLAN} 
-		</if>
-		and COMPANY_ID = #{pd.COMPANY_ID}
 		order by a.CTIME desc
 	</select>
 	
@@ -276,7 +176,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			CUSTOMER_ID in
+			COMPANY_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
