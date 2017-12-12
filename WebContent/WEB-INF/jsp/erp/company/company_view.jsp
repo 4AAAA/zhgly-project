@@ -40,11 +40,12 @@
 								<td style="padding-top: 13px;">${pd.PHONE}</td>
 							</tr>
 							<tr>
-								<td style="width:90px;text-align: left;padding-top: 13px;">客户类型:</td>
+								<td style="width:90px;text-align: left;padding-top: 13px;">客户级别:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择" title="级别" style="width:98%;background-color:#EBEBEB" disabled="disabled">
-									<c:forEach items="${varListL}" var="var">
+									<c:forEach items="${varListL}" var="var">							
 										<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.LEVEL }">selected</c:if>>${var.TITLE }</option>
+										<option value="" <c:if test="${ pd.LEVEL == null }">selected</c:if>></option>
 									</c:forEach>
 									</select>
 								</td>

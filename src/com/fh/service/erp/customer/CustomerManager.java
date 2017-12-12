@@ -48,6 +48,12 @@ public interface CustomerManager{
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
 	
+	/**列表-关联客户(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> listCompanyAll(PageData pd)throws Exception;
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -59,6 +65,18 @@ public interface CustomerManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	/**当天结算信息统计
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData dayBillSum(PageData pd) throws Exception;
+	
+	/**N天内结算信息统计
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData manyDaySum(PageData pd) throws Exception;
 	
 }
 

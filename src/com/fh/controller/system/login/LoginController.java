@@ -76,6 +76,7 @@ public class LoginController extends BaseController {
 	@Resource(name="outkuService")
 	private OutKuManager outkuService;
 	
+	
 	/**访问登录页
 	 * @return
 	 * @throws Exception
@@ -331,6 +332,47 @@ public class LoginController extends BaseController {
 		pd.put("outjine30",outjine30);						//30天总销售金额
 		DecimalFormat df = new DecimalFormat("#0.00");  
 		pd.put("lirun", df.format(Double.parseDouble(outjine)-Double.parseDouble(injine))); //总销售利润
+		
+		
+		//订单统计
+		
+		//今日
+		PageData dayBill = customerService.dayBillSum(pd);
+
+		
+		//30天内
+		pd.put("days", 30);
+		PageData manyBill = customerService.manyDaySum(pd);
+		if(manyBill!=null) {
+			//订单金额
+			pd.put("MONEY", manyBill.get("MONEY")==null?"0.0":manyBill.get("MONEY").toString());
+			//实收金额
+			pd.put("INCOME", manyBill.get("INCOME")==null?"0.0":manyBill.get("INCOME").toString());
+			//欠费金额
+			pd.put("OUTMONEY", manyBill.get("OUTMONEY")==null?"0.0": manyBill.get("OUTMONEY").toString());
+			//利润
+			pd.put("BILLFEE", manyBill.get("BILLFEE")==null?"0.0":manyBill.get("BILLFEE").toString());
+			//维修成本
+			pd.put("QQ", manyBill.get("QQ")==null?"0.0":manyBill.get("QQ").toString());
+			//订单数量
+			pd.put("NUMBER", manyBill.get("NUMBER")==null?"0":manyBill.get("NUMBER").toString());
+			
+		}else {
+			//订单金额
+			pd.put("MONEY","0.0");
+			//实收金额
+			pd.put("INCOME", "0.0");
+			//欠费金额
+			pd.put("OUTMONEY","0.0");
+			//利润
+			pd.put("BILLFEE", "0.0");
+			//维修成本
+			pd.put("QQ", "0.0");
+			//订单数量
+			pd.put("NUMBER", "0");
+		}
+		
+		
 		mv.addObject("pd",pd);
 		PageData ympd = new PageData();
 		ympd.put("USERNAME", USERNAME);
@@ -376,7 +418,7 @@ public class LoginController extends BaseController {
 		
 		mv.addObject("str1",str1);
 		mv.addObject("str2",str2);
-		mv.setViewName("system/index/default");
+		mv.setViewName("system/index/default2");
 		return mv;
 	}
 	

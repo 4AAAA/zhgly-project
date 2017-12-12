@@ -114,6 +114,38 @@
 								<td><input type="number" name="OUTMONEY" id="OUTMONEY" value="${pd.OUTMONEY}" maxlength="11" placeholder="点击自动计算：订单金额-实收金额" title="QQ" style="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">结算状态:
+									<input  type="hidden" name="BILLSTATUS" id="BILLSTATUS" value="${pd.BILLSTATUS}" />
+									<input  type="hidden" name="FINDBILL" id="FINDBILL" value="COUNTBILL"/>
+								</td>
+							<%-- 	<td><input type="text" name="BILLSTATUS" id="BILLSTATUS" value="${pd.OUTMONEY}" maxlength="11" placeholder="结算状态" title="QQ" style="width:98%;"/></td> --%>
+							<td style="text-align: left;padding-top: 13px;">
+							<c:if test="${pd.BILLSTATUS=='0' }">
+										<span id="bill1" class="btn-warning">
+											 &nbsp;未结&nbsp;
+										</span>
+									</c:if>
+									<c:if test="${pd.BILLSTATUS=='1' }">
+										<span id="bill2" class="btn-success" >
+											&nbsp;结清&nbsp;
+										</span>
+									</c:if>
+									<c:if test="${pd.BILLSTATUS=='2' }">
+										<span id="bill3" class="btn-danger">
+											&nbsp;欠费&nbsp;
+										</span>
+									</c:if>		
+	
+										<span id="liuyw1" class="btn-success">
+											&nbsp;结清&nbsp;
+										</span>
+										<span id="liuyw2" class="btn-danger">
+											&nbsp;欠费&nbsp;
+										</span>
+							</td>
+							
+							</tr>
+							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修成本:</td>
 								<td><input type="number" onblur="count1();" name="QQ" id="QQ" value="${pd.QQ}" maxlength="11" placeholder="这里输入维修成本(默认为0元)" title="QQ" style="width:98%;"/></td>
 							</tr>
@@ -219,6 +251,33 @@
 			$("#OUTMONEY").val(accSub(MONEY,INCOME));
 			//利润
 			$("#BILLFEE").val(accSub(MONEY,QQ));
+			if(accSub(MONEY,INCOME)>0){
+				
+				//初始状态隐藏
+				$("#bill1").hide();
+				$("#bill2").hide();
+				$("#bill3").hide();
+				
+				$("#liuyw1").hide();
+				$("#liuyw2").show();
+				//结算状态
+				$("#BILLSTATUS").val("2");
+
+				
+			}else if(accSub(MONEY,INCOME)==0){
+				
+				//初始状态隐藏
+				$("#bill1").hide();
+				$("#bill2").hide();
+				$("#bill3").hide();
+				
+				$("#liuyw1").show();
+				$("#liuyw2").hide();
+				//结算状态
+				$("#BILLSTATUS").val("1");
+
+				
+			}
 		}
 		
 		
@@ -242,6 +301,10 @@
 			$("#OUTMONEY").css("color","gray");
 			$("#BILLFEE").attr("readonly","readonly");
 			$("#BILLFEE").css("color","gray");
+			
+			//结算状态隐藏
+			$("#liuyw1").hide();
+			$("#liuyw2").hide();
 
 		});
 		

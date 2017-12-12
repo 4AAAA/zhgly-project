@@ -63,3 +63,8 @@ ALTER TABLE zhgly_prod.erp_company ADD COUNTBILL INT NULL COMMENT '累计订单�
 
 --客户管理增加‘累计订单成本’
 ALTER TABLE zhgly_prod.erp_company ADD BASEMONEY double(11,2) NULL COMMENT '累计订单成本' ;
+
+
+
+--财务分析-订单管理-增加结算状态字段
+ALTER TABLE zhgly_prod.erp_customer ADD BILLSTATUS varchar(100) NULL COMMENT '结算状态' ;

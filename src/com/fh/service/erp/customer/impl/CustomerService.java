@@ -71,6 +71,15 @@ public class CustomerService implements CustomerManager{
 		return (List<PageData>)dao.findForList("CustomerMapper.listAll", pd);
 	}
 	
+	/**列表-关联客户(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listCompanyAll(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("CustomerMapper.listCompanyAll", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -87,5 +96,22 @@ public class CustomerService implements CustomerManager{
 		dao.delete("CustomerMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	/**当天结算信息汇总
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData dayBillSum(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("CustomerMapper.dayBillSum", pd);
+	}
+	
+	/**N天内结算信息汇总
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData manyDaySum(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("CustomerMapper.manyDaySum", pd);
+	}
 }
 

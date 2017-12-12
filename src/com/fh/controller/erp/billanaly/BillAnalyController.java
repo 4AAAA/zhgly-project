@@ -1,7 +1,8 @@
-package com.fh.controller.erp.customer;
+package com.fh.controller.erp.billanaly;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,15 +40,15 @@ import com.fh.service.erp.plan.PlanManager;
 import com.fh.service.erp.remarks.RemarksManager;
 
 /** 
- * 说明：客户管理
- * 创建人：FH Q313596790
- * 创建时间：2017-02-18
+ * 说明：财务分析
+ * 创建人：liuyw
+ * 创建时间：2017-12-12
  */
 @Controller
-@RequestMapping(value="/customer")
-public class CustomerController extends BaseController {
+@RequestMapping(value="/bill")
+public class BillAnalyController extends BaseController {
 	
-	String menuUrl = "customer/list.do"; //菜单地址(权限用)
+	String menuUrl = "bill/dayList.do"; //菜单地址(权限用)
 	@Resource(name="customerService")
 	private CustomerManager customerService;
 	@Resource(name="remarksService")
@@ -66,6 +67,133 @@ public class CustomerController extends BaseController {
 	private CustomerImgManager customerimgService;
 	@Resource(name="companyService")
 	private CompanyManager companyService;
+	
+	
+	
+	
+	/**今日订单分析
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dayList")
+	public ModelAndView dayList(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String USERNAME = pd.getString("USERNAME");
+		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
+		pd.put("USERNAME", USERNAME);
+			
+		//订单统计
+		
+		//今日
+		PageData dayBill = customerService.dayBillSum(pd);
+
+		if(dayBill!=null) {
+			//订单金额
+			pd.put("MONEY", dayBill.get("MONEY")==null?"0.0":dayBill.get("MONEY").toString());
+			//实收金额
+			pd.put("INCOME", dayBill.get("INCOME")==null?"0.0":dayBill.get("INCOME").toString());
+			//欠费金额
+			pd.put("OUTMONEY", dayBill.get("OUTMONEY")==null?"0.0": dayBill.get("OUTMONEY").toString());
+			//利润
+			pd.put("BILLFEE", dayBill.get("BILLFEE")==null?"0.0":dayBill.get("BILLFEE").toString());
+			//维修成本
+			pd.put("QQ", dayBill.get("QQ")==null?"0.0":dayBill.get("QQ").toString());
+			//订单份数
+			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0.0":dayBill.get("NUMBER").toString());
+			
+		}else {
+			//订单金额
+			pd.put("MONEY","0.0");
+			//实收金额
+			pd.put("INCOME", "0.0");
+			//欠费金额
+			pd.put("OUTMONEY","0.0");
+			//利润
+			pd.put("BILLFEE", "0.0");
+			//维修成本
+			pd.put("QQ", "0.0");
+			//订单数量
+			pd.put("NUMBER", "0");
+		}
+		
+		
+		mv.addObject("pd",pd);
+		mv.setViewName("erp/bill/default2");
+		return mv;
+	}
+	
+	/**近30日订单分析
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/manyList")
+	public ModelAndView manyList(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String USERNAME = pd.getString("USERNAME");
+		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
+		pd.put("USERNAME", USERNAME);
+
+
+		
+		//30天内
+		pd.put("days", 30);
+		PageData manyBill = customerService.manyDaySum(pd);
+		if(manyBill!=null) {
+			//订单金额
+			pd.put("MONEY", manyBill.get("MONEY")==null?"0.0":manyBill.get("MONEY").toString());
+			//实收金额
+			pd.put("INCOME", manyBill.get("INCOME")==null?"0.0":manyBill.get("INCOME").toString());
+			//欠费金额
+			pd.put("OUTMONEY", manyBill.get("OUTMONEY")==null?"0.0": manyBill.get("OUTMONEY").toString());
+			//利润
+			pd.put("BILLFEE", manyBill.get("BILLFEE")==null?"0.0":manyBill.get("BILLFEE").toString());
+			//维修成本
+			pd.put("QQ", manyBill.get("QQ")==null?"0.0":manyBill.get("QQ").toString());
+			//订单份数
+			pd.put("NUMBER", manyBill.get("NUMBER")==null?"0":manyBill.get("NUMBER").toString());
+			
+		}else {
+			//订单金额
+			pd.put("MONEY","0.0");
+			//实收金额
+			pd.put("INCOME", "0.0");
+			//欠费金额
+			pd.put("OUTMONEY","0.0");
+			//利润
+			pd.put("BILLFEE", "0.0");
+			//维修成本
+			pd.put("QQ", "0.0");
+			//订单数量
+			pd.put("NUMBER", "0");
+		}
+		
+		
+		mv.addObject("pd",pd);
+		mv.setViewName("erp/bill/default3");
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**保存
 	 * @param

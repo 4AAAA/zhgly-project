@@ -28,7 +28,9 @@
 		COMPANY_ID,
 		INCOME,
 		OUTMONEY,
-		BILLFEE
+		BILLFEE,
+		BILLSTATUS,
+		BILLTIME
 	</sql>
 	
 	<!-- 字段值 -->
@@ -52,7 +54,9 @@
 		#{COMPANY_ID},
 		#{INCOME},
 		#{OUTMONEY},
-		#{BILLFEE}
+		#{BILLFEE},
+	    #{BILLSTATUS},
+	    #{BILLTIME}
 	</sql>
 	
 	<!-- 新增-->
@@ -95,7 +99,9 @@
 			PAY = #{PAY},
 			INCOME = #{INCOME},
 			OUTMONEY = #{OUTMONEY},
-			BILLFEE = #{BILLFEE}
+			BILLFEE = #{BILLFEE},
+			BILLSTATUS = #{BILLSTATUS},
+			BILLTIME = #{BILLTIME}
 			
 		where 
 		CUSTOMER_ID = #{CUSTOMER_ID}
@@ -134,6 +140,8 @@
 			a.INCOME,
 		    a.OUTMONEY,
 		    a.BILLFEE,
+		    a.BILLSTATUS,
+		    a.BILLTIME,
 			b.TITLE,
 			c.REMARKS,
 			d.REMARKS PEOPLE
@@ -183,6 +191,9 @@
 		<if test="pd.REMARKS1!=null and pd.REMARKS1!=''">
 			and a.REMARKS1 = #{pd.REMARKS1} 
 		</if>
+		<if test="pd.BILLSTATUS!=null and pd.BILLSTATUS!=''">
+			and a.BILLSTATUS = #{pd.BILLSTATUS} 
+		</if>
 		order by a.CTIME desc
 	</select>
 	
@@ -209,6 +220,8 @@
 			a.INCOME,
 		    a.OUTMONEY,
 		    a.BILLFEE,
+		    a.BILLSTATUS,
+		    a.BILLTIME,
 			b.TITLE,
 			c.REMARKS
 		from 
@@ -251,6 +264,9 @@
 		<if test="pd.PLAN!=null and pd.PLAN!=''">
 			and a.PLAN = #{pd.PLAN} 
 		</if>
+		<if test="pd.BILLSTATUS!=null and pd.BILLSTATUS!=''">
+			and a.BILLSTATUS = #{pd.BILLSTATUS} 
+		</if>
 		and COMPANY_ID = #{pd.COMPANY_ID}
 		order by a.CTIME desc
 	</select>
@@ -270,6 +286,22 @@
 			and DATE_SUB(CURDATE(), INTERVAL ${days} DAY) &lt;= date(CTIME)
 		</if>
 	</select>
+		<!-- 列表-关联客户(全部) -->
+	<select id="listCompanyAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+			1=1
+		<if test="USERNAME!=null and USERNAME!=''">
+			and USERNAME = #{USERNAME} 
+		</if>
+		and COMPANY_ID = #{COMPANY_ID}
+		<if test="days!=null and days!=''"><!-- 几天内 -->
+			and DATE_SUB(CURDATE(), INTERVAL ${days} DAY) &lt;= date(CTIME)
+		</if>
+	</select>
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
@@ -281,6 +313,30 @@
                  #{item}
 		</foreach>
 	</delete>
+	
+	<!-- 当天结算信息汇总分析 -->
+	<select id="dayBillSum" parameterType="pd" resultType="pd">
+		select
+			count(*) NUMBER,sum(MONEY) MONEY,sum(INCOME) INCOME,sum(OUTMONEY) OUTMONEY,sum(BILLFEE) BILLFEE,sum(QQ) QQ
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{USERNAME}
+		and a.BILLSTATUS in (1,2) 
+		and to_days(a.BILLTIME) = to_days(now())
+	</select>
+	
+	<!-- 30天内结算信息汇总分析 -->
+	<select id="manyDaySum" parameterType="pd" resultType="pd">
+		select
+			count(*) NUMBER,sum(MONEY) MONEY,sum(INCOME) INCOME,sum(OUTMONEY) OUTMONEY,sum(BILLFEE) BILLFEE,sum(QQ) QQ
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{USERNAME}
+		and a.BILLSTATUS in (1,2) 
+		<if test="days!=null and days!=''"><!-- 几天内 -->
+			and DATE_SUB(CURDATE(), INTERVAL ${days} DAY) &lt;= date(a.BILLTIME)
+		</if>
+	</select>
 	
 	<!-- fh313596790qq(青苔) -->
 </mapper>

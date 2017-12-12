@@ -31,6 +31,8 @@
 						<input type="hidden" name="CUSTOMER_ID" id="CUSTOMER_ID" value="${pd.CUSTOMER_ID}"/>
 						<input type="hidden" name="WEIXIN" id="WEIXIN" value="${pd.WEIXIN}"/>
 						<input type="hidden" name="PHONE" id="PHONE" value="${pd.PHONE}"/>
+						<input type="hidden" name="BILLSTATUS" id="BILLSTATUS" value="${pd.BILLSTATUS}"/>
+						<input type="hidden" name="BILLTIME" id="BILLTIME" value="${pd.BILLTIME}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 

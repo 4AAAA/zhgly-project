@@ -128,10 +128,32 @@
 							</tr>
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">付款方式:</td>
-
 								<td style="padding-top: 13px;">${pd.PAY}</td>
 							</tr>
-
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">结算状态:</td>
+								<td style="padding-top: 13px;">
+									<c:if test="${pd.BILLSTATUS=='0' }">
+										<span class="btn-warning">
+											 &nbsp;未结&nbsp;
+										</span>
+									</c:if>
+									<c:if test="${pd.BILLSTATUS=='1' }">
+										<span class="btn-success" >
+											&nbsp;结清&nbsp;
+										</span>
+									</c:if>
+									<c:if test="${pd.BILLSTATUS=='2' }">
+										<span class="btn-danger">
+											&nbsp;欠费&nbsp;
+										</span>
+									</c:if>								
+								</td>
+							</tr>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">结算时间:</td>
+								<td style="padding-top: 13px;">${pd.BILLTIME}</td>
+							</tr>
 						</table>
 						</div>
 					</form>

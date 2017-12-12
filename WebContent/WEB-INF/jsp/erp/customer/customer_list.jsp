@@ -68,6 +68,14 @@
 										</c:forEach>
 									</select>
 								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="BILLSTATUS" id="BILLSTATUS" data-placeholder="结算状态" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<option value="0" >未结</option>
+										<option value="1" >结清</option>
+										<option value="2" >欠费</option>
+									</select>
+								</td>
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
@@ -88,6 +96,7 @@
 									<th class="center">维修员</th>
 									<th class="center">订单类型</th>
 									<th class="center">维修进度</th>
+									<th class="center">结算状态</th>
 									<th class="center">订单时间</th>
 									<th class="center">维修设备跟踪</th>
 									<th class="center">操作</th>
@@ -140,6 +149,23 @@
 													  &nbsp;超过1个月未取&nbsp;
 												    </span>
 												</c:if>
+											</td>
+											<td class='center'>
+												<c:if test="${var.BILLSTATUS=='0' }">
+													<span class="btn-warning">
+														 &nbsp;未结&nbsp;
+													</span>
+												</c:if>
+												<c:if test="${var.BILLSTATUS=='1' }">
+													<span class="btn-success" >
+														&nbsp;结清&nbsp;
+													</span>
+												</c:if>
+												<c:if test="${var.BILLSTATUS=='2' }">
+													<span class="btn-danger">
+														&nbsp;欠费&nbsp;
+													</span>
+												</c:if>						
 											</td>
 											<td class='center'>${var.CTIME}</td>
 											<td class='center'><a style="cursor:pointer;" onclick="chaImg('${var.CUSTOMER_ID}')">[查看跟踪记录]</a></td>
@@ -329,7 +355,7 @@
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>customer/goAdd.do';
 			 diag.Width = 450;
-			 diag.Height = 530;
+			 diag.Height = 600;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -426,7 +452,7 @@
 			 diag.Title ="订单结算";
 			 diag.URL = '<%=basePath%>customer/goCount.do?CUSTOMER_ID='+Id;
 			 diag.Width = 450;
-			 diag.Height = 420;
+			 diag.Height = 460;
 			 diag.Modal = false;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 

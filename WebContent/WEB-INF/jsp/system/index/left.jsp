@@ -41,7 +41,7 @@
 					<li class="">
 						<a href="main/index">
 							<i class="menu-icon fa fa-gavel blue"></i>
-							<span class="menu-text">财务分析</span>
+							<span class="menu-text">主页</span>
 						</a>
 						<b class="arrow"></b>
 					</li>

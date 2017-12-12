@@ -205,15 +205,16 @@ public class CompanyController extends BaseController {
 	@RequestMapping(value="/goView")
 	public ModelAndView goView()throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		//查询客户订单份数
+		PageData pds = new PageData();
+		pds = this.getPageData();
+		//得到客户信息
 		PageData pd = new PageData();
-		pd = this.getPageData();
-		Page page = new Page();
-		page.setPd(pd);
-		pd = companyService.findById(pd);	//根据ID读取
+		pd = companyService.findById(pds);	//根据ID读取
 		//订单信息统计
 
 		
-		List<PageData>	varList = customerService.listCompany(page);	//列出CustomerImg列表
+		List<PageData>	varList = customerService.listCompanyAll(pds);	//列出该客户的所有订单
 		pd.put("COUNTBILL", varList.size());
 		//累计订单金额
 		double money = 0;
