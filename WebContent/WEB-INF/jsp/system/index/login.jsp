@@ -136,7 +136,7 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © liuyw 2017</span></font>
+					<font color="white"><span id="nameerr">东创科技 © 版权所有</span></font>
 				</div>
 			</div>
 		</div>

@@ -47,7 +47,7 @@ setTimeout("top.hangge()",500);
 									</tr>
 								</table>
 							</div> --%>
-							<div class="row">
+							<div class="row" style="margin-top:-10px;">
 								<div class="col-xs-12">
 									<h3 class="header smaller lighter grey">
 										<i class="ace-icon fa fa-spinner fa-spin orange bigger-125"></i>
@@ -56,7 +56,25 @@ setTimeout("top.hangge()",500);
 									</h3>
 								</div>
 							</div>
-							<div  class="col-xs-12" >
+							
+							<div class="col-xs-12"  >
+								<table style="margin-left:700px;">
+									<tr>
+										<td>
+											<div class="nav-search">
+												<span class="input-icon">
+													<input type="password" placeholder="密码校验" class="nav-search-input" id="pw" autocomplete="off" name="keywords" value="${pd.keywords }" />
+													<i class="ace-icon fa fa-lock"></i>
+												</span>
+											</div>
+										</td>
+										<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">校验</a></td>	
+										<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch1();"  title="检索">关闭</a></td>	
+									</tr>
+						        </table>							
+							</div>
+							
+							<div  class="col-xs-12" style="margin-top:20px;"  id="liuyw1" hidden>
 								<div class="infobox infobox-purple infobox-small infobox-dark">
 									<div class="infobox-icon">
 										<i class="ace-icon fa fa-bell"></i>
@@ -119,8 +137,8 @@ setTimeout("top.hangge()",500);
 								</div>
 							</div>		
 							
-							<div class="row" >
-							<div id="main1" style="width: 1000px;height:400px;top:60px;margin-left:50px"></div>
+							<div class="row" id="liuyw2" hidden>
+							<div id="main1" style="width: 1000px;height:400px;top:20px;margin-left:50px"></div>
 							
 									<script type="text/javascript">
 							
@@ -197,6 +215,35 @@ setTimeout("top.hangge()",500);
 					<!-- /.row -->
 				</div>
 				<!-- /.page-content -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <div class="form-group">
+                        <label>name:</label>
+                <input name="name" type="text" value="">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="id_ad_search">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 			</div>
 		</div>
 		<!-- /.main-content -->
@@ -213,12 +260,48 @@ setTimeout("top.hangge()",500);
 	<!-- basic scripts -->
 	<!-- 页面底部js¨ -->
 	<%@ include file="../../system/index/foot.jsp"%>
+	<!-- 删除时确认窗口 -->
+	<script src="static/ace/js/bootbox.js"></script>
 	<!-- ace scripts -->
 	<script src="static/ace/js/ace/ace.js"></script>
-	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<script type="text/javascript">
 		$(top.hangge());
+		
+		function tosearch(){
+			if($("#pw").val()=='dckj888'){
+				$("#liuyw1").show();
+				$("#liuyw2").show();
+			}else{
+				top.hangge();
+				bootbox.dialog({
+					message: "<span class='bigger-110'>密码输入错误，输错三次将会自动联系管理员!</span>",
+					buttons: 			
+					{
+						"button" :
+						{
+							"label" : "确定",
+							"className" : "btn-sm btn-success"
+						}
+					}
+				});
+				/* bootbox.confirm("", function(result) {}) */
+			}
+			
+			
+			
+
+		}
+		function tosearch1(){
+			$("#liuyw1").hide();
+			$("#liuyw2").hide();
+		}
 	</script>
-<script type="text/javascript" src="static/ace/js/jquery.js"></script>
+
 </body>
 </html>

@@ -47,23 +47,23 @@ setTimeout("top.hangge()",500);
 									</tr>
 								</table>
 							</div> --%>
-							<div class="row">
+<!-- 							<div class="row">
 								<div class="col-xs-12">
 									<h3 class="header smaller lighter grey">
-										<i class="ace-icon fa fa-spinner fa-spin orange bigger-125"></i>
-										近30日订单财务分析
+										<i><img src="static/login/logoIndex.png" style="width:170px" /></i>
+										
 										
 									</h3>
 								</div>
-							</div>
-							<div  class="col-xs-12" >
+							</div> -->
+<%-- 							<div  class="col-xs-12" >
 								<div class="infobox infobox-purple infobox-small infobox-dark">
 									<div class="infobox-icon">
 										<i class="ace-icon fa fa-bell"></i>
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">结算订单</div>
+										<div class="infobox-content">客户数量</div>
 										<div class="infobox-content">${pd.NUMBER }&nbsp;份</div>
 									</div>
 								</div>
@@ -73,7 +73,7 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">订单金额</div>
+										<div class="infobox-content">订单数量</div>
 										<div class="infobox-content">${pd.MONEY }&nbsp;元</div>
 									</div>
 								</div>
@@ -83,7 +83,7 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">实收金额</div>
+										<div class="infobox-content">维修员</div>
 										<div class="infobox-content">${pd.INCOME }&nbsp;元</div>
 									</div>
 								</div>
@@ -93,7 +93,7 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">欠费金额</div>
+										<div class="infobox-content">配件销售</div>
 										<div class="infobox-content">${pd.OUTMONEY}&nbsp;元</div>
 									</div>
 								</div>
@@ -103,7 +103,7 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">维修成本</div>
+										<div class="infobox-content">电脑维修</div>
 										<div class="infobox-content">${pd.QQ }&nbsp;元</div>
 									</div>
 								</div>
@@ -113,52 +113,19 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">利润</div>
+										<div class="infobox-content">打印机维修</div>
 										<div class="infobox-content">${pd.BILLFEE }&nbsp;元</div>
 									</div>
 								</div>
-							</div>		
+							</div>	 --%>	
 							
-							<div class="row" >
-							<div id="main1" style="width: 1000px;height:400px;top:60px;margin-left:50px"></div>
 							
-									<script type="text/javascript">
-							
-							 // 基于准备好的dom，初始化echarts实例
-					        var myChart1 = echarts.init(document.getElementById('main1'));
 
-					        // 指定图表的配置项和数据
-					        var option = {
-					            title: {
-					                text: ''
-					            },
-					            tooltip: {},
-					            legend: {
-					                data:['金额']
-					            },
-					            xAxis: {
-					                data: ["订单金额","实收金额","欠费金额","维修成本","利润"]
-					            },
-					            yAxis: {},
-					            series: [{
-					                name: '金额',
-					                type: 'bar',
-					                data: [${pd.MONEY }, ${pd.INCOME }, ${pd.OUTMONEY}, ${pd.QQ }, ${pd.BILLFEE }],
-					                itemStyle:{
-					                	normal:{
-					                		color:'#003366'
-					                	}
-					                },
-					                barWidth:80
-					            }]
-					        };
-
-					        // 使用刚指定的配置项和数据显示图表。
-					        myChart1.setOption(option);
-
-						    </script>
+							<img src="static/login/images/123456.gif" style="width:98%;height:100%;" />
+							<!-- <div id="main1" style="width: 1000px;height:400px;top:60px;margin-left:50px"></div> -->
 							
-							</div>
+
+				
 							
 						
 						</div>

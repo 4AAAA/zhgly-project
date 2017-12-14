@@ -249,6 +249,54 @@ public class CustomerController extends BaseController {
 		return mv;
 	}
 	
+	/**列表-维修员
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/taskList")
+	public ModelAndView listEmp(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表Customer");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		String lastLoginStart = pd.getString("lastStart");	//开始时间
+		String lastLoginEnd = pd.getString("lastEnd");		//结束时间
+		if(lastLoginStart != null && !"".equals(lastLoginStart)){
+			pd.put("lastStart", lastLoginStart+" 00:00:00");
+		}
+		if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
+			pd.put("lastEnd", lastLoginEnd+" 00:00:00");
+		} 
+		pd.put("USERNAME", "a1");
+		
+		pd.put("REMARKS1", "d581e40da6eb44878a27e84bfe55a59e");
+		
+		//订单类型
+		List<PageData>	levelList = levelService.listAll(pd);
+		//维修进度
+		List<PageData>	planList = planService.listAll(pd);
+		//维修员
+		List<PageData>	peopleList = remarksService.listAll(pd);
+		page.setPd(pd);
+		List<PageData>	varList = customerService.list(page);	//列出Customer列表
+		mv.setViewName("erp/customer/customer_list");
+		mv.addObject("varList", varList);
+		mv.addObject("levelList", levelList);
+		mv.addObject("planList", planList);
+		mv.addObject("peopleList", peopleList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
+	
+	
+	
 	/**列表-关联客户
 	 * @param page
 	 * @throws Exception
