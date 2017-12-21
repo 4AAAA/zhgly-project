@@ -28,7 +28,7 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="btn-danger">&nbsp;客户信息&nbsp;</span></td>	
+								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-danger arrowed-in-right arrowed">&nbsp;客户信息&nbsp;</span></td>	
 								<td></td>																						   
 							</tr>
 							<tr>
@@ -63,7 +63,7 @@
 								<td style="padding-top: 13px;">${pd.REMARKS1}</td>
 							</tr>
 							<tr>
-								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="btn-success">&nbsp;结算管理&nbsp;</span></td>																							   
+								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-yellow arrowed-in-right arrowed">&nbsp;结算管理&nbsp;</span></td>																							   
 								<td></td>	
 							</tr>
 							<tr>

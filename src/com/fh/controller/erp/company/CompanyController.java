@@ -104,9 +104,49 @@ public class CompanyController extends BaseController {
 			companyService.delete(pd);
 		}
 		map.put("result", errInfo);
+				
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**随机抽取
+	 * @param out
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/random")
+	@ResponseBody
+	public Object random() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"随机抽取一位客户");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
+		
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "false";
+				
+		PageData pds = new PageData();
+		pds.put("USERNAME", Jurisdiction.getUsername());
+		
+		
+		List<PageData>	varList1 = companyService.listAll(pds);	//列出Customer列表
+		
+		//随机生成数组下标、
+		int num = (int)(Math.random() * 1000);
+	
+		while (num>varList1.size()-1) {
+		    if (num<=varList1.size()-1) {
+		break;
+		}
+		     num = (int)(Math.random() * 1000);	
+		}
+		
+		map.put("result", errInfo);
+		
+		System.out.println("卧槽------是我是我是我是我-----》"+varList1.get(num).getString("NAME"));
+		
+		map.put("name", varList1.get(num).getString("NAME"));
 		
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	
 	
 	/**修改
 	 * @param

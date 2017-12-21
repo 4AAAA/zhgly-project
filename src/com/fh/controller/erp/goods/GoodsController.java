@@ -21,8 +21,11 @@ import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
 import com.fh.util.PageData;
+import com.fh.util.Tools;
 import com.fh.util.Jurisdiction;
+import com.fh.service.erp.degree.DegreeManager;
 import com.fh.service.erp.goods.GoodsManager;
+import com.fh.service.erp.material.MaterialManager;
 import com.fh.service.erp.spbrand.SpbrandManager;
 import com.fh.service.erp.sptype.SptypeManager;
 import com.fh.service.erp.spunit.SpunitManager;
@@ -48,6 +51,10 @@ public class GoodsController extends BaseController {
 	private SptypeManager sptypeService;
 	@Resource(name="spunitService")
 	private SpunitManager spunitService;
+	@Resource(name="materialService")
+	private MaterialManager materialService;
+	@Resource(name="degreeService")
+	private DegreeManager degreeService;
 	
 	/**保存
 	 * @param
@@ -61,8 +68,10 @@ public class GoodsController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("GOODS_ID", this.get32UUID());	//主键 
-		pd.put("ZCOUNT", 0);					//库存
+		pd.put("ZCOUNT", pd.get("INCOUNT"));					//库存
+		pd.put("OUTCOUNT", 0);					//出库数量
 		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		pd.put("CTIME", Tools.date2Str(new Date()));	//创建时间
 		goodsService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -103,6 +112,22 @@ public class GoodsController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		
+		//修改了入库数量更新库存量
+		String a1 = "0";
+		String a2 = "0";
+		if(pd.get("INCOUNT")!=null && !"".equals(pd.get("INCOUNT"))) {
+			a1 = pd.get("INCOUNT").toString();
+		}
+		
+		if(pd.get("OUTCOUNT")!=null && !"".equals(pd.get("OUTCOUNT"))) {
+			a2 = pd.get("OUTCOUNT").toString();
+		}
+		pd.put("OUTCOUNT", a2);
+
+		int zs = Integer.parseInt(a1)-Integer.parseInt(a2);
+		pd.put("ZCOUNT", zs);
+		
 		goodsService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -130,6 +155,9 @@ public class GoodsController extends BaseController {
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
 		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
 		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
+		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
+		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
+		
 		mv.setViewName("erp/goods/goods_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -137,6 +165,8 @@ public class GoodsController extends BaseController {
 		mv.addObject("sptypeList", sptypeList);
 		mv.addObject("spunitList", spunitList);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		mv.addObject("materialList", materialList);
+		mv.addObject("degreeList", degreeList);
 		return mv;
 	}
 	
@@ -152,12 +182,17 @@ public class GoodsController extends BaseController {
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
 		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
 		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
+		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
+		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
+		
 		mv.setViewName("erp/goods/goods_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("spbrandList", spbrandList);
 		mv.addObject("sptypeList", sptypeList);
 		mv.addObject("spunitList", spunitList);
+		mv.addObject("materialList", materialList);
+		mv.addObject("degreeList", degreeList);
 		return mv;
 	}	
 	
@@ -174,12 +209,17 @@ public class GoodsController extends BaseController {
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
 		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
 		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
+		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
+		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
+		
 		mv.setViewName("erp/goods/goods_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("spbrandList", spbrandList);
 		mv.addObject("sptypeList", sptypeList);
 		mv.addObject("spunitList", spunitList);
+		mv.addObject("materialList", materialList);
+		mv.addObject("degreeList", degreeList);
 		return mv;
 	}
 	

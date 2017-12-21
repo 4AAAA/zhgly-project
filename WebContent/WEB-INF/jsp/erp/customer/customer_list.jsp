@@ -44,14 +44,14 @@
 								</td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束日期" title="结束日期"/></td>
-								<td style="padding-left:5px">
+<%-- 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="LEVEL" id="LEVEL" data-placeholder="订单类型" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
 										<c:forEach items="${levelList}" var="var">
 											<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.LEVEL }">selected</c:if>>${var.TITLE }</option>
 										</c:forEach>
 									</select>
-								</td>
+								</td> --%>
 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="PLAN" id="PLAN" data-placeholder="维修进度" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
@@ -70,14 +70,14 @@
 								</td>
 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="BILLSTATUS" id="BILLSTATUS" data-placeholder="结算状态" style="vertical-align:top;width:120px;" >
-										<option value=""></option>
-										<option value="0" >未结</option>
-										<option value="1" >结清</option>
-										<option value="2" >欠费</option>
+										<option value=""<c:if test="${ pd.BILLSTATUS == '' }">selected</c:if>></option>
+										<option value="0" <c:if test="${ pd.BILLSTATUS =='0'}">selected</c:if>>未结</option>
+										<option value="1" <c:if test="${ pd.BILLSTATUS =='1'}">selected</c:if>>结清</option>
+										<option value="2" <c:if test="${ pd.BILLSTATUS =='2'}">selected</c:if>>欠费</option>
 									</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
-								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
 								<%--导出功能预留 <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if> --%>
 							</tr>
@@ -94,7 +94,7 @@
 									<th class="center">订单编号</th>									
 									<th class="center">客户名称</th>
 									<th class="center">维修员</th>
-									<th class="center">订单类型</th>
+									<th class="center">机器型号</th>
 									<th class="center">维修进度</th>
 									<th class="center">结算状态</th>
 									<th class="center">订单时间</th>
@@ -113,15 +113,15 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.CUSTOMER_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center' style="width: 30px;"><span class="badge">${vs.index+1}</span></td>
 											<td class='center'>${var.NAME}</td>
 											<td class='center'>${var.WEIXIN}</td>
 											<td class='center'>${var.PEOPLE}</td>											
-											<td class='center'>${var.TITLE}</td>
+											<td class='center'>${var.LEVEL}</td>
 											<td class='center'>
 												<c:if test="${var.REMARKS=='已修复' }">
 													<span class="btn-success">
-													  &nbsp;已修复&nbsp;
+													  &nbsp;<i class="ace-icon fa fa-gavel bigger-110"></i>已修复&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.REMARKS=='无法修复' }">
@@ -131,17 +131,17 @@
 												</c:if>
 												<c:if test="${var.REMARKS=='待取走' }">
 													<span class="btn-warning">
-													  &nbsp;待取走&nbsp;
+													  &nbsp;<i class="ace-icon fa  fa-exchange bigger-110"></i>待取走&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.REMARKS=='修复中' }">
 													<span class="btn-info">
-													  &nbsp;修复中&nbsp;
+													  &nbsp;<i class="ace-icon fa fa-lightbulb-o bigger-120"></i>修复中&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.REMARKS=='待检修' }">
 													<span class="btn-danger">
-													  &nbsp;待检修&nbsp;
+													  &nbsp;<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i>待检修&nbsp;
 												    </span>
 												</c:if>
 												<c:if test="${var.REMARKS=='超过1个月未取' }">
@@ -153,17 +153,17 @@
 											<td class='center'>
 												<c:if test="${var.BILLSTATUS=='0' }">
 													<span class="btn-warning">
-														 &nbsp;未结&nbsp;
+														 &nbsp;<i class="ace-icon fa fa-bullhorn bigger-110"></i>未结&nbsp;
 													</span>
 												</c:if>
 												<c:if test="${var.BILLSTATUS=='1' }">
 													<span class="btn-success" >
-														&nbsp;结清&nbsp;
+														&nbsp;<i class="ace-icon fa fa-check-square-o bigger-110"></i>结清&nbsp;
 													</span>
 												</c:if>
 												<c:if test="${var.BILLSTATUS=='2' }">
 													<span class="btn-danger">
-														&nbsp;欠费&nbsp;
+														&nbsp;<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i>欠费&nbsp;
 													</span>
 												</c:if>						
 											</td>
@@ -173,21 +173,21 @@
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
-												<div class="hidden-sm hidden-xs btn-group">
-													<a class="btn btn-warning btn-xs" title="查看" onclick="view('${var.CUSTOMER_ID}');">
-														<i class="ace-icon fa fa-eye bigger-120" title="查看"></i>
+												<div class="hidden-sm hidden-xs action-buttons">
+													<a class="blue" title="查看" onclick="view('${var.CUSTOMER_ID}');">
+														<i class="ace-icon fa fa-search-plus bigger-130" title="查看"></i>
 													</a>
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.CUSTOMER_ID}');">
-														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+													<a class="green" title="编辑" onclick="edit('${var.CUSTOMER_ID}');">
+														<i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
 													</a>
 													</c:if>
-									   			    <a class="btn btn-xs btn-info" title="结算" onclick="count('${var.CUSTOMER_ID}');">
-														<i class="menu-icon fa fa-bar-chart-o " title="结算"></i>
+									   			    <a class="purple" title="结算" onclick="count('${var.CUSTOMER_ID}');">
+														<i class="ace-icon fa fa-bar-chart-o bigger-130" title="结算"></i>
 													</a>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.CUSTOMER_ID}');">
-														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
+													<a class="red" onclick="del('${var.CUSTOMER_ID}');">
+														<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
 													</a>
 													</c:if>
 												</div>
@@ -250,7 +250,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-primary btn-sm" onclick="add();">新增订单</a>
+									<a class="btn btn-white btn-success btn-round" onclick="add();"><i class="ace-icon glyphicon glyphicon-plus"></i>新增订单</a>
 									</c:if>
 <%-- 未开放批量删除功能				    <c:if test="${QX.del == 1 }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>

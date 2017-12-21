@@ -59,8 +59,8 @@
 								<tr>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">商品名称</th>
-									<th class="center">数量</th>
-									<th class="center">单价</th>
+									<th class="center">入库数量</th>
+									<th class="center">进货价</th>
 									<th class="center">总价</th>
 									<th class="center">入库时间</th>
 									<th class="center">备注</th>
@@ -104,7 +104,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-primary btn-sm" onclick="add();">新录商品入库</a>
+									<a class="btn btn-primary btn-sm" onclick="add();">商品入库</a>
 									</c:if>
 									
 								</td>

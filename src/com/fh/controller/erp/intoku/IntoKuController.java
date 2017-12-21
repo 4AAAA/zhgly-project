@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
+import com.fh.util.Const;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
@@ -154,6 +157,29 @@ public class IntoKuController extends BaseController {
 		mv.addObject("goodsList", goodsList);
 		return mv;
 	}	
+	
+	/**
+	 * 异步获取单价
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/getPrice")
+	@ResponseBody
+	public Object getPrice() throws Exception{
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+	
+		
+		pd = goodsService.findById(pd);	//根据ID读取
+		
+		map.put("price", pd.get("INFEE")==null?"0":pd.get("INFEE").toString());
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	
+	
 	
 	 /**去修改页面
 	 * @param

@@ -32,25 +32,26 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品:</td>
 								<td id="xzsp">
-								<select class="chosen-select form-control" name="GOODS_ID" id="GOODS_ID" data-placeholder="请选择商品" style="vertical-align:top;width:100px;" >
+								<select class="chosen-select form-control" name="GOODS_ID" id="GOODS_ID" data-placeholder="请选择商品" style="vertical-align:top;width:89%;" onChange="findFee();" >
 										<option value=""></option>
 										<c:forEach items="${goodsList}" var="var">
-											<option value="${var.GOODS_ID }" <c:if test="${var.GOODS_ID == pd.GOODS_ID }">selected</c:if>>${var.TITLE }&nbsp;(${var.NAME })</option>
+											<option value="${var.GOODS_ID }" <c:if test="${var.GOODS_ID == pd.GOODS_ID }">selected</c:if>>${var.TITLE }</option>											
 										</c:forEach>
 								</select>
 								</td>
 							</tr>
+
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数量:</td>
-								<td><input onblur="jisuanz();" type="number" name="INCOUNT" id="INCOUNT" value="${pd.INCOUNT}" maxlength="32" placeholder="这里输入进货数量" title="数量" style="width:99%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">进货价:</td>
+								<td><input  type="number" name="PRICE" id="PRICE" value="${pd.PRICE}" maxlength="32" placeholder="自动获取进货价" title="单价" style="width:89%;" readonly="readonly" />&nbsp;元</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">单价:</td>
-								<td><input onblur="jisuanz();" type="number" name="PRICE" id="PRICE" value="${pd.PRICE}" maxlength="32" placeholder="这里输入单价（进价）" title="单价" style="width:89%;"/>&nbsp;元</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">数量:</td>
+								<td><input onblur="jisuanz();" type="number" name="INCOUNT" id="INCOUNT" value="${pd.INCOUNT}" maxlength="32" placeholder="这里输入进货数量" title="数量" style="width:89%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">总价:</td>
-								<td><input type="number" name="ZPRICE" id="ZPRICE" value="${pd.ZPRICE}" maxlength="32" placeholder="这里输入总价" title="总价" style="width:89%;"/>&nbsp;元</td>
+								<td><input type="number" name="ZPRICE" id="ZPRICE" value="${pd.ZPRICE}" maxlength="32" placeholder="自动计算总价" title="总价" style="width:89%;"/>&nbsp;元</td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
@@ -119,6 +120,27 @@
 			$("#ZPRICE").val(INCOUNT*PRICE);
 		}
 		
+		//回显单价
+		function findFee(){
+			
+		
+			
+			$.ajax({
+				type: "POST",
+				url: 'intoku/getPrice.do',
+		    		data: {GOODS_ID:$("#GOODS_ID").val()},
+				dataType:'json',
+				cache: false,
+				success: function(data){
+					$("#PRICE").val(data.price);
+				}
+			});
+			
+			
+		}
+		
+		
+		
 		//保存
 		function save(){
 			if($("#GOODS_ID").val()==""){
@@ -161,16 +183,7 @@
 				$("#ZPRICE").focus();
 			return false;
 			}
-			if($("#BZ").val()==""){
-				$("#BZ").tips({
-					side:3,
-		            msg:'请输入备注',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#BZ").focus();
-			return false;
-			}
+
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

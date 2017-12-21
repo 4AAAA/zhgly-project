@@ -54,7 +54,7 @@
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
-								<%--导出功能预留 <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if> --%>
+								<c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-info btn-sm" onclick="toExcel('${pd.CUSTOMER_ID }');" title="导出到EXCEL">导出设备信息</a></td></c:if>
 							</tr>
 						</table>
 						<!-- 检索  -->
@@ -415,8 +415,8 @@
 		};
 		
 		//导出excel
-		function toExcel(){
-			window.location.href='<%=basePath%>customerimg/excel.do';
+		function toExcel(CUSTOMER_ID){
+			window.location.href='<%=basePath%>customerimg/excel.do?CUSTOMER_ID='+CUSTOMER_ID;
 		}
 	</script>
 

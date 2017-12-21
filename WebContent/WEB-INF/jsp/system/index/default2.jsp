@@ -121,7 +121,7 @@ setTimeout("top.hangge()",500);
 							
 							
 
-							<img src="static/login/images/123456.gif" style="width:98%;height:100%;" />
+							<img src="static/login/images/6767.gif" style="width:98%;height:80%;" />
 							<!-- <div id="main1" style="width: 1000px;height:400px;top:60px;margin-left:50px"></div> -->
 							
 

@@ -18,7 +18,14 @@
 		SHORTDESC,	
 		USERNAME,	
 		GOODS_ID,
-		ZCOUNT
+		DEGREE,
+		MATERIAL,
+		INFEE,
+		OUTFEE,
+		CTIME,
+		ZCOUNT,
+		INCOUNT,
+		OUTCOUNT
 	</sql>
 	
 	<!-- 字段值 -->
@@ -31,8 +38,15 @@
 		#{DESCRIPTION},	
 		#{SHORTDESC},	
 		#{USERNAME},	
-		#{GOODS_ID},
-		#{ZCOUNT}
+		#{GOODS_ID},		
+		#{DEGREE},
+		#{MATERIAL},
+		#{INFEE},
+		#{OUTFEE},
+		#{CTIME},
+		#{ZCOUNT},
+		#{INCOUNT},
+		#{OUTCOUNT}
 	</sql>
 	
 	<!-- 新增-->
@@ -65,7 +79,14 @@
 			SPBRAND_ID = #{SPBRAND_ID},
 			SPUNIT_ID = #{SPUNIT_ID},
 			DESCRIPTION = #{DESCRIPTION},
-			SHORTDESC = #{SHORTDESC},
+			SHORTDESC = #{SHORTDESC},			
+			DEGREE = #{DEGREE},
+			MATERIAL = #{MATERIAL},
+			INFEE = #{INFEE},
+			OUTFEE = #{OUTFEE},
+			INCOUNT = #{INCOUNT},
+			ZCOUNT = #{ZCOUNT},
+			OUTCOUNT = #{OUTCOUNT},
 		GOODS_ID = GOODS_ID
 		where 
 		GOODS_ID = #{GOODS_ID}
@@ -76,7 +97,8 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			ZCOUNT = #{ZCOUNT}
+			ZCOUNT = #{ZCOUNT},
+			OUTCOUNT = #{OUTCOUNT}
 		where 
 		GOODS_ID = #{GOODS_ID}
 	</update>
@@ -102,11 +124,17 @@
 			a.DESCRIPTION,	
 			a.SHORTDESC,	
 			a.USERNAME,	
-			a.GOODS_ID,
+			a.GOODS_ID,			
+			a.INFEE,
+			a.OUTFEE,		
 			a.ZCOUNT,
+			a.INCOUNT,
+			a.OUTCOUNT,
 			b.NAME BNAME,
 			C.NAME TNAME,
-			d.NAME UNAME
+			d.NAME UNAME,
+		    e.NAME DEGREE,
+			f.NAME MATERIAL
 		from 
 		<include refid="tableName"></include> a
 		left join cp_spbrand b
@@ -115,6 +143,10 @@
 		on a.SPTYPE_ID = c.SPTYPE_ID
 		left join cp_spunit d
 		on a.SPUNIT_ID = d.SPUNIT_ID
+		left join cp_degree e
+		on a.DEGREE = e.DEGREE_ID
+		left join cp_material f
+		on a.MATERIAL = f.MATERIAL_ID
 		where 
 			a.GOODS_ID = #{GOODS_ID}
 	</select>
@@ -129,10 +161,18 @@
 			a.SPUNIT_ID,	
 			a.USERNAME,	
 			a.GOODS_ID,
+			a.DESCRIPTION,
+			a.INFEE,
+			a.OUTFEE,
 			a.ZCOUNT,
+			a.CTIME,
+			a.INCOUNT,
+			a.OUTCOUNT,
 			b.NAME BNAME,
 			c.NAME TNAME,
-			d.NAME UNAME
+			d.NAME UNAME,
+			e.NAME DEGREE,
+			f.NAME MATERIAL
 		from 
 		<include refid="tableName"></include> a
 		left join cp_spbrand b
@@ -141,13 +181,17 @@
 		on a.SPTYPE_ID = c.SPTYPE_ID
 		left join cp_spunit d
 		on a.SPUNIT_ID = d.SPUNIT_ID
+		left join cp_degree e
+		on a.DEGREE = e.DEGREE_ID
+		left join cp_material f
+		on a.MATERIAL = f.MATERIAL_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
 					a.TITLE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
-					a.SHORTDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					a.BIANMA LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
 				)
 		</if>
 		<if test="pd.USERNAME!= null and pd.USERNAME != ''">
@@ -159,10 +203,13 @@
 		<if test="pd.SPTYPE_ID!= null and pd.SPTYPE_ID != ''">
 			and a.SPTYPE_ID = #{pd.SPTYPE_ID}
 		</if>
-		<if test="pd.isKucun!= null and pd.isKucun != ''">
-			and a.ZCOUNT != 0
-			order by a.ZCOUNT
+		<if test="pd.DEGREE!= null and pd.DEGREE != ''">
+			and a.DEGREE = #{pd.DEGREE}
 		</if>
+		<if test="pd.MATERIAL!= null and pd.MATERIAL != ''">
+			and a.MATERIAL = #{pd.MATERIAL}
+		</if>
+		order by a.CTIME desc
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -174,15 +221,23 @@
 			a.SPBRAND_ID,	
 			a.SPUNIT_ID,	
 			a.USERNAME,	
+			a.DESCRIPTION,
 			a.GOODS_ID,
+		    a.DEGREE,
+			a.MATERIAL,
+			a.INFEE,
+			a.OUTFEE,
 			a.ZCOUNT,
+			a.CTIME,
+			a.INCOUNT,
+			a.OUTCOUNT,
 			b.NAME
 		from 
 		<include refid="tableName"></include> a
 		left join cp_spunit b
 		on a.SPUNIT_ID = b.SPUNIT_ID
 		where a.USERNAME = #{USERNAME}
-		order by a.ZCOUNT
+		order by a.CTIME desc
 	</select>
 	
 	<!-- 通过产品编码 -->
@@ -195,7 +250,15 @@
 			a.SPUNIT_ID,	
 			a.USERNAME,	
 			a.GOODS_ID,
+			a.DESCRIPTION,
+			a.DEGREE,
+			a.MATERIAL,
+			a.INFEE,
+			a.OUTFEE,
 			a.ZCOUNT,
+			a.CTIME,
+			a.INCOUNT,
+			a.OUTCOUNT,
 			b.NAME
 		from 
 		<include refid="tableName"></include> a
@@ -203,7 +266,7 @@
 		on a.SPUNIT_ID = b.SPUNIT_ID
 		where a.USERNAME = #{USERNAME}
 		and a.BIANMA = #{BIANMA}
-		order by a.ZCOUNT
+		order by a.CTIME desc
 	</select>
 	
 	<!-- 批量删除 -->

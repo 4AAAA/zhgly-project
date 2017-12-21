@@ -113,5 +113,14 @@ public class CustomerService implements CustomerManager{
 	public PageData manyDaySum(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("CustomerMapper.manyDaySum", pd);
 	}
+	
+	/**列表-账单
+	 * @param page
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> billList(Page page)throws Exception{
+		return (List<PageData>)dao.findForList("CustomerMapper.billListPage", page);
+	}
 }
 

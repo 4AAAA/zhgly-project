@@ -98,5 +98,14 @@ public class OutKuService implements OutKuManager{
 	public PageData priceSum(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("OutKuMapper.priceSum", pd);
 	}
+	
+	/**N天内商品销售汇总
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData manyDaySum(Page pd) throws Exception {
+		return (PageData)dao.findForObject("OutKuMapper.SalesChartlistPage", pd);
+	}
 }
 

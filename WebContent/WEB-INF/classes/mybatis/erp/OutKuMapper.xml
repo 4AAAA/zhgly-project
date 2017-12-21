@@ -16,6 +16,8 @@
 		OUTTIME,	
 		GOODS_NAME,	
 		USERNAME,
+		INCOME,
+		INPRICE,
 		BZ,
 		OUTKU_ID
 	</sql>
@@ -29,6 +31,8 @@
 		#{OUTTIME},	
 		#{GOODS_NAME},	
 		#{USERNAME},
+		#{INCOME},
+		#{INPRICE},
 		#{BZ},	
 		#{OUTKU_ID}
 	</sql>
@@ -142,7 +146,9 @@
 		select
 			 GOODS_NAME,
 			 sum(INCOUNT) ZCOUNT,
-			 sum(ZPRICE) ZPRICE 
+			 sum(ZPRICE) ZPRICE,
+			 sum(INCOME) ZINCOME,
+			 sum(INPRICE) ZINPRICE
 		from 
 		<include refid="tableName"></include>
 		where 1=1
@@ -159,7 +165,16 @@
 			and OUTTIME &lt;= #{pd.lastEnd} 
 		</if>
 		<if test="pd.days!=null and pd.days!=''"><!-- 几天内的订单 -->
-			and DATE_SUB(CURDATE(), INTERVAL ${pd.days} DAY) &lt;= date(OUTTIME)
+           <choose>
+                <when test="pd.days == 1">
+                  and to_days(OUTTIME) = to_days(now())
+                </when>
+                <otherwise>
+                   and DATE_SUB(CURDATE(), INTERVAL ${pd.days} DAY) &lt;= date(OUTTIME)
+                </otherwise>
+            </choose>
+			 
+			
 		</if>
 		and
 			  USERNAME = #{pd.USERNAME}
@@ -168,6 +183,34 @@
 			${pd.forderby}
 		</if>
 	</select>
+	
+	
+		
+
+	
+	<!-- 商品销售图表-->
+		<select id="SalesChartlistPage" parameterType="page" resultType="pd">
+		select
+			 count(*) NUMBER,
+			 sum(INCOUNT) ZCOUNT,
+			 sum(ZPRICE) ZPRICE,
+			 sum(INCOME) ZINCOME,
+			 sum(INPRICE) ZINPRICE
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{pd.USERNAME}		
+		<if test="pd.days!=null and pd.days!=''"><!-- 几天内的订单 -->
+           <choose>
+                <when test="pd.days == 1">
+                  and to_days(OUTTIME) = to_days(now())
+                </when>
+                <otherwise>
+                   and DATE_SUB(CURDATE(), INTERVAL ${pd.days} DAY) &lt;= date(a.OUTTIME)
+                </otherwise>
+            </choose>			
+		</if>
+	</select>
+	
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

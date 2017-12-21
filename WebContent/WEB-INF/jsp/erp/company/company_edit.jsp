@@ -33,7 +33,7 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">客户手机:</td>
-								<td><input type="text" name="PHONE" id="PHONE" value="${pd.PHONE}" maxlength="11" placeholder="这里输入客户手机" title="年龄" style="width:98%;"/></td>
+								<td><input type="text" name="PHONE" id="PHONE" value="${pd.PHONE}" maxlength="15" placeholder="这里输入客户手机" title="年龄" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">客户级别:</td>

@@ -71,7 +71,7 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.LEVEL_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center' style="width: 30px;"><span class="badge">${vs.index+1}</span></td>
 											<td class='center'>${var.TITLE}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
@@ -79,13 +79,13 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.LEVEL_ID}');">
-														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+													<a class="green" title="编辑" onclick="edit('${var.LEVEL_ID}');">
+														<i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.LEVEL_ID}');">
-														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
+													<a class="red" onclick="del('${var.LEVEL_ID}');">
+														<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
 													</a>
 													</c:if>
 												</div>
@@ -141,7 +141,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-primary btn-sm" onclick="add();">新增</a>
+									<a class="btn btn-white btn-success btn-round" onclick="add();"><i class="ace-icon glyphicon glyphicon-plus"></i>新增</a>
 									</c:if>
 <%-- 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
@@ -246,7 +246,7 @@
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>companyType/goAdd.do';
 			 diag.Width = 450;
-			 diag.Height = 125;
+			 diag.Height = 140;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -284,7 +284,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>companyType/goEdit.do?LEVEL_ID='+Id;
 			 diag.Width = 450;
-			 diag.Height = 125;
+			 diag.Height = 140;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 

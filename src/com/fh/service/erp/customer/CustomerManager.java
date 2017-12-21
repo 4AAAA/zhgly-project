@@ -78,5 +78,11 @@ public interface CustomerManager{
 	 */
 	public PageData manyDaySum(PageData pd) throws Exception;
 	
+	/**列表-账单
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> billList(Page page)throws Exception;
+	
 }
 

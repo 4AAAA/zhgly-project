@@ -27,30 +27,41 @@
 					
 					<form action="outku/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="INTOKU_ID" id="INTOKU_ID" value="${pd.INTOKU_ID}"/>
+						<!-- 进货单价 -->
+						<input   name="INFEE" id="INFEE"  type="hidden"  />
+						<!--进货总价  -->
+						<input  name="INPRICE" id="INPRICE" value="${pd.INPRICE}" type="hidden"  />
+						<!-- 利润 -->
+						<input   name="INCOME" id="INCOME" value="${pd.INCOME}" type="hidden"  />
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品:</td>
 								<td id="xzsp">
-								<select class="chosen-select form-control" name="GOODS_ID" id="GOODS_ID" data-placeholder="请选择商品" style="vertical-align:top;width:100px;" >
+								<select class="chosen-select form-control" name="GOODS_ID" id="GOODS_ID" data-placeholder="请选择商品" style="vertical-align:top;width:100px;" onChange="findFee();"  >
 										<option value=""></option>
 										<c:forEach items="${goodsList}" var="var">
-											<option value="${var.GOODS_ID }" <c:if test="${var.GOODS_ID == pd.GOODS_ID }">selected</c:if>>${var.TITLE }&nbsp;(${var.NAME })</option>
+											<option value="${var.GOODS_ID }" <c:if test="${var.GOODS_ID == pd.GOODS_ID }">selected</c:if>>${var.TITLE }</option>
 										</c:forEach>
 								</select>
 								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数量:</td>
-								<td><input onblur="jisuanz();" type="number" name="INCOUNT" id="INCOUNT" value="${pd.INCOUNT}" maxlength="32" placeholder="这里输入销售数量" title="数量" style="width:99%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">出货价:</td>
+								<td><input  type="number" name="OUTFEE" id="OUTFEE" value="${pd.OUTFEE}" maxlength="32" placeholder="自动获取出货价" title="单价" style="width:89%;" readonly="readonly"  />&nbsp;元</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">单价:</td>
-								<td><input onblur="jisuanz();" type="number" name="PRICE" id="PRICE" value="${pd.PRICE}" maxlength="32" placeholder="这里输入单价（销售价）" title="单价" style="width:89%;"/>&nbsp;元</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">库存量:</td>
+								<td><input  type="number" name="ZCOUNT" id="ZCOUNT" value="${pd.ZCOUNT}" maxlength="32" placeholder="自动获取出货价" title="单价" style="width:89%;" readonly="readonly"  />&nbsp;元</td>
 							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">出库数量:</td>
+								<td><input onblur="jisuanz();" type="number" name="OUTCOUNT" id="OUTCOUNT" value="${pd.OUTCOUNT}" maxlength="32" placeholder="这里输入销售数量" title="数量" style="width:89%;"/></td>
+							</tr>
+
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">总价:</td>
-								<td><input type="number" name="ZPRICE" id="ZPRICE" value="${pd.ZPRICE}" maxlength="32" placeholder="这里输入总价" title="总价" style="width:89%;"/>&nbsp;元</td>
+								<td><input type="number" name="ZPRICE" id="ZPRICE" value="${pd.ZPRICE}" maxlength="32" placeholder="自动计算总价" title="总价" style="width:89%;"/>&nbsp;元</td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
@@ -94,30 +105,55 @@
 		
 		//计算总价
 		function jisuanz(){
-			var INCOUNT = Number("" == $("#INCOUNT").val()?"0":$("#INCOUNT").val());
-			var PRICE = Number("" == $("#PRICE").val()?"0":$("#PRICE").val());
+			var INCOUNT = Number("" == $("#OUTCOUNT").val()?"0":$("#OUTCOUNT").val());
+			var PRICE = Number("" == $("#OUTFEE").val()?"0":$("#OUTFEE").val());
+			var INFEE = Number("" == $("#INFEE").val()?"0":$("#INFEE").val());
 			if(0-INCOUNT>0){
-				$("#INCOUNT").tips({
+				$("#OUTCOUNT").tips({
 					side:3,
 		            msg:'数量不能小于零',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#INCOUNT").focus();
+				$("#OUTCOUNT").focus();
 				return false;
 			}
 			if(0-PRICE>0){
-				$("#PRICE").tips({
+				$("#OUTFEE").tips({
 					side:3,
 		            msg:'单价不能小于零',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#PRICE").focus();
+				$("#OUTFEE").focus();
 				return false;
 			}
 			$("#ZPRICE").val(INCOUNT*PRICE);
+			$("#INPRICE").val(INCOUNT*INFEE);
+			$("#INCOME").val((INCOUNT*PRICE)-(INCOUNT*INFEE));
 		}
+		
+		//回显单价
+		function findFee(){
+			
+		
+			
+			$.ajax({
+				type: "POST",
+				url: 'outku/getPrice.do',
+		    		data: {GOODS_ID:$("#GOODS_ID").val()},
+				dataType:'json',
+				cache: false,
+				success: function(data){
+					$("#OUTFEE").val(data.price);
+					$("#INFEE").val(data.inprice);
+					$("#ZCOUNT").val(data.zcount);
+				}
+			});
+			
+			
+		}
+		
 		
 		//保存
 		function save(){
@@ -161,16 +197,7 @@
 				$("#ZPRICE").focus();
 			return false;
 			}
-			if($("#BZ").val()==""){
-				$("#BZ").tips({
-					side:3,
-		            msg:'请输入备注',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#BZ").focus();
-			return false;
-			}
+
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

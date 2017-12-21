@@ -45,10 +45,11 @@
 								</td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始时间" title="开始时间"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束时间" title="结束时间"/></td>
-								<td style="vertical-align:top;padding-left:2px;">
+								<td style="padding-left:2px;">
 								 	<select class="chosen-select form-control" name="days" id="days" data-placeholder="几天内的销售" style="vertical-align:top;width: 120px;">
 									<option value=""></option>
 									<option value="">全部</option>
+									<option value="1" <c:if test="${'1' == pd.days }">selected</c:if>>当天</option>
 									<option value="7" <c:if test="${'7' == pd.days }">selected</c:if>>7天内</option>
 									<option value="30" <c:if test="${'30' == pd.days }">selected</c:if>>30天内</option>
 									<option value="60" <c:if test="${'60' == pd.days }">selected</c:if>>60天内</option>
@@ -56,7 +57,7 @@
 								  	</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
-								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
 							</tr>
 						</table>
@@ -66,8 +67,10 @@
 							<thead>
 								<tr>
 									<th class="center">商品</th>
-									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">销量&uarr; &darr;</th>
-									<th class="center" onclick="orderby('zj');" style="cursor:pointer;">销售额&uarr; &darr;</th>
+									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">出货数量&uarr; &darr;</th>
+									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">进货成本&uarr; &darr;</th>
+									<th class="center" onclick="orderby('zj');" style="cursor:pointer;">出货金额&uarr; &darr;</th>
+									<th class="center" onclick="orderby('zj');" style="cursor:pointer;">销售利润&uarr; &darr;</th>
 								</tr>
 							</thead>
 													
@@ -79,8 +82,10 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
 											<td class='center'>${var.GOODS_NAME}</td>
-											<td class='center'><b><font style="color: red">${var.ZCOUNT}</font></b></td>
-											<td class='center'><b><font style="color: red">${var.ZPRICE}</font></b>&nbsp;元</td>
+											<td class='center'><span class="badge badge-danger">${var.ZCOUNT}</span></td>
+											<td class='center'><b class="blue">¥&nbsp;${var.ZINPRICE}</b></td>
+											<td class='center'><b class="red">¥&nbsp;${var.ZPRICE}</b></td>
+											<td class='center'><b class="green">¥&nbsp;${var.ZINCOME}</b></td>
 										</tr>
 									
 									</c:forEach>

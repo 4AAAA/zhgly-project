@@ -36,7 +36,7 @@
 								<td style="padding-top: 13px;">${pd.NAME}</td>
 							</tr>
 
-							<tr>
+<%-- 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单类型:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择" title="级别" style="width:98%;background-color:#EBEBEB" disabled="disabled">
@@ -45,6 +45,10 @@
 									</c:forEach>
 									</select>
 								</td>
+							</tr> --%>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">机器型号:</td>
+								<td style="padding-top: 13px;">${pd.LEVEL}</td>
 							</tr>
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修员:</td>

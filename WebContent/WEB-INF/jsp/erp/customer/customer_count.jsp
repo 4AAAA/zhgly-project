@@ -53,7 +53,7 @@
 							</tr>
 			
 
-							<tr style="display:none">
+<%-- 							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单类型:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择订单类别" title="级别" style="width:98%;" >
@@ -62,6 +62,10 @@
 									</c:forEach>
 									</select>
 								</td>
+							</tr> --%>
+							<tr style="display:none">
+								<td style="width:80px;text-align: right;padding-top: 13px;">机器型号:</td>
+								<td><input type="text"  name="LEVEL" id="LEVEL" value="${pd.LEVEL}"  placeholder="这里输入机器型号" title="LEVEL" style="width:98%;"/></td>
 							</tr>
 							<tr style="display:none">
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修员:</td>
@@ -114,7 +118,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-success">&nbsp;结算管理&nbsp;</span></td>																							   
+								<td style="width:80px;text-align: left;padding-top: 13px;"><span class="label label-yellow arrowed-in-right arrowed">&nbsp;结算管理&nbsp;</span></td>																									   
 								<td></td>	
 							</tr>
 							<tr>

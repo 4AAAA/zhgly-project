@@ -35,6 +35,7 @@ import com.fh.service.erp.customerimg.CustomerImgManager;
 import com.fh.service.erp.device.DeviceManager;
 import com.fh.service.erp.device.impl.DeviceService;
 import com.fh.service.erp.level.LevelManager;
+import com.fh.service.erp.outku.OutKuManager;
 import com.fh.service.erp.pay.PayManager;
 import com.fh.service.erp.plan.PlanManager;
 import com.fh.service.erp.remarks.RemarksManager;
@@ -67,6 +68,8 @@ public class BillAnalyController extends BaseController {
 	private CustomerImgManager customerimgService;
 	@Resource(name="companyService")
 	private CompanyManager companyService;
+	@Resource(name="outkuService")
+	private OutKuManager outkuService;
 	
 	
 	
@@ -180,10 +183,110 @@ public class BillAnalyController extends BaseController {
 	
 	
 	
+	/**今日商品销售分析
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goodsDayList")
+	public ModelAndView goodsDayList(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String USERNAME = pd.getString("USERNAME");
+		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
+		pd.put("USERNAME", USERNAME);
+		
+		pd.put("days", "1");
+			
+		page.setPd(pd);
+		//订单统计
+		
+		//今日
+		PageData dayBill = outkuService.manyDaySum(page);
+
+		if(dayBill!=null) {
+			//销售数量
+			pd.put("ZCOUNT", dayBill.get("ZCOUNT")==null?"0":dayBill.get("ZCOUNT").toString());
+			//销售额
+			pd.put("ZPRICE", dayBill.get("ZPRICE")==null?"0.0":dayBill.get("ZPRICE").toString());
+			//进货总价
+			pd.put("ZINPRICE", dayBill.get("ZINPRICE")==null?"0.0": dayBill.get("ZINPRICE").toString());
+			//利润
+			pd.put("ZINCOME", dayBill.get("ZINCOME")==null?"0.0":dayBill.get("ZINCOME").toString());
+			//出库次数
+			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0":dayBill.get("NUMBER").toString());
+			
+		}else {
+			//销售数量
+			pd.put("ZCOUNT", "0");
+			//销售额
+			pd.put("ZPRICE","0");
+			//进货总价
+			pd.put("ZINPRICE", "0");
+			//利润
+			pd.put("ZINCOME", "0");
+			//出库次数
+			pd.put("NUMBER", "0");
+		}
+		
+		
+		mv.addObject("pd",pd);
+		mv.setViewName("erp/bill/default4");
+		return mv;
+	}
 	
 	
-	
-	
+	/**近30日商品销售分析
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goodsManyList")
+	public ModelAndView goodsManyList(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String USERNAME = pd.getString("USERNAME");
+		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
+		pd.put("USERNAME", USERNAME);
+		
+		pd.put("days", "30");
+			
+		page.setPd(pd);
+		//订单统计
+		
+		//今日
+		PageData dayBill = outkuService.manyDaySum(page);
+
+		if(dayBill!=null) {
+			//销售数量
+			pd.put("ZCOUNT", dayBill.get("ZCOUNT")==null?"0":dayBill.get("ZCOUNT").toString());
+			//销售额
+			pd.put("ZPRICE", dayBill.get("ZPRICE")==null?"0.0":dayBill.get("ZPRICE").toString());
+			//进货总价
+			pd.put("ZINPRICE", dayBill.get("ZINPRICE")==null?"0.0": dayBill.get("ZINPRICE").toString());
+			//利润
+			pd.put("ZINCOME", dayBill.get("ZINCOME")==null?"0.0":dayBill.get("ZINCOME").toString());
+			//出库次数
+			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0":dayBill.get("NUMBER").toString());
+			
+		}else {
+			//销售数量
+			pd.put("ZCOUNT", "0");
+			//销售额
+			pd.put("ZPRICE","0");
+			//进货总价
+			pd.put("ZINPRICE", "0");
+			//利润
+			pd.put("ZINCOME", "0");
+			//出库次数
+			pd.put("NUMBER", "0");
+		}
+		
+		
+		mv.addObject("pd",pd);
+		mv.setViewName("erp/bill/default5");
+		return mv;
+	}
 	
 	
 	

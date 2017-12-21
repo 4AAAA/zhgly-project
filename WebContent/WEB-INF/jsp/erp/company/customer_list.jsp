@@ -45,14 +45,14 @@
 								</td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束日期" title="结束日期"/></td>
-								<td style="padding-left:5px">
+<%-- 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="LEVEL" id="LEVEL" data-placeholder="订单类型" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
 										<c:forEach items="${levelList}" var="var">
 											<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.LEVEL }">selected</c:if>>${var.TITLE }</option>
 										</c:forEach>
 									</select>
-								</td>
+								</td> --%>
 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="PLAN" id="PLAN" data-placeholder="维修进度" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
@@ -63,10 +63,10 @@
 								</td>
 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="BILLSTATUS" id="BILLSTATUS" data-placeholder="结算状态" style="vertical-align:top;width:120px;" >
-										<option value=""></option>
-										<option value="0" >未结</option>
-										<option value="1" >结清</option>
-										<option value="2" >欠费</option>
+										<option value=""  <c:if test="${ pd.BILLSTATUS ==''}">selected</c:if>></option>
+										<option value="0" <c:if test="${ pd.BILLSTATUS =='0'}">selected</c:if>>未结</option>
+										<option value="1" <c:if test="${ pd.BILLSTATUS =='1'}">selected</c:if> >结清</option>
+										<option value="2" <c:if test="${ pd.BILLSTATUS =='0'}">selected</c:if>>欠费</option>
 									</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
@@ -87,7 +87,7 @@
 									<th class="center">订单编号</th>
 									
 									
-									<th class="center">订单类型</th>
+									<th class="center">机器型号</th>
 									<th class="center">维修进度</th>
 									<th class="center">结算状态</th>
 									<th class="center">订单时间</th>
@@ -110,7 +110,7 @@
 											<td class='center'>${var.NAME}</td>
 											
 											
-											<td class='center'>${var.TITLE}</td>
+											<td class='center'>${var.LEVEL}</td>
 											<td class='center'>
 												<c:if test="${var.REMARKS=='已修复' }">
 													<span class="btn-success">

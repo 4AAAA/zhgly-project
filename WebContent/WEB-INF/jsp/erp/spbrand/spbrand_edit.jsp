@@ -32,8 +32,8 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">品牌管理:</td>
-								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="50" placeholder="这里输入品牌管理" title="品牌管理" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">品牌:</td>
+								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="50" placeholder="这里输入品牌" title="品牌管理" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>

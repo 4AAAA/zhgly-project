@@ -27,8 +27,9 @@
 						<input type="hidden" name="CUSTOMER_ID" id="CUSTOMER_ID" value="${pd.CUSTOMER_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
+
 							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-danger">&nbsp;客户信息&nbsp;</span></td>	
+								<td style="width:80px;text-align: left;padding-top: 13px;"><span class="label label-danger arrowed-in-right arrowed">&nbsp;客户信息&nbsp;</span></td>	
 								<td></td>																						   
 							</tr>
 
@@ -45,15 +46,15 @@
 								<td style="padding-top: 13px;">${pd.WEIXIN}</td>
 							</tr>
 							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-info">&nbsp;订单信息&nbsp;</span></td>																							   
-								<td></td>	
+								<td style="width:80px;text-align: left;padding-top: 13px;"><span class="label label-info arrowed-in-right arrowed">&nbsp;订单信息&nbsp;</span></td>	
+								<td></td>																						   
 							</tr>
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单编号:</td>
 								<td style="padding-top: 13px;">${pd.NAME}</td>
 							</tr>
 
-							<tr>
+<%-- 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单类型:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择" title="级别" style="width:98%;background-color:#EBEBEB" disabled="disabled">
@@ -62,6 +63,10 @@
 									</c:forEach>
 									</select>
 								</td>
+							</tr> --%>
+							<tr>
+								<td style="width:80px;text-align: right;padding-top: 13px;">机器型号:</td>
+								<td style="padding-top: 13px;">${pd.LEVEL}</td>
 							</tr>
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">维修员:</td>
@@ -103,9 +108,10 @@
 								<td style="padding-top: 13px;">${pd.ADDRESS}</td>
 							</tr>
 							<tr>
-								<td style="width:80px;text-align: right;padding-top: 13px;"><span class="btn-success">&nbsp;结算管理&nbsp;</span></td>																							   
+								<td style="width:80px;text-align: left;padding-top: 13px;"><span class="label label-yellow arrowed-in-right arrowed">&nbsp;结算管理&nbsp;</span></td>																							   
 								<td></td>	
 							</tr>
+							
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">订单金额:</td>
 								<td style="padding-top: 13px;">${pd.MONEY}&nbsp;元</td>

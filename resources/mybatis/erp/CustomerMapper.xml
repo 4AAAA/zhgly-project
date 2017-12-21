@@ -141,15 +141,11 @@
 		    a.OUTMONEY,
 		    a.BILLFEE,
 		    a.BILLSTATUS,
-		    a.BILLTIME,
-			b.TITLE,
+		    a.BILLTIME,			
 			c.REMARKS,
 			d.REMARKS PEOPLE
 		from 
 		<include refid="tableName"></include> a
-		left join ERP_LEVEL b
-		on 
-			a.LEVEL = b.LEVEL_ID
 		left join ERP_PLAN c
 		on 
 			a.PLAN = c.PLAN_ID
@@ -182,9 +178,6 @@
 		<if test="pd.USERNAME!=null and pd.USERNAME!=''">
 			and a.USERNAME = #{pd.USERNAME} 
 		</if>
-		<if test="pd.LEVEL!=null and pd.LEVEL!=''">
-			and a.LEVEL = #{pd.LEVEL} 
-		</if>
 		<if test="pd.PLAN!=null and pd.PLAN!=''">
 			and a.PLAN = #{pd.PLAN} 
 		</if>
@@ -195,6 +188,73 @@
 			and a.BILLSTATUS = #{pd.BILLSTATUS} 
 		</if>
 		order by a.CTIME desc
+	</select>
+	
+		<!-- 列表-账单 -->
+	<select id="billListPage" parameterType="page" resultType="pd">
+		select
+			a.NAME,	
+			a.AGE,	
+			a.PHONE,	
+			a.ADDRESS,	
+			a.QQ,	
+			a.WEIXIN,	
+			a.CTIME,	
+			a.MONEY,	
+			a.LEVEL,	
+			a.REMARKS1,	
+			a.REMARKS2,
+			a.USERNAME,	
+			a.CUSTOMER_ID,
+			a.DEVICE,
+			a.PLAN,
+			a.PAY,
+			a.COMPANY_ID,
+			a.INCOME,
+		    a.OUTMONEY,
+		    a.BILLFEE,
+		    a.BILLSTATUS,
+		    a.BILLTIME,
+			c.REMARKS,
+			d.REMARKS PEOPLE
+		from 
+		<include refid="tableName"></include> a
+		left join ERP_PLAN c
+		on 
+			a.PLAN = c.PLAN_ID
+		left join ERP_REMARKS d
+		on 
+			a.REMARKS1 = d.REMARKS_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					a.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 										
+					a.WEIXIN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					
+				)
+		</if>
+		<if test="pd.lastStart!=null and pd.lastStart!=''">
+			and a.BILLTIME &gt;= #{pd.lastStart} 
+		</if>
+		<if test="pd.lastEnd!=null and pd.lastEnd!=''">
+			and a.BILLTIME &lt;= #{pd.lastEnd} 
+		</if>
+		<if test="pd.USERNAME!=null and pd.USERNAME!=''">
+			and a.USERNAME = #{pd.USERNAME} 
+		</if>
+		<if test="pd.PLAN!=null and pd.PLAN!=''">
+			and a.PLAN = #{pd.PLAN} 
+		</if>
+		<if test="pd.REMARKS1!=null and pd.REMARKS1!=''">
+			and a.REMARKS1 = #{pd.REMARKS1} 
+		</if>
+		<if test="pd.BILLSTATUS!=null and pd.BILLSTATUS!=''">
+			and a.BILLSTATUS = #{pd.BILLSTATUS} 
+		</if>
+		and a.BILLSTATUS in (1,2)
+		order by a.BILLTIME desc
 	</select>
 	
 		<!-- 列表-关联客户 -->
@@ -222,13 +282,9 @@
 		    a.BILLFEE,
 		    a.BILLSTATUS,
 		    a.BILLTIME,
-			b.TITLE,
 			c.REMARKS
 		from 
 		<include refid="tableName"></include> a
-		left join ERP_LEVEL b
-		on 
-			a.LEVEL = b.LEVEL_ID
 		left join ERP_PLAN c
 		on 
 			a.PLAN = c.PLAN_ID
@@ -257,9 +313,6 @@
 		</if>
 		<if test="pd.USERNAME!=null and pd.USERNAME!=''">
 			and a.USERNAME = #{pd.USERNAME} 
-		</if>
-		<if test="pd.LEVEL!=null and pd.LEVEL!=''">
-			and a.LEVEL = #{pd.LEVEL} 
 		</if>
 		<if test="pd.PLAN!=null and pd.PLAN!=''">
 			and a.PLAN = #{pd.PLAN} 

@@ -16,12 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
+import com.fh.util.AppUtil;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.erp.goods.GoodsManager;
@@ -55,14 +57,23 @@ public class OutKuController extends BaseController {
 		pd = this.getPageData();
 		PageData goodpd = new PageData();
 		goodpd = goodsService.findById(pd);
+		
 		pd.put("OUTKU_ID", this.get32UUID());				//主键
 		pd.put("OUTTIME", Tools.date2Str(new Date()));		//出库时间
 		pd.put("GOODS_NAME", goodpd.getString("TITLE"));	//商品名称
 		pd.put("USERNAME", Jurisdiction.getUsername());		//用户名
+		pd.put("INCOUNT", pd.getString("OUTCOUNT"));		//数量
+		pd.put("PRICE", pd.getString("OUTFEE"));		//出货价
 		outkuService.save(pd);
-		//消减库存
-		int zs = Integer.parseInt(goodpd.get("ZCOUNT").toString())-Integer.parseInt(pd.get("INCOUNT").toString());
+		
+		//更新商品信息（消减库存，出库数量累加）
+		
+		//库存-出库数量=库存量
+		int zs = Integer.parseInt(goodpd.get("ZCOUNT").toString())-Integer.parseInt(pd.get("OUTCOUNT").toString());
+		//出库数量 = 出库数量+新出库
+		int out = Integer.parseInt(goodpd.get("OUTCOUNT").toString())+Integer.parseInt(pd.get("OUTCOUNT").toString());
 		goodpd.put("ZCOUNT", zs);
+		goodpd.put("OUTCOUNT", out);
 		goodsService.editKuCun(goodpd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -191,6 +202,28 @@ public class OutKuController extends BaseController {
 		return mv;
 	}	
 	
+	/**商品列表操作出库页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goOut")
+	public ModelAndView goOut()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		
+		pd = goodsService.findById(pd);	//根据ID读取商品
+		
+		pd.put("USERNAME", Jurisdiction.getUsername());
+		List<PageData> goodsList = goodsService.listAll(pd);
+		mv.setViewName("erp/outku/outku_edit2");
+		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
+		mv.addObject("goodsList", goodsList);
+		return mv;
+	}	
+	
+	
 	 /**去修改页面
 	 * @param
 	 * @throws Exception
@@ -206,6 +239,31 @@ public class OutKuController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}	
+	
+	/**
+	 * 异步获取单价
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/getPrice")
+	@ResponseBody
+	public Object getPrice() throws Exception{
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+	
+		
+		pd = goodsService.findById(pd);	//根据ID读取
+		//出货价
+		map.put("price", pd.get("OUTFEE")==null?"0":pd.get("OUTFEE").toString());
+		//进货价
+		map.put("inprice", pd.get("INFEE")==null?"0":pd.get("INFEE").toString());
+		//库存量
+		map.put("zcount", pd.get("ZCOUNT")==null?"0":pd.get("ZCOUNT").toString());
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 	
 	 /**导出到excel
 	 * @param

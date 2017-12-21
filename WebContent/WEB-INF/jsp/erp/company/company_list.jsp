@@ -53,8 +53,9 @@
 									</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
-								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="random();"  title="检索">随机抽取</a></td>
 								<%--导出功能预留 <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if> --%>
 							</tr>
 						</table>
@@ -88,12 +89,12 @@
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.COMPANY_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center' style="width: 30px;"><span class="badge">${vs.index+1}</span></td>
 											<td class='center'>${var.CODE}</td>
 											<td class='center'>${var.NAME}</td>
 											<td class='center'>${var.PHONE}</td>
 											<td class='center'>${var.WEIXIN}</td>
-											<td class='center'>${var.TITLE}</td>
+											<td class='center'><span class="label label-yellow arrowed-in-right arrowed">${var.TITLE}</span></td>
 										
 											<td class='center'>${var.CTIME}</td>
 											<td class='center'><a style="cursor:pointer;" onclick="chaImg('${var.COMPANY_ID}')">[查看跟踪记录]</a></td>
@@ -101,18 +102,18 @@
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
-												<div class="hidden-sm hidden-xs btn-group">
-													<a class="btn btn-warning btn-xs" title="查看" onclick="view('${var.COMPANY_ID}');">
-														<i class="ace-icon fa fa-eye bigger-120" title="查看"></i>
+												<div class="hidden-sm hidden-xs action-buttons">
+													<a class="blue" title="查看" onclick="view('${var.COMPANY_ID}');">
+														<i class="ace-icon fa fa-search-plus bigger-130" title="查看"></i>
 													</a>
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.COMPANY_ID}');">
-														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+													<a class="green" title="编辑" onclick="edit('${var.COMPANY_ID}');">
+														<i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.COMPANY_ID}');">
-														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
+													<a class="red" onclick="del('${var.COMPANY_ID}');">
+														<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
 													</a>
 													</c:if>
 												</div>
@@ -175,7 +176,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-primary btn-sm" onclick="add();">新增客户</a>
+									<a class="btn btn-white btn-success btn-round" onclick="add();"><i class="ace-icon glyphicon glyphicon-plus"></i>新增客户</a>
 									</c:if>
 <%-- 未开放批量删除功能				    <c:if test="${QX.del == 1 }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
@@ -320,7 +321,7 @@
 		
 		//删除
 		function del(Id){
-			bootbox.confirm("确定要删除吗?", function(result) {
+			bootbox.confirm("确定要开始抽取幸运者?", function(result) {
 				if(result) {
 					top.jzts();
 					var url = "<%=basePath%>company/delete.do?COMPANY_ID="+Id+"&tm="+new Date().getTime();
@@ -330,7 +331,7 @@
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({
-								message: "<span class='bigger-110'>您的客户还存在订单信息，清空客户订单后再操作客户删除!</span>",
+								message: "<span class='bigger-110'>该幸运者为："+data.name+"</span>",
 								buttons: 			
 								{
 									"button" :
@@ -345,6 +346,37 @@
 				}
 			});
 		}
+		
+		
+		
+ 		//随机抽取
+		function random(){
+			bootbox.confirm("即将随机抽取一位幸运者!", function(result) {
+				if(result) {
+					top.jzts();
+					var url = "<%=basePath%>company/random.do";
+					$.get(url,function(data){
+						if("success" == data.result){
+							nextPage(${page.currentPage});
+						}else if("false" == data.result){
+							top.hangge();
+							bootbox.dialog({
+								message: "<span class='bigger-110'>该幸运者为："+data.name+"</span>",
+								buttons: 			
+								{
+									"button" :
+									{
+										"label" : "确定",
+										"className" : "btn-sm btn-success"
+									}
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+		 
 		
 		//修改
 		function edit(Id){

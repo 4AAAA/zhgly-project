@@ -66,5 +66,11 @@ public interface OutKuManager{
 	 * @throws Exception
 	 */
 	public PageData priceSum(PageData pd) throws Exception;
+	
+	/**N天内商品销售统计
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData manyDaySum(Page pd) throws Exception;
 }
 

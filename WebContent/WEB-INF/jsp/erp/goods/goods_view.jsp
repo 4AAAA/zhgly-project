@@ -26,29 +26,71 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品名称:</td>
-								<td colspan="10" style="padding-top: 13px;">${pd.TITLE}</td>
+								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-danger arrowed-in-right arrowed">&nbsp;商品信息&nbsp;</span></td>	
+								<td></td>																						   
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">配置型号:</td>
-								<td style="padding-top: 13px;">${pd.BIANMA}</td>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品品牌:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">商品备案:</td>
+								<td colspan="10" style="padding-top: 13px;">${pd.TITLE}</td>
+							</tr>
+<%-- 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">品牌:</td>
 								<td style="padding-top: 13px;">${pd.BNAME}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品类别:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">型号:</td>
+								<td style="padding-top: 13px;">${pd.BIANMA}</td>
+							</tr> --%>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">sn号:</td>
+								<td colspan="10" style="padding-top: 13px;">${pd.DESCRIPTION}</td>
+							</tr>
+
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">类别:</td>
 								<td style="padding-top: 13px;">${pd.TNAME}</td>
+							</tr>
+
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">成色:</td>
+								<td style="padding-top: 13px;">${pd.DEGREE}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">使用耗材:</td>
+								<td style="padding-top: 13px;">${pd.MATERIAL}</td>
+							</tr>
+							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">计量单位:</td>
 								<td style="padding-top: 13px;">${pd.UNAME}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品描述:</td>
-								<td colspan="10" style="padding-top: 13px;"><div>${pd.DESCRIPTION}</div></td>
+								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-yellow arrowed-in-right arrowed">&nbsp;库存信息&nbsp;</span></td>																							   
+								<td></td>	
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品简述:</td>
-								<td colspan="10" style="padding-top: 13px;">${pd.SHORTDESC}</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">进货价:</td>
+								<td style="padding-top: 13px;">${pd.INFEE}&nbsp;元</td>
 							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">出货价:</td>
+								<td style="padding-top: 13px;">${pd.OUTFEE}&nbsp;元</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">入库数量:</td>
+								<td style="padding-top: 13px;">${pd.INCOUNT}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">出库数量:</td>
+								<td style="padding-top: 13px;">${pd.OUTCOUNT}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">库存量:</td>
+								<td style="padding-top: 13px;">${pd.ZCOUNT}</td>
+							</tr>
+<%-- 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
+								<td colspan="10" style="padding-top: 13px;">${pd.SHORTDESC}</td>
+							</tr> --%>
 						</table>
 						</div>
 					</div>

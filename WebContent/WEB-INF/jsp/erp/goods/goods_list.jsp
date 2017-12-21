@@ -37,7 +37,7 @@
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="输入商品名称关键字" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<input type="text" placeholder="型号/SN号" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
@@ -58,8 +58,24 @@
 										</c:forEach>
 									</select>
 								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="DEGREE" id="DEGREE" data-placeholder="请选择成色" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${degreeList}" var="var">
+											<option value="${var.DEGREE_ID }" <c:if test="${var.DEGREE_ID == pd.DEGREE }">selected</c:if>>${var.NAME }</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="MATERIAL" id="MATERIAL" data-placeholder="请选择耗材" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${materialList}" var="var">
+											<option value="${var.MATERIAL_ID }" <c:if test="${var.MATERIAL_ID == pd.MATERIAL }">selected</c:if>>${var.NAME }</option>
+										</c:forEach>
+									</select>
+								</td>
 								<c:if test="${QX.cha == 1 }">
-								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
 							</tr>
 						</table>
@@ -69,10 +85,14 @@
 							<thead>
 								<tr>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">商品名称</th>
-									<th class="center">配置型号</th>
-									<th class="center">商品类别</th>
-									<th class="center">品牌</th>
+									<th class="center">商品备案</th>	
+								  
+									<!-- <th class="center">型号</th> -->
+									<th class="center">sn号</th>								
+									<th class="center">类别</th>									
+									<th class="center">成色</th>
+									<th class="center">使用耗材</th>
+									<th class="center">库存量</th> 
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -84,27 +104,49 @@
 									<c:if test="${QX.cha == 1 }">
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.TITLE}</td>
-											<td class='center'>${var.BIANMA}</td>
-											<td class='center'>${var.TNAME}</td>
-											<td class='center'>${var.BNAME}</td>
+											<td class='center' style="width: 30px;"><span class="badge">${vs.index+1}</span></td>
+											<td class='center'>${var.TITLE}</td>	
+											
+									<%-- 		<td class='center'>${var.BIANMA}</td> --%>
+											<td class='center'>${var.DESCRIPTION}</td>							
+											<td class='center'><span class="label label-info arrowed-in">${var.TNAME}</span></td>											
+											<td class='center'><span class="label label-pink arrowed-in">${var.DEGREE}</span></td>
+											<td class='center'>${var.MATERIAL}</td>
+											<td class='center'>
+
+											<c:choose>
+												<c:when test="${var.ZCOUNT==0 }">
+													<span class="btn-danger">
+														 &nbsp;<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i>库存:0${var.UNAME}&nbsp;,请补仓&nbsp;
+													</span>
+				
+												</c:when>
+												<c:otherwise>
+													<span class="btn-success">
+														 &nbsp;<i class="ace-icon fa fa-briefcase bigger-110"></i>&nbsp;库存：${var.ZCOUNT}&nbsp;${var.UNAME}&nbsp;
+													</span>
+												</c:otherwise>
+											</c:choose>
+											</td> 
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
-												<div class="hidden-sm hidden-xs btn-group">
-													<a class="btn btn-xs btn-info" title="查看商品信息" onclick="view('${var.GOODS_ID}');">
-														<i class="ace-icon fa fa-eye bigger-120" title="查看商品信息"></i>
+												<div class="hidden-sm hidden-xs action-buttons">
+													<a class="blue" title="查看商品信息" onclick="view('${var.GOODS_ID}');">
+														<i class="ace-icon fa fa-search-plus bigger-130" title="查看商品信息"></i>
 													</a>
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.GOODS_ID}');">
-														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+													<a class="green" title="编辑" onclick="edit('${var.GOODS_ID}');">
+														<i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
 													</a>
 													</c:if>
+													<a class="purple" title="编辑" onclick="outku('${var.GOODS_ID}');">
+														<i class="ace-icon fa fa-shopping-cart bigger-120" title="编辑"></i>
+													</a>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.GOODS_ID}');">
-														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
+													<a class="red" onclick="del('${var.GOODS_ID}');">
+														<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
 													</a>
 													</c:if>
 												</div>
@@ -167,7 +209,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
-									<a class="btn btn-primary btn-sm" onclick="add();">新增</a>
+									<a class="btn btn-white btn-success btn-round" onclick="add();"><i class="ace-icon glyphicon glyphicon-plus"></i>商品入库</a>
 									</c:if>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -268,8 +310,8 @@
 			 diag.Drag=true;
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>goods/goAdd.do';
-			 diag.Width = 800;
-			 diag.Height = 580;
+			 diag.Width = 450;
+			 diag.Height = 620;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -299,7 +341,7 @@
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({
-								message: "<span class='bigger-110'>删除失败,请先删除商品图片或者清空本商品库存!</span>",
+								message: "<span class='bigger-110'>该商品还存在库存量，清空库存可操作删除!</span>",
 								buttons: 			
 								{
 									"button" :
@@ -322,8 +364,29 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>goods/goEdit.do?GOODS_ID='+Id;
-			 diag.Width = 800;
-			 diag.Height = 600;
+			 diag.Width = 450;
+			 diag.Height = 620;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 nextPage(${page.currentPage});
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		//出库
+		function outku(Id){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="出库";
+			 diag.URL = '<%=basePath%>outku/goOut.do?GOODS_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 310;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -343,7 +406,7 @@
 			 diag.Drag=true;
 			 diag.Title ="查看商品信息";
 			 diag.URL = '<%=basePath%>goods/goView.do?GOODS_ID='+Id;
-			 diag.Width = 800;
+			 diag.Width = 450;
 			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮

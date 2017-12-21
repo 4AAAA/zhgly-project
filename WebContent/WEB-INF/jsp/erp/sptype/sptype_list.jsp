@@ -56,7 +56,7 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">商品类别</th>
+									<th class="center">类别</th>
 									<th class="center">备注</th>
 									<th class="center">操作</th>
 								</tr>

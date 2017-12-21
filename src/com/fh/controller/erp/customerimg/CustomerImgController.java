@@ -222,19 +222,51 @@ public class CustomerImgController extends BaseController {
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
+		Page page = new Page();
+		page.setPd(pd);
+		
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("描述");	//1
-		titles.add("记录日期");	//2
-		titles.add("商户ID");	//3
+		//表头
+		titles.add("序号");
+		titles.add("机器编码");
+		titles.add("主板");
+		titles.add("显卡");
+		titles.add("光存储");
+		titles.add("CPU");
+		titles.add("内存");
+		titles.add("硬盘");
+		titles.add("声卡");
+		titles.add("显示器");
+		titles.add("鼠标键盘");
+		titles.add("散热器");
+		titles.add("打印机");
+		titles.add("备注1");
+		titles.add("备注2");
+		
 		dataMap.put("titles", titles);
-		List<PageData> varOList = customerimgService.listAll(pd);
+//		List<PageData> varOList = customerimgService.listAll(pd);
+		List<PageData>	varOList = customerimgService.list(page);	//列出CustomerImg列表
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).getString("CDESCRIPTION"));	    //1
-			vpd.put("var2", varOList.get(i).getString("CTIME"));	    //2
-			vpd.put("var3", varOList.get(i).getString("CUSTOMER_ID"));	    //3
+			vpd.put("var1", String.valueOf(i+1));	    //1
+			vpd.put("var2", varOList.get(i).getString("CODE")==null?"":varOList.get(i).getString("CODE"));	    //2
+			vpd.put("var3", varOList.get(i).getString("MAINBOARD")==null?"":varOList.get(i).getString("MAINBOARD"));	    //3
+			vpd.put("var4", varOList.get(i).getString("DISPLAYCARD")==null?"":varOList.get(i).getString("DISPLAYCARD"));	    //4
+			vpd.put("var5", varOList.get(i).getString("STORAGE")==null?"":varOList.get(i).getString("STORAGE"));	    //5
+			vpd.put("var6", varOList.get(i).getString("CPU")==null?"":varOList.get(i).getString("CPU"));	    //6
+			vpd.put("var7", varOList.get(i).getString("MEMORY")==null?"":varOList.get(i).getString("MEMORY"));	    //7
+			vpd.put("var8", varOList.get(i).getString("DISK")==null?"":varOList.get(i).getString("DISK"));	    //8
+			vpd.put("var9", varOList.get(i).getString("VOIDCARD")==null?"":varOList.get(i).getString("VOIDCARD"));	    //9
+			vpd.put("var10", varOList.get(i).getString("DISPLAYER")==null?"":varOList.get(i).getString("DISPLAYER"));	    //10
+			vpd.put("var11", varOList.get(i).getString("KEYBOARD")==null?"":varOList.get(i).getString("KEYBOARD"));	    //11
+			vpd.put("var12", varOList.get(i).getString("RADIATOR")==null?"":varOList.get(i).getString("RADIATOR"));	    //12
+			vpd.put("var13", varOList.get(i).getString("PRINTER")==null?"":varOList.get(i).getString("PRINTER"));	    //13
+			vpd.put("var14", varOList.get(i).getString("REMARK1")==null?"":varOList.get(i).getString("REMARK1"));	    //14
+			vpd.put("var15", varOList.get(i).getString("REMARK2")==null?"":varOList.get(i).getString("REMARK2"));	    //15
+			
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

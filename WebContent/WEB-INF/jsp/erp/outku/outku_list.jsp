@@ -45,10 +45,11 @@
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束日期" title="结束日期"/></td>
 								<c:if test="${QX.cha == 1 }">
-								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-default btn-sm" onclick="tosearch();"  title="检索">查询</a></td>
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
 								<td style="padding-left:20px;">
-								&nbsp;&nbsp;销售总金额：<font color="red"><b>${zprice }</b></font>&nbsp;元
+								  <span class="label label-xlg label-info arrowed-in-right arrowed-in">&nbsp;&nbsp;出货总金额：<font color=""><b>${zprice }</b></font>&nbsp;元</span>
+								    
 								</td>
 							</tr>
 						</table>
@@ -60,10 +61,10 @@
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">商品名称</th>
 									<th class="center">出库数量</th>
-									<th class="center">单价</th>
-									<th class="center">总价</th>
+									<th class="center">出货价</th>
+									<th class="center">出货总价</th>
 									<th class="center">出库时间</th>
-									<th class="center">备注</th>
+								<!-- 	<th class="center">备注</th> -->
 								</tr>
 							</thead>
 													
@@ -74,13 +75,13 @@
 									<c:if test="${QX.cha == 1 }">
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center' style="width: 30px;"><span class="badge">${vs.index+1}</span></td>
 											<td class='center'>${var.GOODS_NAME}</td>
 											<td class='center'>${var.INCOUNT}</td>
-											<td class='center'>${var.PRICE}</td>
-											<td class='center'>${var.ZPRICE}</td>
+											<td class='center'><b class="blue">¥&nbsp;${var.PRICE}</b></td>
+											<td class='center'><b class="green">¥&nbsp;${var.ZPRICE}</b></td>
 											<td class='center'>${var.OUTTIME}</td>
-											<td class='center'>${var.BZ}</td>
+											<%-- <td class='center'>${var.BZ}</td> --%>
 										</tr>
 									
 									</c:forEach>
@@ -100,17 +101,17 @@
 							</tbody>
 						</table>
 						<div class="page-header position-relative">
-						<table style="width:100%;">
+					<table style="width:100%;">
 							<tr>
-								<td style="vertical-align:top;">
+<%-- 		出库操作隐藏						<td style="vertical-align:top;">
 									<c:if test="${QX.add == 1 }">
 									<a class="btn btn-primary btn-sm" onclick="add();">商品出库</a>
 									</c:if>
 									
-								</td>
+								</td> --%>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
-						</table>
+						</table> 
 						</div>
 						</form>
 					
