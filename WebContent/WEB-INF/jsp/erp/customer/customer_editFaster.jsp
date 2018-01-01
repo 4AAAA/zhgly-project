@@ -92,6 +92,7 @@
 								<td>
 									<select name="REMARKS1" id="REMARKS1" placeholder="请选择维修员" style="width:98%;" >
 									<c:forEach items="${varList}" var="var">
+									    <option value="" >无</option>
 										<option value="${var.REMARKS_ID }" <c:if test="${var.REMARKS_ID == pd.REMARKS1}">selected</c:if>>${var.REMARKS }</option>
 									</c:forEach>
 									</select>
@@ -137,6 +138,7 @@
 								<td>
 									<select name="REMARKS2" id="REMARKS2" placeholder="请选择随机附件"  style="width:98%;" >
 										<c:forEach items="${attachmentList}" var="var">
+											<option value="" >无</option>
 											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.ATTACHMENT}">selected</c:if>>${var.REMARKS }</option>
 										</c:forEach>
 									</select>
@@ -151,6 +153,7 @@
 								<td>
 									<select name="PLAN" id="PLAN" placeholder="请选择维修进度" style="width:98%;" >
 										<c:forEach items="${planList}" var="var">
+										    <option value="" >无</option>
 											<option value="${var.PLAN_ID }" <c:if test="${var.PLAN_ID == pd.PLAN}">selected</c:if>>${var.REMARKS }</option>
 										</c:forEach>
 									</select>
