@@ -122,5 +122,24 @@ public class CustomerService implements CustomerManager{
 	public List<PageData> billList(Page page)throws Exception{
 		return (List<PageData>)dao.findForList("CustomerMapper.billListPage", page);
 	}
+	
+	/**总利润
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData billFeeSum(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("CustomerMapper.billFeeSum", pd);
+	}
+	
+	/**上月结算信息汇总
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData lastMonthSum(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("CustomerMapper.lastMonthSum", pd);
+	}
+	
 }
 

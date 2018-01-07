@@ -39,6 +39,7 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">客户级别:</td>
 								<td>
 									<select name="LEVEL" id="LEVEL" placeholder="请选择" title="级别" style="width:98%;" >
+									<option value="" >无</option>
 									<c:forEach items="${companyTypeList}" var="var">
 										<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.LEVEL }">selected</c:if>>${var.TITLE }</option>
 									</c:forEach>

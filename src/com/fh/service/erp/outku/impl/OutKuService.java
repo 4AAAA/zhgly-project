@@ -104,8 +104,26 @@ public class OutKuService implements OutKuManager{
 	 * @throws Exception
 	 */
 	@Override
-	public PageData manyDaySum(Page pd) throws Exception {
-		return (PageData)dao.findForObject("OutKuMapper.SalesChartlistPage", pd);
+	public PageData manyDaySum(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("OutKuMapper.go", pd);
+	}
+	
+	/**当月商品销售汇总
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData thisMonth(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("OutKuMapper.thisMonth", pd);
+	}
+	
+	/**上月商品销售汇总
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData lastMonth(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("OutKuMapper.lastMonth", pd);
 	}
 }
 

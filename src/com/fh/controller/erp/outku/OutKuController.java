@@ -28,6 +28,8 @@ import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.erp.goods.GoodsManager;
 import com.fh.service.erp.outku.OutKuManager;
+import com.fh.service.erp.receiver.ReceiverManager;
+import com.fh.service.erp.remarks.RemarksManager;
 
 /** 
  * 说明：商品出库
@@ -43,6 +45,8 @@ public class OutKuController extends BaseController {
 	private OutKuManager outkuService;
 	@Resource(name="goodsService")
 	private GoodsManager goodsService;
+	@Resource(name="receiverService")
+	private ReceiverManager receiverService;
 	
 	/**保存
 	 * @param
@@ -143,8 +147,13 @@ public class OutKuController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData>	varList = outkuService.list(page);	//列出OutKu列表
+		
+		//收款人
+		List<PageData>	receiverList = receiverService.listAll(pd);
+		
 		mv.setViewName("erp/outku/outku_list");
 		mv.addObject("varList", varList);
+		mv.addObject("receiverList", receiverList);
 		mv.addObject("pd", pd);
 		mv.addObject("zprice", zprice);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -177,9 +186,23 @@ public class OutKuController extends BaseController {
 		pd.put("USERNAME", Jurisdiction.getUsername());
 		page.setPd(pd);
 		List<PageData>	varList = outkuService.salesReport(page);
+		
+		//销售总利润
+		double allIncome = 0;
+		if(varList!=null) {
+			for(PageData aa : varList) {
+				 if(aa.get("ZINCOME")!=null) {
+					double income = (double)aa.get("ZINCOME");					
+					allIncome = allIncome + income;
+				 }
+			}
+		}
+		
+		
 		mv.setViewName("erp/outku/salesReport");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
+		mv.addObject("allIncome", allIncome);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -214,12 +237,16 @@ public class OutKuController extends BaseController {
 		
 		pd = goodsService.findById(pd);	//根据ID读取商品
 		
+		//收款人
+		List<PageData>	receiverList = receiverService.listAll(pd);
+		
 		pd.put("USERNAME", Jurisdiction.getUsername());
 		List<PageData> goodsList = goodsService.listAll(pd);
 		mv.setViewName("erp/outku/outku_edit2");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("goodsList", goodsList);
+		mv.addObject("receiverList", receiverList);
 		return mv;
 	}	
 	

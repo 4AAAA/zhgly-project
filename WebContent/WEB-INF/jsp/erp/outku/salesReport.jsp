@@ -59,6 +59,10 @@
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
+								<td style="padding-left:20px;">
+								  <span class="label label-xlg label-info arrowed-in-right arrowed-in">&nbsp;&nbsp;销售总利润：<font color=""><b>${allIncome }</b></font>&nbsp;元</span>
+								    
+								</td>
 							</tr>
 						</table>
 						<!-- 检索  -->

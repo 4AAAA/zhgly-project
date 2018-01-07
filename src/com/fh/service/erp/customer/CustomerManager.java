@@ -84,5 +84,17 @@ public interface CustomerManager{
 	 */
 	public List<PageData> billList(Page page)throws Exception;
 	
+	/**总利润
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData billFeeSum(PageData pd) throws Exception;
+	
+	/**上月结算信息统计
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData lastMonthSum(PageData pd) throws Exception;
+	
 }
 

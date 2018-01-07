@@ -44,6 +44,14 @@
 								</td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="${pd.lastStart }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="${pd.lastEnd }" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;height:34px;" placeholder="结束日期" title="结束日期"/></td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="RECEIVER" id="RECEIVER" data-placeholder="收款人" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${receiverList}" var="var">
+											<option value="${var.RECEIVER_ID }" <c:if test="${var.RECEIVER_ID == pd.RECEIVER }">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
@@ -63,6 +71,8 @@
 									<th class="center">出库数量</th>
 									<th class="center">出货价</th>
 									<th class="center">出货总价</th>
+									<th class="center">买家</th>
+									<th class="center">收款人</th>
 									<th class="center">出库时间</th>
 								<!-- 	<th class="center">备注</th> -->
 								</tr>
@@ -80,6 +90,8 @@
 											<td class='center'>${var.INCOUNT}</td>
 											<td class='center'><b class="blue">¥&nbsp;${var.PRICE}</b></td>
 											<td class='center'><b class="green">¥&nbsp;${var.ZPRICE}</b></td>
+											<td class='center'>${var.CUSTOMER}</td>
+											<td class='center'>${var.RECEIVERS}</td>
 											<td class='center'>${var.OUTTIME}</td>
 											<%-- <td class='center'>${var.BZ}</td> --%>
 										</tr>
@@ -161,6 +173,32 @@
 				todayHighlight: true
 			});
 		});
+		
+		//下拉框
+		if(!ace.vars['touch']) {
+			$('.chosen-select').chosen({allow_single_deselect:true}); 
+			$(window)
+			.off('resize.chosen')
+			.on('resize.chosen', function() {
+				$('.chosen-select').each(function() {
+					 var $this = $(this);
+					 $this.next().css({'width': $this.parent().width()});
+				});
+			}).trigger('resize.chosen');
+			$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+				if(event_name != 'sidebar_collapsed') return;
+				$('.chosen-select').each(function() {
+					 var $this = $(this);
+					 $this.next().css({'width': $this.parent().width()});
+				});
+			});
+			$('#chosen-multiple-style .btn').on('click', function(e){
+				var target = $(this).find('input[type=radio]');
+				var which = parseInt(target.val());
+				if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+				 else $('#form-field-select-4').removeClass('tag-input-style');
+			});
+		}
 		
 		//新增
 		function add(){

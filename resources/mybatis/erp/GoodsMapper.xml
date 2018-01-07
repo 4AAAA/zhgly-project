@@ -211,6 +211,50 @@
 		</if>
 		order by a.CTIME desc
 	</select>
+		
+		<!-- 列表-进货总价 -->
+	<select id="inFeeSum" parameterType="pd" resultType="pd">
+		select		
+			sum(a.INFEE) INFEE				
+		from 
+		<include refid="tableName"></include> a
+		left join cp_spbrand b
+		on a.SPBRAND_ID = b.SPBRAND_ID
+		left join cp_sptype c
+		on a.SPTYPE_ID = c.SPTYPE_ID
+		left join cp_spunit d
+		on a.SPUNIT_ID = d.SPUNIT_ID
+		left join cp_degree e
+		on a.DEGREE = e.DEGREE_ID
+		left join cp_material f
+		on a.MATERIAL = f.MATERIAL_ID
+		where 1=1
+		<if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					a.TITLE LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or 
+					a.BIANMA LIKE CONCAT(CONCAT('%', #{keywords}),'%') 
+				)
+		</if>
+		<if test="USERNAME!= null and USERNAME != ''">
+			and a.USERNAME = #{USERNAME}
+		</if>
+		<if test="SPBRAND_ID!= null and SPBRAND_ID != ''">
+			and a.SPBRAND_ID = #{SPBRAND_ID}
+		</if>
+		<if test="SPTYPE_ID!= null and SPTYPE_ID != ''">
+			and a.SPTYPE_ID = #{SPTYPE_ID}
+		</if>
+		<if test="DEGREE!= null and DEGREE != ''">
+			and a.DEGREE = #{DEGREE}
+		</if>
+		<if test="MATERIAL!= null and MATERIAL != ''">
+			and a.MATERIAL = #{MATERIAL}
+		</if>
+		order by a.CTIME desc
+	</select>
+	
 	
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

@@ -75,9 +75,21 @@
 										<option value="2" >欠费</option>
 									</select>
 								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="PAY" id="PAY" data-placeholder="付款方式" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${payList}" var="var">
+											<option value="${var.PAY_ID }" <c:if test="${var.PAY_ID == pd.PAY }">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
+								<td style="padding-left:20px;">
+								  <span class="label label-xlg label-purple arrowed-in-right arrowed-in">&nbsp;&nbsp;订单总利润：<font color=""><b>${feeSum }</b></font>&nbsp;元</span>
+								    
+								</td>
 								<%--导出功能预留 <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if> --%>
 							</tr>
 						</table>
@@ -124,7 +136,7 @@
 											<td class='center'><b class="red">¥&nbsp;${var.OUTMONEY}</b></td> 
 											<td class='center'><b class="grey">¥&nbsp;${var.QQ}</b></td>
 											<td class='center'><b class="green">¥&nbsp;${var.BILLFEE}</b></td> 
-											<td class='center'><span class="label label-xs label-pink arrowed-in-right arrowed-in">${var.PAY}</span></td> 
+											<td class='center'><span class="label label-xs label-pink arrowed-in-right arrowed-in">${var.PAYTYPE}</span></td> 
 											<td class='center'>${var.BILLTIME}</td>
 											<td class='center'>
 												<c:if test="${var.BILLSTATUS=='0' }">

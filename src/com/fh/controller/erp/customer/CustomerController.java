@@ -273,13 +273,25 @@ public class CustomerController extends BaseController {
 			pd.put("lastEnd", lastLoginEnd+" 00:00:00");
 		} 
 		pd.put("USERNAME", Jurisdiction.getUsername());
-				
+			
+		
+		PageData feeSumData =  customerService.billFeeSum(pd);
+		String feeSum = "0";
+		if(feeSumData!=null) {
+			feeSum = feeSumData.get("BILLFEE").toString();
+		}
+		
+		System.out.println("我要计算总利润===========>"+feeSum);
+		
+		
 		//订单类型
 		List<PageData>	levelList = levelService.listAll(pd);
 		//维修进度
 		List<PageData>	planList = planService.listAll(pd);
 		//维修员
 		List<PageData>	peopleList = remarksService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
 		page.setPd(pd);
 		List<PageData>	varList = customerService.billList(page);	//列出Customer列表
 		mv.setViewName("erp/customer/bill_list");
@@ -287,7 +299,9 @@ public class CustomerController extends BaseController {
 		mv.addObject("levelList", levelList);
 		mv.addObject("planList", planList);
 		mv.addObject("peopleList", peopleList);
+		mv.addObject("payList", payList);
 		mv.addObject("pd", pd);
+		mv.addObject("feeSum", feeSum);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -657,12 +671,15 @@ public class CustomerController extends BaseController {
 		List<PageData>	varList = remarksService.listAll(pd);
 		List<PageData>	varListL = levelService.listAll(pd);
 		List<PageData>	planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
 		mv.setViewName("erp/customer/customer_view");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
 		mv.addObject("varListL", varListL);
 		mv.addObject("planList", planList);
+		mv.addObject("payList", payList);
 		return mv;
 	}
 	
@@ -679,12 +696,15 @@ public class CustomerController extends BaseController {
 		List<PageData>	varList = remarksService.listAll(pd);
 		List<PageData>	varListL = levelService.listAll(pd);
 		List<PageData>	planList = planService.listAll(pd);
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
 		mv.setViewName("erp/company/customer_view");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("varList", varList);
 		mv.addObject("varListL", varListL);
 		mv.addObject("planList", planList);
+		mv.addObject("payList", payList);
 		return mv;
 	}
 	

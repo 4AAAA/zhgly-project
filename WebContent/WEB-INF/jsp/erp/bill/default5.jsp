@@ -51,7 +51,7 @@ setTimeout("top.hangge()",500);
 								<div class="col-xs-12">
 									<h3 class="header smaller lighter grey">
 										<i class="ace-icon fa fa-spinner fa-spin orange bigger-125"></i>
-										近30日商品销售分析
+										当月：${pd.yearMonth}商品销售分析
 										
 									</h3>
 								</div>

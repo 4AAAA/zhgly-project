@@ -114,5 +114,14 @@ public class GoodsService implements GoodsManager{
 		dao.update("GoodsMapper.editZCOUNT", pd);
 	}
 	
+	/**进货总价
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public PageData inFeeSum(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("GoodsMapper.inFeeSum", pd);
+	}
+	
 }
 

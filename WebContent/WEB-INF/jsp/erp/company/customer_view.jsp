@@ -115,7 +115,13 @@
 							<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">付款方式:</td>
 
-								<td style="padding-top: 13px;">${pd.PAY}</td>
+								<td>
+									<select name="PAY" id="PAY" placeholder="请选择" title="级别" style="width:98%;background-color:#EBEBEB" disabled="disabled">
+										<c:forEach items="${payList}" var="var">
+											<option value="${var.PAY_ID }" <c:if test="${var.PAY_ID == pd.PAY }">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
 							</tr>
 						    <tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">结算状态:</td>

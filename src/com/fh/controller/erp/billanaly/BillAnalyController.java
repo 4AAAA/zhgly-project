@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -127,7 +128,7 @@ public class BillAnalyController extends BaseController {
 		return mv;
 	}
 	
-	/**近30日订单分析
+	/**当月订单分析
 	 * @param page
 	 * @throws Exception
 	 */
@@ -174,9 +175,83 @@ public class BillAnalyController extends BaseController {
 			pd.put("NUMBER", "0");
 		}
 		
+		//当月时间
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH )+1;
+		
+		String yearMonth = year + "年"+month +"月";
+		
+		pd.put("yearMonth", yearMonth);
 		
 		mv.addObject("pd",pd);
 		mv.setViewName("erp/bill/default3");
+		return mv;
+	}
+	
+	/**上月订单分析
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/lastMonth")
+	public ModelAndView lastMonth(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String USERNAME = pd.getString("USERNAME");
+		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
+		pd.put("USERNAME", USERNAME);
+
+
+		
+		//上个月
+	
+		PageData manyBill = customerService.lastMonthSum(pd);
+		if(manyBill!=null) {
+			//订单金额
+			pd.put("MONEY", manyBill.get("MONEY")==null?"0.0":manyBill.get("MONEY").toString());
+			//实收金额
+			pd.put("INCOME", manyBill.get("INCOME")==null?"0.0":manyBill.get("INCOME").toString());
+			//欠费金额
+			pd.put("OUTMONEY", manyBill.get("OUTMONEY")==null?"0.0": manyBill.get("OUTMONEY").toString());
+			//利润
+			pd.put("BILLFEE", manyBill.get("BILLFEE")==null?"0.0":manyBill.get("BILLFEE").toString());
+			//维修成本
+			pd.put("QQ", manyBill.get("QQ")==null?"0.0":manyBill.get("QQ").toString());
+			//订单份数
+			pd.put("NUMBER", manyBill.get("NUMBER")==null?"0":manyBill.get("NUMBER").toString());
+			
+		}else {
+			//订单金额
+			pd.put("MONEY","0.0");
+			//实收金额
+			pd.put("INCOME", "0.0");
+			//欠费金额
+			pd.put("OUTMONEY","0.0");
+			//利润
+			pd.put("BILLFEE", "0.0");
+			//维修成本
+			pd.put("QQ", "0.0");
+			//订单数量
+			pd.put("NUMBER", "0");
+		}
+		
+		//上月时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月");
+        Date date = new Date();
+ 
+        System.out.println("当前时间是：" + dateFormat.format(date));
+ 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // 设置为当前时间
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1); // 设置为上一个月
+        date = calendar.getTime();
+ 
+        String yearMonth = dateFormat.format(date);
+        pd.put("yearMonth", yearMonth);
+        
+		mv.addObject("pd",pd);
+		mv.setViewName("erp/bill/default6");
 		return mv;
 	}
 	
@@ -198,11 +273,11 @@ public class BillAnalyController extends BaseController {
 		
 		pd.put("days", "1");
 			
-		page.setPd(pd);
+//		page.setPd(pd);
 		//订单统计
 		
 		//今日
-		PageData dayBill = outkuService.manyDaySum(page);
+		PageData dayBill = outkuService.manyDaySum(pd);
 
 		if(dayBill!=null) {
 			//销售数量
@@ -236,7 +311,7 @@ public class BillAnalyController extends BaseController {
 	}
 	
 	
-	/**近30日商品销售分析
+	/**当月商品销售分析
 	 * @param page
 	 * @throws Exception
 	 */
@@ -249,13 +324,13 @@ public class BillAnalyController extends BaseController {
 		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
 		pd.put("USERNAME", USERNAME);
 		
-		pd.put("days", "30");
+//		pd.put("days", "30");
 			
-		page.setPd(pd);
+//		page.setPd(pd);
 		//订单统计
 		
 		//今日
-		PageData dayBill = outkuService.manyDaySum(page);
+		PageData dayBill = outkuService.thisMonth(pd);
 
 		if(dayBill!=null) {
 			//销售数量
@@ -282,13 +357,85 @@ public class BillAnalyController extends BaseController {
 			pd.put("NUMBER", "0");
 		}
 		
+		//当月时间
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH )+1;
+		
+		String yearMonth = year + "年"+month +"月";
+		
+		pd.put("yearMonth", yearMonth);
+		
 		
 		mv.addObject("pd",pd);
 		mv.setViewName("erp/bill/default5");
 		return mv;
 	}
 	
-	
+	/**上月商品销售分析
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/lastMonths")
+	public ModelAndView lastMonths(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String USERNAME = pd.getString("USERNAME");
+		USERNAME = Tools.notEmpty(USERNAME)?USERNAME:Jurisdiction.getUsername();
+		pd.put("USERNAME", USERNAME);
+		
+//		pd.put("days", "30");
+			
+//		page.setPd(pd);
+		//订单统计
+		
+		//今日
+		PageData dayBill = outkuService.lastMonth(pd);
+
+		if(dayBill!=null) {
+			//销售数量
+			pd.put("ZCOUNT", dayBill.get("ZCOUNT")==null?"0":dayBill.get("ZCOUNT").toString());
+			//销售额
+			pd.put("ZPRICE", dayBill.get("ZPRICE")==null?"0.0":dayBill.get("ZPRICE").toString());
+			//进货总价
+			pd.put("ZINPRICE", dayBill.get("ZINPRICE")==null?"0.0": dayBill.get("ZINPRICE").toString());
+			//利润
+			pd.put("ZINCOME", dayBill.get("ZINCOME")==null?"0.0":dayBill.get("ZINCOME").toString());
+			//出库次数
+			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0":dayBill.get("NUMBER").toString());
+			
+		}else {
+			//销售数量
+			pd.put("ZCOUNT", "0");
+			//销售额
+			pd.put("ZPRICE","0");
+			//进货总价
+			pd.put("ZINPRICE", "0");
+			//利润
+			pd.put("ZINCOME", "0");
+			//出库次数
+			pd.put("NUMBER", "0");
+		}
+		
+		//上月时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月");
+        Date date = new Date();
+ 
+        System.out.println("当前时间是：" + dateFormat.format(date));
+ 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // 设置为当前时间
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1); // 设置为上一个月
+        date = calendar.getTime();
+ 
+        String yearMonth = dateFormat.format(date);
+        pd.put("yearMonth", yearMonth);
+		
+		mv.addObject("pd",pd);
+		mv.setViewName("erp/bill/default7");
+		return mv;
+	}
 	
 	
 	

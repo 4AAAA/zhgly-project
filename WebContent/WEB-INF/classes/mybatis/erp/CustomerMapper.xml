@@ -216,7 +216,8 @@
 		    a.BILLSTATUS,
 		    a.BILLTIME,
 			c.REMARKS,
-			d.REMARKS PEOPLE
+			d.REMARKS PEOPLE,
+			e.REMARKS PAYTYPE
 		from 
 		<include refid="tableName"></include> a
 		left join ERP_PLAN c
@@ -225,6 +226,9 @@
 		left join ERP_REMARKS d
 		on 
 			a.REMARKS1 = d.REMARKS_ID
+		left join ERP_PAY e
+		on 
+			a.PAY = e.PAY_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
@@ -250,12 +254,67 @@
 		<if test="pd.REMARKS1!=null and pd.REMARKS1!=''">
 			and a.REMARKS1 = #{pd.REMARKS1} 
 		</if>
+		<if test="pd.PAY!=null and pd.PAY!=''">
+			and a.PAY = #{pd.PAY} 
+		</if>
 		<if test="pd.BILLSTATUS!=null and pd.BILLSTATUS!=''">
 			and a.BILLSTATUS = #{pd.BILLSTATUS} 
 		</if>
 		and a.BILLSTATUS in (1,2)
 		order by a.BILLTIME desc
 	</select>
+	
+    <!-- 列表-账单-利润统计 -->
+	<select id="billFeeSum" parameterType="pd" resultType="pd">
+		select
+			sum(a.BILLFEE) BILLFEE			
+		from 
+		<include refid="tableName"></include> a
+		left join ERP_PLAN c
+		on 
+			a.PLAN = c.PLAN_ID
+		left join ERP_REMARKS d
+		on 
+			a.REMARKS1 = d.REMARKS_ID
+		left join ERP_PAY e
+		on 
+			a.PAY = e.PAY_ID
+		where 1=1
+		<if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					a.NAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or 										
+					a.WEIXIN LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					
+				)
+		</if>
+		<if test="lastStart!=null and lastStart!=''">
+			and a.BILLTIME &gt;= #{lastStart} 
+		</if>
+		<if test="lastEnd!=null and lastEnd!=''">
+			and a.BILLTIME &lt;= #{lastEnd} 
+		</if>
+		<if test="USERNAME!=null and USERNAME!=''">
+			and a.USERNAME = #{USERNAME} 
+		</if>
+		<if test="PLAN!=null and PLAN!=''">
+			and a.PLAN = #{PLAN} 
+		</if>
+		<if test="REMARKS1!=null and REMARKS1!=''">
+			and a.REMARKS1 = #{REMARKS1} 
+		</if>
+		<if test="PAY!=null and PAY!=''">
+			and a.PAY = #{PAY} 
+		</if>
+		<if test="BILLSTATUS!=null and BILLSTATUS!=''">
+			and a.BILLSTATUS = #{BILLSTATUS} 
+		</if>
+		and a.BILLSTATUS in (1,2)
+		order by a.BILLTIME desc
+	</select>
+	
+	
 	
 		<!-- 列表-关联客户 -->
 	<select id="companylistPage" parameterType="page" resultType="pd">
@@ -321,7 +380,7 @@
 			and a.BILLSTATUS = #{pd.BILLSTATUS} 
 		</if>
 		and COMPANY_ID = #{pd.COMPANY_ID}
-		order by a.CTIME desc
+		order by a.CTIME desc 
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -378,7 +437,7 @@
 		and to_days(a.BILLTIME) = to_days(now())
 	</select>
 	
-	<!-- 30天内结算信息汇总分析 -->
+	<!-- 当月天内结算信息汇总分析 -->
 	<select id="manyDaySum" parameterType="pd" resultType="pd">
 		select
 			count(*) NUMBER,sum(MONEY) MONEY,sum(INCOME) INCOME,sum(OUTMONEY) OUTMONEY,sum(BILLFEE) BILLFEE,sum(QQ) QQ
@@ -386,9 +445,17 @@
 		<include refid="tableName"></include> a
 		where a.USERNAME = #{USERNAME}
 		and a.BILLSTATUS in (1,2) 
-		<if test="days!=null and days!=''"><!-- 几天内 -->
-			and DATE_SUB(CURDATE(), INTERVAL ${days} DAY) &lt;= date(a.BILLTIME)
-		</if>
+		and date_format(a.BILLTIME,'%Y-%m')=date_format(now(),'%Y-%m') 
+	</select>
+		<!-- 上月结算信息汇总分析 -->
+	<select id="lastMonthSum" parameterType="pd" resultType="pd">
+		select
+			count(*) NUMBER,sum(MONEY) MONEY,sum(INCOME) INCOME,sum(OUTMONEY) OUTMONEY,sum(BILLFEE) BILLFEE,sum(QQ) QQ
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{USERNAME}
+		and a.BILLSTATUS in (1,2) 
+		and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(a.BILLTIME, '%Y%m' ) ) =1
 	</select>
 	
 	<!-- fh313596790qq(青苔) -->

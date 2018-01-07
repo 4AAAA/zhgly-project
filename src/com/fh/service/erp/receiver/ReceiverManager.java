@@ -1,17 +1,16 @@
-package com.fh.service.erp.outku;
+package com.fh.service.erp.receiver;
 
 import java.util.List;
-
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： 商品出库接口
- * 创建人：FH Q313596790
- * 创建时间：2016-09-21
+ * 说明： 收款人接口
+ * 创建人：liuyw
+ * 创建时间：2018-01-06
  * @version
  */
-public interface OutKuManager{
+public interface ReceiverManager{
 
 	/**新增
 	 * @param pd
@@ -37,12 +36,6 @@ public interface OutKuManager{
 	 */
 	public List<PageData> list(Page page)throws Exception;
 	
-	/**商品销售报表
-	 * @param page
-	 * @throws Exception
-	 */
-	public List<PageData> salesReport(Page page)throws Exception;
-	
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
@@ -60,30 +53,6 @@ public interface OutKuManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
-	/**总金额
-	 * @param pd
-	 * @throws Exception
-	 */
-	public PageData priceSum(PageData pd) throws Exception;
-	
-	/**N天内商品销售统计
-	 * @param pd
-	 * @throws Exception
-	 */
-	public PageData manyDaySum(PageData pd) throws Exception;
-	
-	/**当月商品销售统计
-	 * @param pd
-	 * @throws Exception
-	 */
-	public PageData thisMonth(PageData pd) throws Exception;
-	
-	/**上月商品销售统计
-	 * @param pd
-	 * @throws Exception
-	 */
-	public PageData lastMonth(PageData pd) throws Exception;
 	
 }
 

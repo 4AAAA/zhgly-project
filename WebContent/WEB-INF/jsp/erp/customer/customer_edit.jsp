@@ -102,7 +102,7 @@
 								<td>
 									<select name="REMARKS2" id="REMARKS2" placeholder="请选择随机附件"  style="width:98%;" >
 										<c:forEach items="${attachmentList}" var="var">
-											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.ATTACHMENT}">selected</c:if>>${var.REMARKS }</option>
+											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.REMARKS2}">selected</c:if>>${var.REMARKS }</option>
 										</c:forEach>
 									</select>
 								</td>

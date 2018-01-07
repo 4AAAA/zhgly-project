@@ -19,6 +19,8 @@
 		INCOME,
 		INPRICE,
 		BZ,
+		CUSTOMER,
+		RECEIVER,
 		OUTKU_ID
 	</sql>
 	
@@ -33,7 +35,9 @@
 		#{USERNAME},
 		#{INCOME},
 		#{INPRICE},
-		#{BZ},	
+		#{BZ},
+		#{CUSTOMER},	
+		#{RECEIVER},		
 		#{OUTKU_ID}
 	</sql>
 	
@@ -79,9 +83,26 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-		<include refid="Field"></include>
+			a.GOODS_ID,	
+			a.INCOUNT,	
+			a.PRICE,	
+			a.ZPRICE,	
+			a.OUTTIME,	
+			a.GOODS_NAME,	
+			a.USERNAME,
+			a.INCOME,
+			a.INPRICE,
+			a.BZ,
+			a.CUSTOMER,
+			a.RECEIVER,
+			a.OUTKU_ID,
+			b.REMARKS RECEIVERS
+				
 		from 
-		<include refid="tableName"></include>
+		<include refid="tableName"></include>a
+		left join ERP_RECEIVER b
+		on 
+			a.RECEIVER = b.RECEIVER_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
@@ -92,14 +113,17 @@
 				)
 		</if>
 		<if test="pd.lastStart!=null and pd.lastStart!=''"><!-- 开始时间检索 -->
-			and OUTTIME &gt;= #{pd.lastStart} 
+			and a.OUTTIME &gt;= #{pd.lastStart} 
 		</if>
 		<if test="pd.lastEnd!=null and pd.lastEnd!=''"><!-- 结束时间检索 -->
-			and OUTTIME &lt;= #{pd.lastEnd} 
+			and a.OUTTIME &lt;= #{pd.lastEnd} 
+		</if>
+		<if test="pd.RECEIVER!=null and pd.RECEIVER!=''">
+			and a.RECEIVER = #{pd.RECEIVER} 
 		</if>
 		and
-			USERNAME = #{pd.USERNAME}
-		order by OUTTIME desc
+			a.USERNAME = #{pd.USERNAME}
+		order by a.OUTTIME desc
 	</select>
 	
 	<!-- 总金额 -->
@@ -126,6 +150,9 @@
 		</if>
 		<if test="days!=null and days!=''"><!-- 几天内 -->
 			and DATE_SUB(CURDATE(), INTERVAL ${days} DAY) &lt;= date(OUTTIME)
+		</if>
+		<if test="RECEIVER!=null and RECEIVER!=''">
+			and RECEIVER = #{RECEIVER} 
 		</if>
 		and
 			USERNAME = #{USERNAME}
@@ -183,13 +210,9 @@
 			${pd.forderby}
 		</if>
 	</select>
-	
-	
-		
 
-	
-	<!-- 商品销售图表-->
-		<select id="SalesChartlistPage" parameterType="page" resultType="pd">
+<!-- 商品销售图表-->
+		<select id="go" parameterType="pd" resultType="pd">
 		select
 			 count(*) NUMBER,
 			 sum(INCOUNT) ZCOUNT,
@@ -198,18 +221,47 @@
 			 sum(INPRICE) ZINPRICE
 		from 
 		<include refid="tableName"></include> a
-		where a.USERNAME = #{pd.USERNAME}		
-		<if test="pd.days!=null and pd.days!=''"><!-- 几天内的订单 -->
+		where a.USERNAME = #{USERNAME}		
+		<if test="days!=null and days!=''"><!-- 几天内的订单 -->
            <choose>
-                <when test="pd.days == 1">
+                <when test="days == 1">
                   and to_days(OUTTIME) = to_days(now())
                 </when>
                 <otherwise>
-                   and DATE_SUB(CURDATE(), INTERVAL ${pd.days} DAY) &lt;= date(a.OUTTIME)
+                   and DATE_SUB(CURDATE(), INTERVAL ${days} DAY) &lt;= date(a.OUTTIME)
                 </otherwise>
             </choose>			
 		</if>
 	</select>
+	
+	<!-- 商品销售图表-当月-->
+		<select id="thisMonth" parameterType="pd" resultType="pd">
+		select
+			 count(*) NUMBER,
+			 sum(INCOUNT) ZCOUNT,
+			 sum(ZPRICE) ZPRICE,
+			 sum(INCOME) ZINCOME,
+			 sum(INPRICE) ZINPRICE
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{USERNAME}		
+		and date_format(a.OUTTIME,'%Y-%m')=date_format(now(),'%Y-%m') 
+	</select>
+	
+		<!-- 商品销售图表-上月-->
+		<select id="lastMonth" parameterType="pd" resultType="pd">
+		select
+			 count(*) NUMBER,
+			 sum(INCOUNT) ZCOUNT,
+			 sum(ZPRICE) ZPRICE,
+			 sum(INCOME) ZINCOME,
+			 sum(INPRICE) ZINPRICE
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{USERNAME}		
+		and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(a.OUTTIME, '%Y%m' ) ) =1
+	</select>
+	
 	
 	
 	<!-- 批量删除 -->

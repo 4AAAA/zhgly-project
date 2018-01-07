@@ -177,8 +177,9 @@
 								<td style="width:80px;text-align: right;padding-top: 13px;">付款方式:</td>
 								<td>
 									<select name="PAY" id="PAY" placeholder="请选择付款方式" style="width:98%;" >
+									<option value="" >无</option>
 										<c:forEach items="${payList}" var="var">
-											<option value="${var.REMARKS }" <c:if test="${var.REMARKS == pd.PAY}">selected</c:if>>${var.REMARKS }</option>
+											<option value="${var.PAY_ID }" <c:if test="${var.PAY_ID == pd.PAY}">selected</c:if>>${var.REMARKS }</option>
 										</c:forEach>
 									</select>
 								</td>

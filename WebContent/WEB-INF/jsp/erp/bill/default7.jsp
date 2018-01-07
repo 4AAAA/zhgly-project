@@ -51,7 +51,7 @@ setTimeout("top.hangge()",500);
 								<div class="col-xs-12">
 									<h3 class="header smaller lighter grey">
 										<i class="ace-icon fa fa-spinner fa-spin orange bigger-125"></i>
-										当月：${pd.yearMonth}订单财务分析
+										上月：${pd.yearMonth}商品销售分析
 										
 									</h3>
 								</div>
@@ -73,15 +73,15 @@ setTimeout("top.hangge()",500);
 						        </table>							
 							</div>
 							
-							<div  class="col-xs-12" style="margin-top:20px;"  id="liuyw1" hidden >
+							<div  class="col-xs-12" style="margin-top:20px;margin-left: 110px;"  id="liuyw1" hidden >
 								<div class="infobox infobox-purple infobox-small infobox-dark">
 									<div class="infobox-icon">
 										<i class="ace-icon fa fa-bell"></i>
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">结算订单</div>
-										<div class="infobox-content">${pd.NUMBER }&nbsp;份</div>
+										<div class="infobox-content">出库次数</div>
+										<div class="infobox-content">${pd.NUMBER }&nbsp;次</div>
 									</div>
 								</div>
 								<div class="infobox infobox-pink infobox-small infobox-dark">
@@ -90,8 +90,8 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">订单金额</div>
-										<div class="infobox-content">${pd.MONEY }&nbsp;元</div>
+										<div class="infobox-content">商品数量</div>
+										<div class="infobox-content">${pd.ZCOUNT }</div>
 									</div>
 								</div>
 								<div class="infobox infobox-blue infobox-small infobox-dark">
@@ -100,8 +100,8 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">实收金额</div>
-										<div class="infobox-content">${pd.INCOME }&nbsp;元</div>
+										<div class="infobox-content">进货成本</div>
+										<div class="infobox-content">${pd.ZINPRICE }&nbsp;元</div>
 									</div>
 								</div>
 								<div class="infobox infobox-red infobox-small infobox-dark">
@@ -110,18 +110,8 @@ setTimeout("top.hangge()",500);
 									</div>
 				
 									<div class="infobox-data">
-										<div class="infobox-content">欠费金额</div>
-										<div class="infobox-content">${pd.OUTMONEY}&nbsp;元</div>
-									</div>
-								</div>
-								<div class="infobox infobox-grey infobox-small infobox-dark">
-									<div class="infobox-icon">
-										<i class="ace-icon fa fa-download"></i>
-									</div>
-				
-									<div class="infobox-data">
-										<div class="infobox-content">维修成本</div>
-										<div class="infobox-content">${pd.QQ }&nbsp;元</div>
+										<div class="infobox-content">销售额</div>
+										<div class="infobox-content">${pd.ZPRICE}&nbsp;元</div>
 									</div>
 								</div>
 								<div class="infobox infobox-green infobox-small infobox-dark">
@@ -131,7 +121,7 @@ setTimeout("top.hangge()",500);
 				
 									<div class="infobox-data">
 										<div class="infobox-content">利润</div>
-										<div class="infobox-content">${pd.BILLFEE }&nbsp;元</div>
+										<div class="infobox-content">${pd.ZINCOME }&nbsp;元</div>
 									</div>
 								</div>
 							</div>		
@@ -154,13 +144,13 @@ setTimeout("top.hangge()",500);
 					                data:['金额']
 					            },
 					            xAxis: {
-					                data: ["订单金额","实收金额","欠费金额","维修成本","利润"]
+					                data: ["进货总成本","销售额","利润"]
 					            },
 					            yAxis: {},
 					            series: [{
 					                name: '金额',
 					                type: 'bar',
-					                data: [${pd.MONEY }, ${pd.INCOME }, ${pd.OUTMONEY}, ${pd.QQ }, ${pd.BILLFEE }],
+					                data: [${pd.ZINPRICE }, ${pd.ZPRICE}, ${pd.ZINCOME }],
 					                itemStyle:{
 					                	normal:{
 					                		color:'#003366'

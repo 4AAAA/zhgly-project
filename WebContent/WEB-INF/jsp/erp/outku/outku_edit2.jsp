@@ -54,6 +54,20 @@
 								<td><input type="number" name="ZPRICE" id="ZPRICE" value="${pd.ZPRICE}" maxlength="32" placeholder="自动计算总价" title="总价" style="width:89%;"/>&nbsp;元</td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">买家:</td>
+									<td><input type="text"  name="CUSTOMER" id="CUSTOMER" value="${pd.CUSTOMER}"  placeholder="这里输入买家" title="LEVEL" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">收款人:</td>
+								<td>
+									<select name="RECEIVER" id="RECEIVER" placeholder="请选择收款人" style="width:98%;" >
+									<c:forEach items="${receiverList}" var="var">
+										<option value="${var.RECEIVER_ID }" <c:if test="${var.RECEIVER_ID == pd.RECEIVER}">selected</c:if>>${var.REMARKS }</option>
+									</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">出库</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>

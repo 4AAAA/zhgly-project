@@ -78,5 +78,11 @@ public interface GoodsManager{
 	 * @throws Exception
 	 */
 	public void editZCOUNT(PageData pd)throws Exception;
+	
+	/**总进货价
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData inFeeSum(PageData pd) throws Exception;
 }
 

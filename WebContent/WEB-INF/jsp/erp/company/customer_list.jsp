@@ -200,7 +200,7 @@
 															</li>
 															<c:if test="${QX.edit == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${var.CUSTOMER_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${var.CUSTOMER_ID}');" class="tooltip-success" data-rel="tooltip" title="编辑">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -208,7 +208,7 @@
 															</li>
 															</c:if>
 				   										    <li>
-																<a style="cursor:pointer;" onclick="count('${var.CUSTOMER_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="count('${var.CUSTOMER_ID}');" class="tooltip-success" data-rel="tooltip" title="结算">
 																	<span class="blue">
 																		<i class="menu-icon fa fa-bar-chart-o "></i>
 																	</span>

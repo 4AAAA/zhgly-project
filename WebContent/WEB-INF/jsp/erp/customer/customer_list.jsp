@@ -79,10 +79,19 @@
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-app btn-light btn-xs" onclick="tosearch();"  title="检索">查询</a></td>
 								</c:if>
+								<td style="vertical-align:top;padding-left:20px;padding-top:2px">
+								<c:if test="${QX.add == 1 }">
+									<a class="btn btn-white btn-success btn-round" onclick="add();"><i class="ace-icon glyphicon glyphicon-plus"></i>新增订单</a>
+									</c:if>
+<%-- 未开放批量删除功能				    <c:if test="${QX.del == 1 }">
+									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
+									</c:if> --%>
+								</td>
 								<%--导出功能预留 <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if> --%>
 							</tr>
 						</table>
 						<!-- 检索  -->
+						
 					
 						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
 							<thead>
@@ -207,13 +216,18 @@
 															</li>
 															<c:if test="${QX.edit == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${var.CUSTOMER_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${var.CUSTOMER_ID}');" class="tooltip-success" data-rel="tooltip" title="编辑">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
 																</a>
 															</li>
 															</c:if>
+															<li>
+																<a  style="cursor:pointer;" class="purple" title="结算" onclick="count('${var.CUSTOMER_ID}');">
+																	<i class="ace-icon fa fa-bar-chart-o bigger-130" title="结算"></i>
+																</a>
+															</li>
 															<c:if test="${QX.del == 1 }">
 															<li>
 																<a style="cursor:pointer;" onclick="del('${var.CUSTOMER_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
@@ -249,9 +263,9 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
-									<c:if test="${QX.add == 1 }">
+<%-- 									<c:if test="${QX.add == 1 }">
 									<a class="btn btn-white btn-success btn-round" onclick="add();"><i class="ace-icon glyphicon glyphicon-plus"></i>新增订单</a>
-									</c:if>
+									</c:if> --%>
 <%-- 未开放批量删除功能				    <c:if test="${QX.del == 1 }">
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if> --%>
@@ -259,7 +273,7 @@
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
 						</table>
-						</div>
+						</div> 
 						</form>
 					
 						</div>
@@ -400,6 +414,7 @@
 					var url = "<%=basePath%>customer/delete.do?CUSTOMER_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if("success" == data.result){
+							console.log("检查-》"+${page.currentPage});
 							nextPage(${page.currentPage});
 						}else if("false" == data.result){
 							top.hangge();

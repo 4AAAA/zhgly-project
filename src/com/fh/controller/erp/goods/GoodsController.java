@@ -150,6 +150,17 @@ public class GoodsController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		pd.put("USERNAME", "admin".equals(Jurisdiction.getUsername())?"":Jurisdiction.getUsername());
+		
+		//进货总价
+		PageData feeSumData =  goodsService.inFeeSum(pd);
+		String feeSum = "0";
+		if(feeSumData!=null) {
+			feeSum = feeSumData.get("INFEE").toString();
+		}
+		
+		System.out.println("我要计算总进货价===========>"+feeSum);
+		
+		
 		page.setPd(pd);
 		List<PageData>	varList = goodsService.list(page);	//列出Goods列表
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
@@ -167,6 +178,7 @@ public class GoodsController extends BaseController {
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		mv.addObject("materialList", materialList);
 		mv.addObject("degreeList", degreeList);
+		mv.addObject("feeSum", feeSum);
 		return mv;
 	}
 	

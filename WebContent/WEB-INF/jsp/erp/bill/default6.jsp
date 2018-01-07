@@ -51,7 +51,7 @@ setTimeout("top.hangge()",500);
 								<div class="col-xs-12">
 									<h3 class="header smaller lighter grey">
 										<i class="ace-icon fa fa-spinner fa-spin orange bigger-125"></i>
-										当月：${pd.yearMonth}订单财务分析
+										上月：${pd.yearMonth}订单财务分析
 										
 									</h3>
 								</div>
