@@ -31,17 +31,29 @@
 						<input type="hidden" name="GOODS_ID" id="GOODS_ID" value="${pd.GOODS_ID}"/>
 						<input type="hidden" name="OUTCOUNT" id="OUTCOUNT" value="${pd.OUTCOUNT}"/>
 						<input type="hidden" name="BACKCOUNT" id="BACKCOUNT" value="${pd.BACKCOUNT}"/>
+						
+						<!-- 退货隐藏数据 -->
+						<input type="hidden" name="TITLE" id="TITLE" value="${pd.TITLE}" />
+						<input type="hidden" name="DESCRIPTION" id="DESCRIPTION" value="${pd.DESCRIPTION}" />
+						<input type="hidden" name="SPTYPE_ID" id="SPTYPE_ID" value="${pd.SPTYPE_ID}" />
+						<input type="hidden" name="SPUNIT_ID" id="SPUNIT_ID" value="${pd.SPUNIT_ID}" />
+						<input type="hidden" name="DEGREE" id="DEGREE" value="${pd.DEGREE}" />
+						<input type="hidden" name="MATERIAL" id="MATERIAL" value="${pd.MATERIAL}" />
+						<input type="hidden" name="INFEE" id="INFEE" value="${pd.INFEE}"/>
+						<input type="hidden" name="OUTFEE" id="OUTFEE" value="${pd.OUTFEE}" />
+						<input type="hidden" name="INCOUNT" id="INCOUNT" value="${pd.INCOUNT}" />
+						
 						<textarea name="DESCRIPTION" id="DESCRIPTION" style="display:none" >${pd.DESCRIPTION}</textarea>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
-							<tr>
-								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-danger arrowed-in-right arrowed">&nbsp;商品信息&nbsp;</span></td>	
+		<!-- 					<tr>
+								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-danger arrowed-in-right arrowed">&nbsp;退货管理&nbsp;</span></td>	
 								<td></td>																						   
-							</tr>
-							<tr>
+							</tr> -->
+					<!-- 		<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">商品备案:</td>
-								<td><input type="text" name="TITLE" id="TITLE" value="${pd.TITLE}" maxlength="255" placeholder="商品备案：品牌+型号+类别" title="商品名称" style="width:98%;"/></td>
-							</tr>
+								<td></td>
+							</tr> -->
 <%-- 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">品牌:</td>
 								<td>
@@ -57,11 +69,11 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">型号:</td>
 								<td><input type="text" name="BIANMA" id="BIANMA" value="${pd.BIANMA}" maxlength="30" placeholder="这里输入配置型号" title="商品编码" style="width:98%;"/></td>
 							</tr> --%>
-							<tr>
+				<!-- 			<tr>
 								<td style="width:80px;text-align: right;padding-top: 13px;">sn号:</td>
-								<td><input type="text" name="DESCRIPTION" id="DESCRIPTION" value="${pd.DESCRIPTION}" maxlength="255" placeholder="这里输入sn号" title="商品名称" style="width:98%;"/></td>
-							</tr>
-							<tr>
+								<td></td>
+							</tr> -->
+<%-- 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">类别:</td>
 								<td>
 									<select class="chosen-select form-control" name="SPTYPE_ID" id="SPTYPE_ID" data-placeholder="请选择商品类别" style="vertical-align:top;width:98%;" >
@@ -71,8 +83,8 @@
 										</c:forEach>
 									</select>
 								</td>
-							</tr>
-							<tr>
+							</tr> --%>
+<%-- 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">计量单位:</td>
 								<td>
 									<select class="chosen-select form-control" name="SPUNIT_ID" id="SPUNIT_ID" data-placeholder="请选择计量单位" style="vertical-align:top;width:98%;" >
@@ -82,8 +94,8 @@
 										</c:forEach>
 									</select>
 								</td>
-							</tr>
-							<tr>
+							</tr> --%>
+<%-- 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">成色:</td>
 								<td>
 									<select class="chosen-select form-control" name="DEGREE" id="DEGREE" data-placeholder="请选择成色" style="vertical-align:top;width:98%;" >
@@ -93,8 +105,8 @@
 										</c:forEach>
 									</select>
 								</td>
-							</tr>
-							<tr>
+							</tr> --%>
+<%-- 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">使用耗材:</td>
 								<td>
 									<select class="chosen-select form-control" name="MATERIAL" id="MATERIAL" data-placeholder="请选择计量单位" style="vertical-align:top;width:98%;" >
@@ -104,22 +116,34 @@
 										</c:forEach>
 									</select>
 								</td>
-							</tr>
+							</tr> --%>
 							<tr>
-								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-yellow arrowed-in-right arrowed">&nbsp;库存信息&nbsp;</span></td>																							   
+								<td style="width:90px;text-align: left;padding-top: 13px;"><span class="label label-yellow arrowed-in-right arrowed">&nbsp;退货管理&nbsp;</span></td>																							   
 								<td></td>	
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">进货价:</td>
-								<td><input type="NUMBER" name="INFEE" id="INFEE" value="${pd.INFEE}" maxlength="30" placeholder="这里输入进货价" title="商品编码" style="width:98%;"/></td>								
-							</tr>
+								<td style="padding-top: 13px;">${pd.INFEE}</td>								
+							</tr>		
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">出货价:</td>
-								<td><input type="NUMBER" name="OUTFEE" id="OUTFEE" value="${pd.OUTFEE}" maxlength="30" placeholder="这里输入出货价" title="商品编码" style="width:98%;"/></td>
+								<td style="padding-top: 13px;">${pd.OUTFEE}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">入库数量:</td>
-								<td><input type="NUMBER" name="INCOUNT" id="INCOUNT" value="${pd.INCOUNT}" maxlength="30" placeholder="这里输入出库数量" title="商品编码" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">总出库数量:</td>
+								<td style="padding-top: 13px;">${pd.OUTCOUNT}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">总退货数量:</td>
+								<td style="padding-top: 13px;">${pd.BACKCOUNT}</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">可退货数量:</td>
+								<td><input type="NUMBER" name="IFCOUNT" id="IFCOUNT" style="width:98%;" readonly /></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">退货数量:</td>
+								<td><input type="NUMBER" name="NEWBACKCOUNT" id="NEWBACKCOUNT"  maxlength="30" placeholder="这里输入退货数量" title="退货数量" style="width:98%;" /></td>
 							</tr>
 
 <%-- 							<tr>
@@ -174,57 +198,32 @@
 		$(top.hangge());
 		//保存
 		function save(){
-			if($("#TITLE").val()==""){
-				$("#TITLE").tips({
-					side:3,
-		            msg:'请输入商品备案',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#TITLE").focus();
-			return false;
-			}
-			if($("#SPUNIT_ID").val()==""){
-				$("#SPUNIT_ID").tips({
-					side:3,
-		            msg:'请输入计量单位',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SPUNIT_ID").focus();
-			return false;
-			}
-			if($("#INFEE").val()==""){
-				$("#INFEE").tips({
-					side:3,
-		            msg:'请输入进货价',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#INFEE").focus();
-			return false;
-			}
+	
+		
+		
 
-			if($("#OUTFEE").val()==""){
-				$("#OUTFEE").tips({
+			if($("#NEWBACKCOUNT").val()==""){
+				$("#NEWBACKCOUNT").tips({
 					side:3,
-		            msg:'请输入出货价',
+		            msg:'请输入退货数量',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#OUTFEE").focus();
+				$("#NEWBACKCOUNT").focus();
 			return false;
 			}
-			if($("#INCOUNT").val()==""){
-				$("#INCOUNT").tips({
+			if($("#IFCOUNT").val()-$("#NEWBACKCOUNT").val()<0){
+				$("#NEWBACKCOUNT").tips({
 					side:3,
-		            msg:'请输入入库数量',
+		            msg:'退货数量不能超过可退数量',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#INCOUNT").focus();
+				$("#NEWBACKCOUNT").focus();
 			return false;
-			}INCOUNT
+			}
+			
+			
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
@@ -233,6 +232,8 @@
 		$(function() {
 			//日期框
 			$('.date-picker').datepicker({autoclose: true,todayHighlight: true});
+			//初始化可退货数量
+			$("#IFCOUNT").val($("#OUTCOUNT").val()-$("#BACKCOUNT").val())
 		});
 		
 		//百度富文本

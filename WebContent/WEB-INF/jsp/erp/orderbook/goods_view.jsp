@@ -84,10 +84,6 @@
 								<td style="padding-top: 13px;">${pd.OUTCOUNT}</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">退货数量:</td>
-								<td style="padding-top: 13px;">${pd.BACKCOUNT}</td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">库存量:</td>
 								<td style="padding-top: 13px;">${pd.ZCOUNT}</td>
 							</tr>

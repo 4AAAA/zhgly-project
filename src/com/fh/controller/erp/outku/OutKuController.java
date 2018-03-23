@@ -1,6 +1,7 @@
 package com.fh.controller.erp.outku;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import com.fh.util.AppUtil;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.erp.goods.GoodsManager;
+import com.fh.service.erp.level.LevelManager;
 import com.fh.service.erp.outku.OutKuManager;
 import com.fh.service.erp.receiver.ReceiverManager;
 import com.fh.service.erp.remarks.RemarksManager;
@@ -47,6 +49,8 @@ public class OutKuController extends BaseController {
 	private GoodsManager goodsService;
 	@Resource(name="receiverService")
 	private ReceiverManager receiverService;
+	@Resource(name="levelService")
+	private LevelManager levelService;
 	
 	/**保存
 	 * @param
@@ -65,9 +69,16 @@ public class OutKuController extends BaseController {
 		pd.put("OUTKU_ID", this.get32UUID());				//主键
 		pd.put("OUTTIME", Tools.date2Str(new Date()));		//出库时间
 		pd.put("GOODS_NAME", goodpd.getString("TITLE"));	//商品名称
+		pd.put("SN", goodpd.getString("DESCRIPTION"));	//SN号
 		pd.put("USERNAME", Jurisdiction.getUsername());		//用户名
 		pd.put("INCOUNT", pd.getString("OUTCOUNT"));		//数量
 		pd.put("PRICE", pd.getString("OUTFEE"));		//出货价
+		
+		//初始化退货管理数据-退货量，退货价，退货总价
+		pd.put("BACKCOUNT", 0);
+		pd.put("BACKPRICE", 0);
+		pd.put("BACKALLPRICE", 0);
+		
 		outkuService.save(pd);
 		
 		//更新商品信息（消减库存，出库数量累加）
@@ -99,7 +110,7 @@ public class OutKuController extends BaseController {
 		out.close();
 	}
 	
-	/**修改
+	/**修改结算状态
 	 * @param
 	 * @throws Exception
 	 */
@@ -110,7 +121,7 @@ public class OutKuController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		outkuService.edit(pd);
+		outkuService.editBill(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -151,9 +162,13 @@ public class OutKuController extends BaseController {
 		//收款人
 		List<PageData>	receiverList = receiverService.listAll(pd);
 		
+		//结算状态
+		List<PageData>	billList = levelService.listAll(pd);
+		
 		mv.setViewName("erp/outku/outku_list");
 		mv.addObject("varList", varList);
 		mv.addObject("receiverList", receiverList);
+		mv.addObject("billList", billList);
 		mv.addObject("pd", pd);
 		mv.addObject("zprice", zprice);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -240,6 +255,9 @@ public class OutKuController extends BaseController {
 		//收款人
 		List<PageData>	receiverList = receiverService.listAll(pd);
 		
+		//结算状态
+		List<PageData>	billList = levelService.listAll(pd);
+		
 		pd.put("USERNAME", Jurisdiction.getUsername());
 		List<PageData> goodsList = goodsService.listAll(pd);
 		mv.setViewName("erp/outku/outku_edit2");
@@ -247,11 +265,12 @@ public class OutKuController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject("goodsList", goodsList);
 		mv.addObject("receiverList", receiverList);
+		mv.addObject("billList", billList);
 		return mv;
 	}	
 	
 	
-	 /**去修改页面
+	 /**去修改结算状态页面
 	 * @param
 	 * @throws Exception
 	 */
@@ -261,9 +280,14 @@ public class OutKuController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = outkuService.findById(pd);	//根据ID读取
-		mv.setViewName("erp/outku/outku_edit");
+		
+		//结算状态
+		List<PageData>	billList = levelService.listAll(pd);
+		
+		mv.setViewName("erp/outku/outku_bill");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("billList", billList);
 		return mv;
 	}	
 	
@@ -290,6 +314,146 @@ public class OutKuController extends BaseController {
 		map.put("zcount", pd.get("ZCOUNT")==null?"0":pd.get("ZCOUNT").toString());
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	 /**去退货页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goBack")
+	public ModelAndView goBack()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = outkuService.findById(pd);	//根据ID读取
+//		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
+//		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
+//		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
+//		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
+//		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
+		
+		mv.setViewName("erp/outku/backGoods_edit");
+		mv.addObject("msg", "editBack");
+		mv.addObject("pd", pd);
+//		mv.addObject("spbrandList", spbrandList);
+//		mv.addObject("sptypeList", sptypeList);
+//		mv.addObject("spunitList", spunitList);
+//		mv.addObject("materialList", materialList);
+//		mv.addObject("degreeList", degreeList);
+		return mv;
+	}
+	
+	/**修改退货信息
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/editBack")
+	public ModelAndView editBack() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"修改出库表退货信息");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		//获取前台的数据
+		pd = this.getPageData();
+		
+		//获取出库表的数据
+		PageData outku = outkuService.findById(pd);
+		//获取商品表
+		PageData goods = goodsService.findById(pd);
+		
+		
+		//重新计算利润
+		
+		//前台-退货总价
+		BigDecimal tuihuozongjia = pd.get("BACKALLPRICE")==null?BigDecimal.ZERO:new BigDecimal(pd.get("BACKALLPRICE").toString());
+		//前台-退货量
+		BigDecimal tuihuoliang = pd.get("NEWBACKCOUNT")==null?BigDecimal.ZERO:new BigDecimal(pd.get("NEWBACKCOUNT").toString());
+		//进货价
+		BigDecimal jinhuojia = goods.get("INFEE")==null?BigDecimal.ZERO:new BigDecimal(goods.get("INFEE").toString());
+		
+		//数据库-退货总价 
+		BigDecimal thzj = outku.get("BACKALLPRICE")==null?BigDecimal.ZERO:new BigDecimal(outku.get("BACKALLPRICE").toString());
+		//数据库-退货量
+		BigDecimal thl = outku.get("BACKCOUNT")==null?BigDecimal.ZERO:new BigDecimal(outku.get("BACKCOUNT").toString());
+		//数据库-利润
+		BigDecimal lr = outku.get("INCOME")==null?BigDecimal.ZERO:new BigDecimal(outku.get("INCOME").toString());
+		
+		/**
+		 * 重新计算：退货总价，退货量，利润
+		 */
+		//退货总价
+		pd.put("BACKALLPRICE", tuihuozongjia.add(thzj).toString());
+		//退货量
+		pd.put("BACKCOUNT", tuihuoliang.add(thl).toString());
+		//利润（利润=原利润-【退货总价-退货量*进货价】）
+		pd.put("INCOME", (lr.subtract(tuihuozongjia.subtract(tuihuoliang.multiply(jinhuojia)))).toString());
+		
+		/**
+		 * 修改商品的退货数量
+		 */
+		
+		//修改了入库数量更新库存量(库存量=入库数量-出库数量+退货数量)
+		String a1 = "0";
+		String a2 = "0";
+		int a3 = 0;
+		if(goods.get("INCOUNT")!=null && !"".equals(goods.get("INCOUNT"))) {
+			a1 = goods.get("INCOUNT").toString();
+		}
+		
+		if(goods.get("OUTCOUNT")!=null && !"".equals(goods.get("OUTCOUNT"))) {
+			a2 = goods.get("OUTCOUNT").toString();
+		}
+		
+
+		if(goods.get("BACKCOUNT")!=null && !"".equals(goods.get("BACKCOUNT"))) {			
+			a3 = Integer.parseInt(goods.get("BACKCOUNT").toString());
+			//操作退货时，退货数量累加
+			if(pd.get("NEWBACKCOUNT")!=null && !"".equals(pd.get("NEWBACKCOUNT"))) {	
+				a3 = a3+Integer.parseInt(pd.get("NEWBACKCOUNT").toString());
+			}
+		}
+		goods.put("BACKCOUNT", a3);
+		
+		int zs = Integer.parseInt(a1)-Integer.parseInt(a2)+a3;
+		goods.put("ZCOUNT", zs);
+		
+		
+		goodsService.edit(goods);
+		
+		
+		//修改了入库数量更新库存量(库存量=入库数量-出库数量+退货数量)
+//		String a1 = "0";
+//		String a2 = "0";
+//		int a3 = 0;
+//		if(pd.get("INCOUNT")!=null && !"".equals(pd.get("INCOUNT"))) {
+//			a1 = pd.get("INCOUNT").toString();
+//		}
+//		
+//		if(pd.get("OUTCOUNT")!=null && !"".equals(pd.get("OUTCOUNT"))) {
+//			a2 = pd.get("OUTCOUNT").toString();
+//		}
+//		pd.put("OUTCOUNT", a2);
+//
+//		if(pd.get("BACKCOUNT")!=null && !"".equals(pd.get("BACKCOUNT"))) {			
+//			a3 = Integer.parseInt(pd.get("BACKCOUNT").toString());
+//			//操作退货时，退货数量累加
+//			if(pd.get("NEWBACKCOUNT")!=null && !"".equals(pd.get("NEWBACKCOUNT"))) {	
+//				a3 = a3+Integer.parseInt(pd.get("NEWBACKCOUNT").toString());
+//			}
+//		}
+//		pd.put("BACKCOUNT", a3);
+//		
+//		int zs = Integer.parseInt(a1)-Integer.parseInt(a2)+a3;
+//		pd.put("ZCOUNT", zs);
+		
+		
+		outkuService.editBack(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	
+	
 	
 	
 	 /**导出到excel

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="GoodsMapper">
+<mapper namespace="GoodbookMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		CP_GOODS
+		CP_GOODBOOK
 	</sql>
 	
 	<!-- 字段 -->
@@ -25,7 +25,6 @@
 		CTIME,
 		ZCOUNT,
 		INCOUNT,
-		BACKCOUNT,
 		OUTCOUNT
 	</sql>
 	
@@ -47,7 +46,6 @@
 		#{CTIME},
 		#{ZCOUNT},
 		#{INCOUNT},
-		#{BACKCOUNT},
 		#{OUTCOUNT}
 	</sql>
 	
@@ -88,7 +86,6 @@
 			OUTFEE = #{OUTFEE},
 			INCOUNT = #{INCOUNT},
 			ZCOUNT = #{ZCOUNT},
-			BACKCOUNT = #{BACKCOUNT},
 			OUTCOUNT = #{OUTCOUNT},
 		GOODS_ID = GOODS_ID
 		where 
@@ -132,7 +129,6 @@
 			a.OUTFEE,		
 			a.ZCOUNT,
 			a.INCOUNT,
-			a.BACKCOUNT,
 			a.OUTCOUNT,
 			b.NAME BNAME,
 			C.NAME TNAME,
@@ -172,11 +168,11 @@
 			a.CTIME,
 			a.INCOUNT,
 			a.OUTCOUNT,
-			a.BACKCOUNT,
+			a.SHORTDESC,
 			b.NAME BNAME,
 			c.NAME TNAME,
 			d.NAME UNAME,
-			e.NAME DEGREE,
+			e.REMARKS DEGREE,
 			f.NAME MATERIAL
 		from 
 		<include refid="tableName"></include> a
@@ -186,8 +182,8 @@
 		on a.SPTYPE_ID = c.SPTYPE_ID
 		left join cp_spunit d
 		on a.SPUNIT_ID = d.SPUNIT_ID
-		left join cp_degree e
-		on a.DEGREE = e.DEGREE_ID
+		left join erp_pay e
+		on a.DEGREE = e.PAY_ID
 		left join cp_material f
 		on a.MATERIAL = f.MATERIAL_ID
 		where 1=1
@@ -196,7 +192,7 @@
 				(
 					a.TITLE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
-					a.BIANMA LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					a.DESCRIPTION LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
 				)
 		</if>
 		<if test="pd.USERNAME!= null and pd.USERNAME != ''">
@@ -220,7 +216,7 @@
 		<!-- 列表-进货总价 -->
 	<select id="inFeeSum" parameterType="pd" resultType="pd">
 		select		
-			sum((a.INFEE*a.INCOUNT)) INFEE				
+			sum(a.INFEE) INFEE				
 		from 
 		<include refid="tableName"></include> a
 		left join cp_spbrand b
@@ -239,7 +235,7 @@
 				(
 					a.TITLE LIKE CONCAT(CONCAT('%', #{keywords}),'%')
 					 or 
-					a.BIANMA LIKE CONCAT(CONCAT('%', #{keywords}),'%') 
+					a.DESCRIPTION LIKE CONCAT(CONCAT('%', #{keywords}),'%') 
 				)
 		</if>
 		<if test="USERNAME!= null and USERNAME != ''">
@@ -280,7 +276,6 @@
 			a.CTIME,
 			a.INCOUNT,
 			a.OUTCOUNT,
-			a.BACKCOUNT,
 			b.NAME
 		from 
 		<include refid="tableName"></include> a
@@ -309,7 +304,6 @@
 			a.CTIME,
 			a.INCOUNT,
 			a.OUTCOUNT,
-			a.BACKCOUNT,
 			b.NAME
 		from 
 		<include refid="tableName"></include> a

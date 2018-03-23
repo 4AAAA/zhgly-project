@@ -37,7 +37,7 @@
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="输入商品名称关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<input type="text" placeholder="商品备案/sn号/买家" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
@@ -49,6 +49,14 @@
 										<option value=""></option>
 										<c:forEach items="${receiverList}" var="var">
 											<option value="${var.RECEIVER_ID }" <c:if test="${var.RECEIVER_ID == pd.RECEIVER }">selected</c:if>>${var.REMARKS }</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td style="padding-left:5px">
+									<select class="chosen-select form-control" name="BILL" id="BILL" data-placeholder="结算状态" style="vertical-align:top;width:120px;" >
+										<option value=""></option>
+										<c:forEach items="${billList}" var="var">
+											<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.BILL }">selected</c:if>>${var.TITLE }</option>
 										</c:forEach>
 									</select>
 								</td>
@@ -67,13 +75,18 @@
 							<thead>
 								<tr>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">商品名称</th>
+									<th class="center">商品备案</th>
+									<th class="center">sn号</th>
 									<th class="center">出库数量</th>
 									<th class="center">出货价</th>
 									<th class="center">出货总价</th>
+									<th class="center">退货数量</th>
+									<th class="center">退货总价</th>
 									<th class="center">买家</th>
 									<th class="center">收款人</th>
+									<th class="center">结算状态</th>
 									<th class="center">出库时间</th>
+									<th class="center">操作</th>
 								<!-- 	<th class="center">备注</th> -->
 								</tr>
 							</thead>
@@ -87,13 +100,63 @@
 										<tr>
 											<td class='center' style="width: 30px;"><span class="badge">${vs.index+1}</span></td>
 											<td class='center'>${var.GOODS_NAME}</td>
+											<td class='center'>${var.SN}</td>
 											<td class='center'>${var.INCOUNT}</td>
 											<td class='center'><b class="blue">¥&nbsp;${var.PRICE}</b></td>
 											<td class='center'><b class="green">¥&nbsp;${var.ZPRICE}</b></td>
+											<td class='center'>${var.BACKCOUNT}</td>
+											<td class='center'><b class="red">${var.BACKALLPRICE}</b></td>
 											<td class='center'>${var.CUSTOMER}</td>
 											<td class='center'>${var.RECEIVERS}</td>
+											<td class='center'>${var.BILL}</td>
 											<td class='center'>${var.OUTTIME}</td>
 											<%-- <td class='center'>${var.BZ}</td> --%>
+											<td class="center">
+												<c:if test="${QX.edit != 1 && QX.del != 1 }">
+												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
+												</c:if>
+												<div class="hidden-sm hidden-xs action-buttons">
+												
+													<c:if test="${QX.edit == 1 }">
+													<a class="blue" title="编辑" onclick="edit('${var.OUTKU_ID}');">
+														<i class="ace-icon fa fa-bar-chart-o bigger-130" title="编辑"></i>
+													</a>
+													</c:if>
+													<a class="pink" title="退货" onclick="back('${var.OUTKU_ID}');">
+														<i class="ace-icon fa fa-shopping-cart bigger-130" title="退货"></i>
+													</a>
+													
+												</div>
+												<div class="hidden-md hidden-lg">
+													<div class="inline pos-rel">
+														<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+															<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+														</button>
+			
+														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+															<c:if test="${QX.edit == 1 }">
+															<li>
+																<a style="cursor:pointer;" onclick="edit('${var.OUTKU_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																	<span class="blue">
+																		<i class="ace-icon fa fa-bar-chart-o bigger-130"></i>
+																	</span>
+																</a>
+															</li>
+															<li>
+																<a style="cursor:pointer;" onclick="back('${var.OUTKU_ID}');" class="tooltip-success" data-rel="tooltip" title="退货">
+																	<span class="pink">
+																		<i class="ace-icon fa fa-shopping-cart bigger-130"></i>
+																	</span>
+																</a>
+															</li>
+															</c:if>
+												      	
+													
+														
+														</ul>
+													</div>
+												</div>
+											</td>
 										</tr>
 									
 									</c:forEach>
@@ -225,6 +288,50 @@
 			 };
 			 diag.show();
 		}
+		
+		//修改结算状态
+		function edit(Id){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="结算";
+			 diag.URL = '<%=basePath%>outku/goEdit.do?OUTKU_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 150;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 nextPage(${page.currentPage});
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		
+		//退货
+		function back(Id){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="退货";
+			 diag.URL = '<%=basePath%>outku/goBack.do?OUTKU_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 490;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 nextPage(${page.currentPage});
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
 		
 		//导出excel
 		function toExcel(){

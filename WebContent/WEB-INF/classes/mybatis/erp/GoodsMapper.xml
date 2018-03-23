@@ -25,6 +25,7 @@
 		CTIME,
 		ZCOUNT,
 		INCOUNT,
+		BACKCOUNT,
 		OUTCOUNT
 	</sql>
 	
@@ -46,6 +47,7 @@
 		#{CTIME},
 		#{ZCOUNT},
 		#{INCOUNT},
+		#{BACKCOUNT},
 		#{OUTCOUNT}
 	</sql>
 	
@@ -86,6 +88,7 @@
 			OUTFEE = #{OUTFEE},
 			INCOUNT = #{INCOUNT},
 			ZCOUNT = #{ZCOUNT},
+			BACKCOUNT = #{BACKCOUNT},
 			OUTCOUNT = #{OUTCOUNT},
 		GOODS_ID = GOODS_ID
 		where 
@@ -129,6 +132,7 @@
 			a.OUTFEE,		
 			a.ZCOUNT,
 			a.INCOUNT,
+			a.BACKCOUNT,
 			a.OUTCOUNT,
 			b.NAME BNAME,
 			C.NAME TNAME,
@@ -168,6 +172,7 @@
 			a.CTIME,
 			a.INCOUNT,
 			a.OUTCOUNT,
+			a.BACKCOUNT,
 			b.NAME BNAME,
 			c.NAME TNAME,
 			d.NAME UNAME,
@@ -215,7 +220,7 @@
 		<!-- 列表-进货总价 -->
 	<select id="inFeeSum" parameterType="pd" resultType="pd">
 		select		
-			sum(a.INFEE) INFEE				
+			sum((a.INFEE*a.INCOUNT)) INFEE				
 		from 
 		<include refid="tableName"></include> a
 		left join cp_spbrand b
@@ -275,6 +280,7 @@
 			a.CTIME,
 			a.INCOUNT,
 			a.OUTCOUNT,
+			a.BACKCOUNT,
 			b.NAME
 		from 
 		<include refid="tableName"></include> a
@@ -303,6 +309,7 @@
 			a.CTIME,
 			a.INCOUNT,
 			a.OUTCOUNT,
+			a.BACKCOUNT,
 			b.NAME
 		from 
 		<include refid="tableName"></include> a

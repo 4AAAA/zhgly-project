@@ -125,5 +125,21 @@ public class OutKuService implements OutKuManager{
 	public PageData lastMonth(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("OutKuMapper.lastMonth", pd);
 	}
+	
+	/**修改结算状态
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void editBill(PageData pd)throws Exception{
+		dao.update("OutKuMapper.editBill", pd);
+	}
+	
+	/**修改退货信息
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void editBack(PageData pd)throws Exception{
+		dao.update("OutKuMapper.editBack", pd);
+	}
 }
 

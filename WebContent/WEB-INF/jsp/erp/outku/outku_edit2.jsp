@@ -68,6 +68,16 @@
 								</td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">结算状态:</td>
+								<td>
+									<select name="BILL" id="BILL" placeholder="请选择结算状态" style="width:98%;" >
+									<c:forEach items="${billList}" var="var">
+										<option value="${var.LEVEL_ID }" <c:if test="${var.LEVEL_ID == pd.BILL}">selected</c:if>>${var.TITLE }</option>
+									</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">出库</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -177,7 +187,6 @@
 				$("#OUTCOUNT").focus();
 			return false;
 			}
-			OUTCOUNT
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

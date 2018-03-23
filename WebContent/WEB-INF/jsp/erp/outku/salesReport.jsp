@@ -38,7 +38,7 @@
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="输入商品名称关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<input type="text" placeholder="输入商品备案关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
@@ -70,10 +70,13 @@
 						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
 							<thead>
 								<tr>
-									<th class="center">商品</th>
+									<th class="center">商品备案</th>
+									<th class="center">sn号</th>
 									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">出货数量&uarr; &darr;</th>
 									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">进货成本&uarr; &darr;</th>
 									<th class="center" onclick="orderby('zj');" style="cursor:pointer;">出货金额&uarr; &darr;</th>
+									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">退货数量&uarr; &darr;</th>
+									<th class="center" onclick="orderby('xl');" style="cursor:pointer;">退货金额&uarr; &darr;</th>
 									<th class="center" onclick="orderby('zj');" style="cursor:pointer;">销售利润&uarr; &darr;</th>
 								</tr>
 							</thead>
@@ -86,9 +89,12 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
 											<td class='center'>${var.GOODS_NAME}</td>
+											<td class='center'>${var.SN}</td>
 											<td class='center'><span class="badge badge-danger">${var.ZCOUNT}</span></td>
 											<td class='center'><b class="blue">¥&nbsp;${var.ZINPRICE}</b></td>
 											<td class='center'><b class="red">¥&nbsp;${var.ZPRICE}</b></td>
+											<td class='center'><span class="badge badge-danger">${var.ZBACKCOUNT}</span></td>
+											<td class='center'><b class="pink">${var.ZBACKALLPRICE}</b></td>
 											<td class='center'><b class="green">¥&nbsp;${var.ZINCOME}</b></td>
 										</tr>
 									

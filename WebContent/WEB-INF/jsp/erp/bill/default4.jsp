@@ -73,7 +73,7 @@ setTimeout("top.hangge()",500);
 						        </table>							
 							</div>
 							
-							<div  class="col-xs-12" style="margin-top:20px;margin-left: 110px;"  id="liuyw1" hidden >
+							<div  class="col-xs-12" style="margin-top:20px;margin-left: 0px;"  id="liuyw1" hidden >
 								<div class="infobox infobox-purple infobox-small infobox-dark">
 									<div class="infobox-icon">
 										<i class="ace-icon fa fa-bell"></i>
@@ -112,6 +112,26 @@ setTimeout("top.hangge()",500);
 									<div class="infobox-data">
 										<div class="infobox-content">销售额</div>
 										<div class="infobox-content">${pd.ZPRICE}&nbsp;元</div>
+									</div>
+								</div>
+								<div class="infobox infobox-purple infobox-small infobox-dark">
+									<div class="infobox-icon">
+										<i class="ace-icon fa fa-pencil-square-o"></i>
+									</div>
+				
+									<div class="infobox-data">
+										<div class="infobox-content">退货量</div>
+										<div class="infobox-content">${pd.ZBACKCOUNT}</div>
+									</div>
+								</div>
+								<div class="infobox infobox-blue infobox-small infobox-dark">
+									<div class="infobox-icon">
+										<i class="ace-icon fa fa-book"></i>
+									</div>
+				
+									<div class="infobox-data">
+										<div class="infobox-content">退货金额</div>
+										<div class="infobox-content">${pd.ZBACKALLPRICE}&nbsp;元</div>
 									</div>
 								</div>
 								<div class="infobox infobox-green infobox-small infobox-dark">

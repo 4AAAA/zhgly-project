@@ -37,19 +37,19 @@
 								<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="型号/SN号" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<input type="text" placeholder="商品备案/sn号" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
 											<i class="ace-icon fa fa-search nav-search-icon"></i>
 										</span>
 									</div>
 								</td>
-								<td style="padding-left:5px">
+<%-- 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="SPBRAND_ID" id="SPBRAND_ID" data-placeholder="请选择品牌" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
 										<c:forEach items="${spbrandList}" var="var">
 											<option value="${var.SPBRAND_ID }" <c:if test="${var.SPBRAND_ID == pd.SPBRAND_ID }">selected</c:if>>${var.NAME }</option>
 										</c:forEach>
 									</select>
-								</td>
+								</td> --%>
 								<td style="padding-left:5px">
 									<select class="chosen-select form-control" name="SPTYPE_ID" id="SPTYPE_ID" data-placeholder="请选择类别" style="vertical-align:top;width:120px;" >
 										<option value=""></option>
@@ -151,8 +151,11 @@
 													</a>
 													</c:if>
 													<a class="purple" title="编辑" onclick="outku('${var.GOODS_ID}');">
-														<i class="ace-icon fa fa-shopping-cart bigger-120" title="编辑"></i>
+														<i class="ace-icon fa fa-shopping-cart bigger-120" title="出库"></i>
 													</a>
+					<%-- 								<a class="blue" title="退货" onclick="back('${var.GOODS_ID}');">
+														<i class="ace-icon fa fa-download bigger-120" title="退货"></i>
+													</a> --%>
 													<c:if test="${QX.del == 1 }">
 													<a class="red" onclick="del('${var.GOODS_ID}');">
 														<i class="ace-icon fa fa-trash-o bigger-130" title="删除"></i>
@@ -182,6 +185,20 @@
 																</a>
 															</li>
 															</c:if>
+												      		<li>
+																<a style="cursor:pointer;" onclick="outku('${var.GOODS_ID}');" class="tooltip-success" data-rel="tooltip" title="出库">
+																	<span class="purple">
+																		<i class="ace-icon fa fa-shopping-cart bigger-120"></i>
+																	</span>
+																</a>
+															</li>
+<%-- 															<li>
+																<a style="cursor:pointer;" onclick="back('${var.GOODS_ID}');" class="tooltip-success" data-rel="tooltip" title="退货">
+																	<span class="blue">
+																		<i class="ace-icon fa fa-download bigger-120"></i>
+																	</span>
+																</a>
+															</li> --%>
 															<c:if test="${QX.del == 1 }">
 															<li>
 																<a style="cursor:pointer;" onclick="del('${var.GOODS_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
@@ -387,6 +404,27 @@
 			 diag.show();
 		}
 		
+		//退货
+		function back(Id){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="退货";
+			 diag.URL = '<%=basePath%>goods/goBack.do?GOODS_ID='+Id;
+			 diag.Width = 450;
+			 diag.Height = 390;
+			 diag.Modal = true;				//有无遮罩窗口
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 nextPage(${page.currentPage});
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
 		//出库
 		function outku(Id){
 			 top.jzts();
@@ -395,7 +433,7 @@
 			 diag.Title ="出库";
 			 diag.URL = '<%=basePath%>outku/goOut.do?GOODS_ID='+Id;
 			 diag.Width = 450;
-			 diag.Height = 380;
+			 diag.Height = 420;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -416,7 +454,7 @@
 			 diag.Title ="查看商品信息";
 			 diag.URL = '<%=basePath%>goods/goView.do?GOODS_ID='+Id;
 			 diag.Width = 450;
-			 diag.Height = 600;
+			 diag.Height = 620;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮

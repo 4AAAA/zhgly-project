@@ -21,7 +21,12 @@
 		BZ,
 		CUSTOMER,
 		RECEIVER,
-		OUTKU_ID
+		BILL,
+		SN,
+		OUTKU_ID,
+		BACKCOUNT,
+		BACKPRICE,
+		BACKALLPRICE
 	</sql>
 	
 	<!-- 字段值 -->
@@ -38,7 +43,12 @@
 		#{BZ},
 		#{CUSTOMER},	
 		#{RECEIVER},		
-		#{OUTKU_ID}
+		#{BILL},	
+		#{SN},	
+		#{OUTKU_ID},
+		#{BACKCOUNT},
+		#{BACKPRICE},
+		#{BACKALLPRICE}
 	</sql>
 	
 	<!-- 新增-->
@@ -70,6 +80,29 @@
 		OUTKU_ID = #{OUTKU_ID}
 	</update>
 	
+	<!-- 修改结算状态 -->
+	<update id="editBill" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+		BILL = #{BILL}
+		where 
+		OUTKU_ID = #{OUTKU_ID}
+	</update>
+	
+	<!-- 修改退货信息和利润信息 -->
+	<update id="editBack" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+		BACKCOUNT = #{BACKCOUNT},
+		BACKPRICE = #{BACKPRICE},
+		BACKALLPRICE = #{BACKALLPRICE},
+		INCOME = #{INCOME}
+		where 
+		OUTKU_ID = #{OUTKU_ID}
+	</update>
+	
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -96,20 +129,30 @@
 			a.CUSTOMER,
 			a.RECEIVER,
 			a.OUTKU_ID,
-			b.REMARKS RECEIVERS
+			a.BACKCOUNT,
+			a.BACKPRICE,
+			a.BACKALLPRICE,
+			a.SN,
+			b.REMARKS RECEIVERS,
+			c.TITLE BILL
 				
 		from 
 		<include refid="tableName"></include>a
 		left join ERP_RECEIVER b
 		on 
 			a.RECEIVER = b.RECEIVER_ID
+		left join ERP_LEVEL c
+		on 
+			a.BILL =c.LEVEL_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
 				 GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				 or
-				 BZ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				 CUSTOMER LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				 or
+				 SN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
 		<if test="pd.lastStart!=null and pd.lastStart!=''"><!-- 开始时间检索 -->
@@ -120,6 +163,9 @@
 		</if>
 		<if test="pd.RECEIVER!=null and pd.RECEIVER!=''">
 			and a.RECEIVER = #{pd.RECEIVER} 
+		</if>
+		<if test="pd.BILL!=null and pd.BILL!=''">
+			and a.BILL = #{pd.BILL} 
 		</if>
 		and
 			a.USERNAME = #{pd.USERNAME}
@@ -154,6 +200,9 @@
 		<if test="RECEIVER!=null and RECEIVER!=''">
 			and RECEIVER = #{RECEIVER} 
 		</if>
+		<if test="BILL!=null and BILL!=''">
+			and BILL = #{BILL} 
+		</if>
 		and
 			USERNAME = #{USERNAME}
 	</select>
@@ -172,10 +221,14 @@
 	<select id="SalesReportlistPage" parameterType="page" resultType="pd">
 		select
 			 GOODS_NAME,
+			 SN,
 			 sum(INCOUNT) ZCOUNT,
 			 sum(ZPRICE) ZPRICE,
 			 sum(INCOME) ZINCOME,
-			 sum(INPRICE) ZINPRICE
+			 sum(INPRICE) ZINPRICE,
+			 sum(BACKCOUNT) 	ZBACKCOUNT,
+			 sum(BACKALLPRICE) ZBACKALLPRICE
+			 
 		from 
 		<include refid="tableName"></include>
 		where 1=1
@@ -215,6 +268,8 @@
 		<select id="go" parameterType="pd" resultType="pd">
 		select
 			 count(*) NUMBER,
+			 sum(BACKCOUNT) ZBACKCOUNT,
+			 sum(BACKALLPRICE) ZBACKALLPRICE,
 			 sum(INCOUNT) ZCOUNT,
 			 sum(ZPRICE) ZPRICE,
 			 sum(INCOME) ZINCOME,
@@ -238,6 +293,8 @@
 		<select id="thisMonth" parameterType="pd" resultType="pd">
 		select
 			 count(*) NUMBER,
+			 sum(BACKCOUNT) ZBACKCOUNT,
+			 sum(BACKALLPRICE) ZBACKALLPRICE,
 			 sum(INCOUNT) ZCOUNT,
 			 sum(ZPRICE) ZPRICE,
 			 sum(INCOME) ZINCOME,
@@ -252,6 +309,8 @@
 		<select id="lastMonth" parameterType="pd" resultType="pd">
 		select
 			 count(*) NUMBER,
+			 sum(BACKCOUNT) ZBACKCOUNT,
+			 sum(BACKALLPRICE) ZBACKALLPRICE,
 			 sum(INCOUNT) ZCOUNT,
 			 sum(ZPRICE) ZPRICE,
 			 sum(INCOME) ZINCOME,

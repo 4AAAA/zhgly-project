@@ -290,7 +290,10 @@ public class BillAnalyController extends BaseController {
 			pd.put("ZINCOME", dayBill.get("ZINCOME")==null?"0.0":dayBill.get("ZINCOME").toString());
 			//出库次数
 			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0":dayBill.get("NUMBER").toString());
-			
+			//退货数量
+			pd.put("ZBACKCOUNT", dayBill.get("ZBACKCOUNT")==null?"0":dayBill.get("ZBACKCOUNT").toString());
+			//退货总额
+			pd.put("ZBACKALLPRICE", dayBill.get("ZBACKALLPRICE")==null?"0":dayBill.get("ZBACKALLPRICE").toString());
 		}else {
 			//销售数量
 			pd.put("ZCOUNT", "0");
@@ -302,6 +305,10 @@ public class BillAnalyController extends BaseController {
 			pd.put("ZINCOME", "0");
 			//出库次数
 			pd.put("NUMBER", "0");
+			//退货数量
+			pd.put("ZBACKCOUNT", "0");
+			//退货总额
+			pd.put("ZBACKALLPRICE", "0");
 		}
 		
 		
@@ -343,6 +350,10 @@ public class BillAnalyController extends BaseController {
 			pd.put("ZINCOME", dayBill.get("ZINCOME")==null?"0.0":dayBill.get("ZINCOME").toString());
 			//出库次数
 			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0":dayBill.get("NUMBER").toString());
+			//退货数量
+			pd.put("ZBACKCOUNT", dayBill.get("ZBACKCOUNT")==null?"0":dayBill.get("ZBACKCOUNT").toString());
+			//退货总额
+			pd.put("ZBACKALLPRICE", dayBill.get("ZBACKALLPRICE")==null?"0":dayBill.get("ZBACKALLPRICE").toString());
 			
 		}else {
 			//销售数量
@@ -355,6 +366,10 @@ public class BillAnalyController extends BaseController {
 			pd.put("ZINCOME", "0");
 			//出库次数
 			pd.put("NUMBER", "0");
+			//退货数量
+			pd.put("ZBACKCOUNT", "0");
+			//退货总额
+			pd.put("ZBACKALLPRICE", "0");
 		}
 		
 		//当月时间
@@ -404,6 +419,10 @@ public class BillAnalyController extends BaseController {
 			pd.put("ZINCOME", dayBill.get("ZINCOME")==null?"0.0":dayBill.get("ZINCOME").toString());
 			//出库次数
 			pd.put("NUMBER", dayBill.get("NUMBER")==null?"0":dayBill.get("NUMBER").toString());
+			//退货数量
+			pd.put("ZBACKCOUNT", dayBill.get("ZBACKCOUNT")==null?"0":dayBill.get("ZBACKCOUNT").toString());
+			//退货总额
+			pd.put("ZBACKALLPRICE", dayBill.get("ZBACKALLPRICE")==null?"0":dayBill.get("ZBACKALLPRICE").toString());
 			
 		}else {
 			//销售数量
@@ -416,6 +435,10 @@ public class BillAnalyController extends BaseController {
 			pd.put("ZINCOME", "0");
 			//出库次数
 			pd.put("NUMBER", "0");
+			//退货数量
+			pd.put("ZBACKCOUNT", "0");
+			//退货总额
+			pd.put("ZBACKALLPRICE", "0");
 		}
 		
 		//上月时间

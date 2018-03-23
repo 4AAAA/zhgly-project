@@ -69,10 +69,10 @@
 									</select>
 								</td> --%>
 								<td style="padding-left:5px">
-									<select class="chosen-select form-control" name="BILLSTATUS" id="BILLSTATUS" data-placeholder="结算状态" style="vertical-align:top;width:120px;" >
-										<option value=""></option>										
-										<option value="1" >结清</option>
-										<option value="2" >欠费</option>
+									<select class="chosen-select form-control" name="BILLSTATUS" id="BILLSTATUS" data-placeholder="结算状态" style="vertical-align:top;width:120px;" >										
+										<option value=""<c:if test="${ pd.BILLSTATUS == '' }">selected</c:if>></option>
+										<option value="1" <c:if test="${ pd.BILLSTATUS =='1'}">selected</c:if>>结清</option>
+										<option value="2" <c:if test="${ pd.BILLSTATUS =='2'}">selected</c:if>>欠费</option>										
 									</select>
 								</td>
 								<td style="padding-left:5px">

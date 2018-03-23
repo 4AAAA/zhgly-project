@@ -1,4 +1,4 @@
-package com.fh.controller.erp.goods;
+package com.fh.controller.erp.goodbook;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,25 +24,28 @@ import com.fh.util.PageData;
 import com.fh.util.Tools;
 import com.fh.util.Jurisdiction;
 import com.fh.service.erp.degree.DegreeManager;
+import com.fh.service.erp.goodbook.GoodbookManager;
 import com.fh.service.erp.goods.GoodsManager;
 import com.fh.service.erp.material.MaterialManager;
+import com.fh.service.erp.orderbook.OrderbookManager;
+import com.fh.service.erp.pay.PayManager;
 import com.fh.service.erp.spbrand.SpbrandManager;
 import com.fh.service.erp.sptype.SptypeManager;
 import com.fh.service.erp.spunit.SpunitManager;
 import com.fh.service.information.pictures.PicturesManager;
 
 /** 
- * 说明：商品管理
+ * 说明：商品记事本
  * 创建人：FH Q313596790
  * 创建时间：2016-09-09
  */
 @Controller
-@RequestMapping(value="/goods")
-public class GoodsController extends BaseController {
+@RequestMapping(value="/goodbook")
+public class GoodbookController extends BaseController {
 	
-	String menuUrl = "goods/list.do"; //菜单地址(权限用)
-	@Resource(name="goodsService")
-	private GoodsManager goodsService;
+	String menuUrl = "goodbook/list.do"; //菜单地址(权限用)
+	@Resource(name="goodbookService")
+	private GoodbookManager goodbookService;
 	@Resource(name="picturesService")
 	private PicturesManager picturesService;
 	@Resource(name="spbrandService")
@@ -56,6 +59,11 @@ public class GoodsController extends BaseController {
 	@Resource(name="degreeService")
 	private DegreeManager degreeService;
 	
+	//支付方式
+	@Resource(name="payService")
+	private PayManager payService;
+	
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -68,12 +76,11 @@ public class GoodsController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("GOODS_ID", this.get32UUID());	//主键 
-		pd.put("ZCOUNT", pd.get("INCOUNT"));					//库存
+//		pd.put("ZCOUNT", pd.get("INCOUNT"));					//库存
 		pd.put("OUTCOUNT", 0);					//出库数量
-		pd.put("BACKCOUNT", 0);					//退货量
 		pd.put("USERNAME", Jurisdiction.getUsername());	//用户名
 		pd.put("CTIME", Tools.date2Str(new Date()));	//创建时间
-		goodsService.save(pd);
+		goodbookService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -91,13 +98,11 @@ public class GoodsController extends BaseController {
 		Map<String,String> map = new HashMap<String,String>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		
+		goodbookService.delete(pd);
+	
 		String errInfo = "success";
-		//当商品下面有图片 或者 此商品已经上架 或者 库存不为0时 不能删除
-		if(Integer.parseInt(picturesService.findCount(pd).get("zs").toString()) > 0 || Integer.parseInt( goodsService.findById(pd).get("ZCOUNT").toString()) > 0){
-			errInfo = "false";
-		}else{
-			goodsService.delete(pd);
-		}
+		
 		map.put("result", errInfo);
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -114,32 +119,22 @@ public class GoodsController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		
-		//修改了入库数量更新库存量(库存量=入库数量-出库数量+退货数量)
-		String a1 = "0";
-		String a2 = "0";
-		int a3 = 0;
-		if(pd.get("INCOUNT")!=null && !"".equals(pd.get("INCOUNT"))) {
-			a1 = pd.get("INCOUNT").toString();
-		}
+		//修改了入库数量更新库存量
+//		String a1 = "0";
+//		String a2 = "0";
+//		if(pd.get("INCOUNT")!=null && !"".equals(pd.get("INCOUNT"))) {
+//			a1 = pd.get("INCOUNT").toString();
+//		}
+//		
+//		if(pd.get("OUTCOUNT")!=null && !"".equals(pd.get("OUTCOUNT"))) {
+//			a2 = pd.get("OUTCOUNT").toString();
+//		}
+//		pd.put("OUTCOUNT", a2);
+//
+//		int zs = Integer.parseInt(a1)-Integer.parseInt(a2);
+//		pd.put("ZCOUNT", zs);
 		
-		if(pd.get("OUTCOUNT")!=null && !"".equals(pd.get("OUTCOUNT"))) {
-			a2 = pd.get("OUTCOUNT").toString();
-		}
-		pd.put("OUTCOUNT", a2);
-
-		if(pd.get("BACKCOUNT")!=null && !"".equals(pd.get("BACKCOUNT"))) {			
-			a3 = Integer.parseInt(pd.get("BACKCOUNT").toString());
-			//操作退货时，退货数量累加
-			if(pd.get("NEWBACKCOUNT")!=null && !"".equals(pd.get("NEWBACKCOUNT"))) {	
-				a3 = a3+Integer.parseInt(pd.get("NEWBACKCOUNT").toString());
-			}
-		}
-		pd.put("BACKCOUNT", a3);
-		
-		int zs = Integer.parseInt(a1)-Integer.parseInt(a2)+a3;
-		pd.put("ZCOUNT", zs);
-		
-		goodsService.edit(pd);
+		goodbookService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -163,7 +158,7 @@ public class GoodsController extends BaseController {
 		pd.put("USERNAME", "admin".equals(Jurisdiction.getUsername())?"":Jurisdiction.getUsername());
 		
 		//进货总价
-		PageData feeSumData =  goodsService.inFeeSum(pd);
+		PageData feeSumData =  goodbookService.inFeeSum(pd);
 		String feeSum = "0";
 		if(feeSumData!=null) {
 			feeSum = feeSumData.get("INFEE").toString();
@@ -173,14 +168,18 @@ public class GoodsController extends BaseController {
 		
 		
 		page.setPd(pd);
-		List<PageData>	varList = goodsService.list(page);	//列出Goods列表
+		List<PageData>	varList = goodbookService.list(page);	//列出Goods列表
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
 		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
 		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
 		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
 		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
 		
-		mv.setViewName("erp/goods/goods_list");
+		
+		//付款方式
+		List<PageData> payList = payService.listAll(pd);
+		
+		mv.setViewName("erp/goodbook/goodbook_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("spbrandList", spbrandList);
@@ -189,6 +188,8 @@ public class GoodsController extends BaseController {
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		mv.addObject("materialList", materialList);
 		mv.addObject("degreeList", degreeList);
+		
+		mv.addObject("payList", payList);
 		mv.addObject("feeSum", feeSum);
 		return mv;
 	}
@@ -208,7 +209,11 @@ public class GoodsController extends BaseController {
 		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
 		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
 		
-		mv.setViewName("erp/goods/goods_edit");
+		//付款方式
+		pd.put("USERNAME", Jurisdiction.getUsername());	
+		List<PageData> payList = payService.listAll(pd);
+		
+		mv.setViewName("erp/goodbook/goodbook_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("spbrandList", spbrandList);
@@ -216,6 +221,8 @@ public class GoodsController extends BaseController {
 		mv.addObject("spunitList", spunitList);
 		mv.addObject("materialList", materialList);
 		mv.addObject("degreeList", degreeList);
+		
+		mv.addObject("payList", payList);
 		return mv;
 	}	
 	
@@ -228,14 +235,18 @@ public class GoodsController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = goodsService.findById(pd);	//根据ID读取
+		pd = goodbookService.findById(pd);	//根据ID读取
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
 		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
 		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
 		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
 		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
 		
-		mv.setViewName("erp/goods/goods_edit");
+		//付款方式
+		pd.put("USERNAME", Jurisdiction.getUsername());	
+		List<PageData> payList = payService.listAll(pd);
+		
+		mv.setViewName("erp/goodbook/goodbook_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("spbrandList", spbrandList);
@@ -243,33 +254,7 @@ public class GoodsController extends BaseController {
 		mv.addObject("spunitList", spunitList);
 		mv.addObject("materialList", materialList);
 		mv.addObject("degreeList", degreeList);
-		return mv;
-	}
-	
-	 /**去退货页面
-	 * @param
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/goBack")
-	public ModelAndView goBack()throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		pd = goodsService.findById(pd);	//根据ID读取
-		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
-		List<PageData> sptypeList = sptypeService.listAll(Jurisdiction.getUsername()); 		//类别列表
-		List<PageData> spunitList = spunitService.listAll(Jurisdiction.getUsername()); 		//计量单位列表
-		List<PageData> materialList = materialService.listAll(Jurisdiction.getUsername()); 		//使用耗材
-		List<PageData> degreeList = degreeService.listAll(Jurisdiction.getUsername()); 		//成色
-		
-		mv.setViewName("erp/goods/backGoods_edit");
-		mv.addObject("msg", "edit");
-		mv.addObject("pd", pd);
-		mv.addObject("spbrandList", spbrandList);
-		mv.addObject("sptypeList", sptypeList);
-		mv.addObject("spunitList", spunitList);
-		mv.addObject("materialList", materialList);
-		mv.addObject("degreeList", degreeList);
+		mv.addObject("payList", payList);
 		return mv;
 	}
 	
@@ -282,7 +267,7 @@ public class GoodsController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = goodsService.findByIdToCha(pd);	//根据ID读取
+		pd = goodbookService.findByIdToCha(pd);	//根据ID读取
 		mv.setViewName("erp/goods/goods_view");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
