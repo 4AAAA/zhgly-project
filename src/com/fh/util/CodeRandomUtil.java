@@ -62,5 +62,25 @@ public class CodeRandomUtil {
 		return "DCKH-" + str + "-" + rancode;
 
 	}
+	
+	/**
+	 * 出货单编号
+	 * @return
+	 */
+	public static String getPiaojuCode() {
+
+		SimpleDateFormat simpleDateFormat;
+
+		simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+
+		Date date = new Date();
+
+		String str = simpleDateFormat.format(date);
+
+		int rancode = (int)(Math.random()*(9999-1000+1))+1000;
+
+		return "DCCHD-" + str + "-" + rancode;
+
+	}
 
 }

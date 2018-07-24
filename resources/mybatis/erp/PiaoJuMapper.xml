@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PiaoJuMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		ERP_PIAOJU
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+	  PIAOJU_ID,
+	  PIAOJU_CODE,
+	  DANWEI,
+	  DIANHUA,
+	  RIQI,
+	  CTIME,
+	  TITLE1,
+	  TITLE1DW,
+	  TITLE1SL,
+	  TITLE1DJ, 
+	  TITLE1M1,
+	  TITLE1M2, 
+	  TITLE1M3, 
+	  TITLE1M4, 
+	  TITLE1M5, 
+	  TITLE1M6,
+	  TITLE1M7,
+	  TITLE1M8, 
+	  TITLE2,
+	  TITLE2DW, 
+	  TITLE2SL, 
+	  TITLE2DJ, 
+	  TITLE2M1, 
+	  TITLE2M2, 
+	  TITLE2M3, 
+	  TITLE2M4, 
+	  TITLE2M5, 
+	  TITLE2M6,
+	  TITLE2M7,
+	  TITLE2M8, 
+	  TITLE3,
+	  TITLE3DW, 
+	  TITLE3SL, 
+	  TITLE3DJ, 
+	  TITLE3M1,
+	  TITLE3M2, 
+	  TITLE3M3, 
+	  TITLE3M4, 
+	  TITLE3M5,
+	  TITLE3M6, 
+	  TITLE3M7, 
+	  TITLE3M8, 
+	  TITLE4, 
+	  TITLE4DW, 
+	  TITLE4SL, 
+	  TITLE4DJ, 
+	  TITLE4M1, 
+	  TITLE4M2, 
+	  TITLE4M3, 
+	  TITLE4M4,
+	  TITLE4M5, 
+	  TITLE4M6, 
+	  TITLE4M7, 
+	  TITLE4M8, 
+	  TITLE5, 
+	  TITLE5DW,
+	  TITLE5SL,
+	  TITLE5DJ,
+	  TITLE5M1,
+	  TITLE5M2,
+	  TITLE5M3,
+	  TITLE5M4,
+	  TITLE5M5,
+	  TITLE5M6,
+	  TITLE5M7,
+	  TITLE5M8,
+	  TITLE6,
+	  TITLE6DW,
+	  TITLE6SL,
+	  TITLE6DJ,
+	  TITLE6M1,
+	  TITLE6M2,
+	  TITLE6M3,
+	  TITLE6M4,
+	  TITLE6M5,
+	  TITLE6M6,
+	  TITLE6M7,
+	  TITLE6M8,
+	  TITLE7,
+	  TITLE7DW,
+	  TITLE7SL,
+	  TITLE7DJ,
+	  TITLE7M1,
+	  TITLE7M2,
+	  TITLE7M3,
+	  TITLE7M4,
+	  TITLE7M5,
+	  TITLE7M6,
+	  TITLE7M7,
+	  TITLE7M8,
+	  MONEY,
+	  BZ1,
+	  BZ2,
+	  DX1,
+	  DX2,
+	  DX3,
+	  DX4,
+	  DX5,
+	  DX6,
+	  DX7,
+	  DX8,
+	  ZD,
+	  FZ,
+	  USERNAME
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+	  #{PIAOJU_ID},
+	  #{PIAOJU_CODE},
+	  #{DANWEI},
+	  #{DIANHUA},
+	  #{RIQI},
+	  #{CTIME}, 
+	  #{TITLE1},
+	  #{TITLE1DW},
+	  #{TITLE1SL},
+	  #{TITLE1DJ}, 
+	  #{TITLE1M1},
+	  #{TITLE1M2}, 
+	  #{TITLE1M3}, 
+	  #{TITLE1M4}, 
+	  #{TITLE1M5}, 
+	  #{TITLE1M6},
+	  #{TITLE1M7},
+	  #{TITLE1M8}, 
+	  #{TITLE2},
+	  #{TITLE2DW}, 
+	  #{TITLE2SL}, 
+	  #{TITLE2DJ}, 
+	  #{TITLE2M1}, 
+	  #{TITLE2M2}, 
+	  #{TITLE2M3}, 
+	  #{TITLE2M4}, 
+	  #{TITLE2M5}, 
+	  #{TITLE2M6},
+	  #{TITLE2M7},
+	  #{TITLE2M8}, 
+	  #{TITLE3},
+	  #{TITLE3DW}, 
+	  #{TITLE3SL}, 
+	  #{TITLE3DJ}, 
+	  #{TITLE3M1},
+	  #{TITLE3M2}, 
+	  #{TITLE3M3}, 
+	  #{TITLE3M4}, 
+	  #{TITLE3M5},
+	  #{TITLE3M6}, 
+	  #{TITLE3M7}, 
+	  #{TITLE3M8}, 
+	  #{TITLE4}, 
+	  #{TITLE4DW}, 
+	  #{TITLE4SL}, 
+	  #{TITLE4DJ}, 
+	  #{TITLE4M1}, 
+	  #{TITLE4M2}, 
+	  #{TITLE4M3}, 
+	  #{TITLE4M4},
+	  #{TITLE4M5}, 
+	  #{TITLE4M6}, 
+	  #{TITLE4M7}, 
+	  #{TITLE4M8}, 
+	  #{TITLE5}, 
+	  #{TITLE5DW},
+	  #{TITLE5SL},
+	  #{TITLE5DJ},
+	  #{TITLE5M1},
+	  #{TITLE5M2},
+	  #{TITLE5M3},
+	  #{TITLE5M4},
+	  #{TITLE5M5},
+	  #{TITLE5M6},
+	  #{TITLE5M7},
+	  #{TITLE5M8},
+	  #{TITLE6},
+	  #{TITLE6DW},
+	  #{TITLE6SL},
+	  #{TITLE6DJ},
+	  #{TITLE6M1},
+	  #{TITLE6M2},
+	  #{TITLE6M3},
+	  #{TITLE6M4},
+	  #{TITLE6M5},
+	  #{TITLE6M6},
+	  #{TITLE6M7},
+	  #{TITLE6M8},
+	  #{TITLE7},
+	  #{TITLE7DW},
+	  #{TITLE7SL},
+	  #{TITLE7DJ},
+	  #{TITLE7M1},
+	  #{TITLE7M2},
+	  #{TITLE7M3},
+	  #{TITLE7M4},
+	  #{TITLE7M5},
+	  #{TITLE7M6},
+	  #{TITLE7M7},
+	  #{TITLE7M8},
+	  #{MONEY},
+	  #{BZ1},
+	  #{BZ2},
+	  #{DX1},
+	  #{DX2},
+	  #{DX3},
+	  #{DX4},
+	  #{DX5},
+	  #{DX6},
+	  #{DX7},
+	  #{DX8},
+	  #{ZD},
+	  #{FZ},
+	  #{USERNAME}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			PIAOJU_ID = #{PIAOJU_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+		  DANWEI=#{DANWEI},
+		  DIANHUA=#{DIANHUA},
+		  RIQI=#{RIQI},
+		  TITLE1=#{TITLE1},
+		  TITLE1DW=#{TITLE1DW},
+		  TITLE1SL=#{TITLE1SL},
+		  TITLE1DJ=#{TITLE1DJ}, 
+		  TITLE1M1=#{TITLE1M1},
+		  TITLE1M2=#{TITLE1M2}, 
+		  TITLE1M3=#{TITLE1M3}, 
+		  TITLE1M4=#{TITLE1M4}, 
+		  TITLE1M5=#{TITLE1M5}, 
+		  TITLE1M6=#{TITLE1M6},
+		  TITLE1M7=#{TITLE1M7},
+		  TITLE1M8=#{TITLE1M8}, 
+		  TITLE2=#{TITLE2},
+		  TITLE2DW=#{TITLE2DW}, 
+		  TITLE2SL=#{TITLE2SL}, 
+		  TITLE2DJ=#{TITLE2DJ}, 
+		  TITLE2M1=#{TITLE2M1}, 
+		  TITLE2M2=#{TITLE2M2}, 
+		  TITLE2M3=#{TITLE2M3}, 
+		  TITLE2M4=#{TITLE2M4}, 
+		  TITLE2M5=#{TITLE2M5}, 
+		  TITLE2M6=#{TITLE2M6},
+		  TITLE2M7=#{TITLE2M7},
+		  TITLE2M8=#{TITLE2M8}, 
+		  TITLE3=#{TITLE3},
+		  TITLE3DW=#{TITLE3DW}, 
+		  TITLE3SL=#{TITLE3SL}, 
+		  TITLE3DJ=#{TITLE3DJ}, 
+		  TITLE3M1=#{TITLE3M1},
+		  TITLE3M2=#{TITLE3M2}, 
+		  TITLE3M3=#{TITLE3M3}, 
+		  TITLE3M4=#{TITLE3M4}, 
+		  TITLE3M5=#{TITLE3M5},
+		  TITLE3M6=#{TITLE3M6}, 
+		  TITLE3M7=#{TITLE3M7}, 
+		  TITLE3M8=#{TITLE3M8}, 
+		  TITLE4=#{TITLE4}, 
+		  TITLE4DW=#{TITLE4DW}, 
+		  TITLE4SL=#{TITLE4SL}, 
+		  TITLE4DJ=#{TITLE4DJ}, 
+		  TITLE4M1=#{TITLE4M1}, 
+		  TITLE4M2=#{TITLE4M2}, 
+		  TITLE4M3=#{TITLE4M3}, 
+		  TITLE4M4=#{TITLE4M4},
+		  TITLE4M5=#{TITLE4M5}, 
+		  TITLE4M6=#{TITLE4M6}, 
+		  TITLE4M7=#{TITLE4M7}, 
+		  TITLE4M8=#{TITLE4M8}, 
+		  TITLE5=#{TITLE5}, 
+		  TITLE5DW=#{TITLE5DW},
+		  TITLE5SL=#{TITLE5SL},
+		  TITLE5DJ=#{TITLE5DJ},
+		  TITLE5M1=#{TITLE5M1},
+		  TITLE5M2=#{TITLE5M2},
+		  TITLE5M3=#{TITLE5M3},
+		  TITLE5M4=#{TITLE5M4},
+		  TITLE5M5=#{TITLE5M5},
+		  TITLE5M6=#{TITLE5M6},
+		  TITLE5M7=#{TITLE5M7},
+		  TITLE5M8=#{TITLE5M8},
+		  TITLE6=#{TITLE6},
+		  TITLE6DW=#{TITLE6DW},
+		  TITLE6SL=#{TITLE6SL},
+		  TITLE6DJ=#{TITLE6DJ},
+		  TITLE6M1=#{TITLE6M1},
+		  TITLE6M2=#{TITLE6M2},
+		  TITLE6M3=#{TITLE6M3},
+		  TITLE6M4=#{TITLE6M4},
+		  TITLE6M5=#{TITLE6M5},
+		  TITLE6M6=#{TITLE6M6},
+		  TITLE6M7=#{TITLE6M7},
+		  TITLE6M8=#{TITLE6M8},
+		  TITLE7=#{TITLE7},
+		  TITLE7DW=#{TITLE7DW},
+		  TITLE7SL=#{TITLE7SL},
+		  TITLE7DJ=#{TITLE7DJ},
+		  TITLE7M1=#{TITLE7M1},
+		  TITLE7M2=#{TITLE7M2},
+		  TITLE7M3=#{TITLE7M3},
+		  TITLE7M4=#{TITLE7M4},
+		  TITLE7M5=#{TITLE7M5},
+		  TITLE7M6=#{TITLE7M6},
+		  TITLE7M7=#{TITLE7M7},
+		  TITLE7M8=#{TITLE7M8},
+		  MONEY=#{MONEY},
+		  BZ1=#{BZ1},
+		  BZ2=#{BZ2},
+		  DX1=#{DX1},
+		  DX2=#{DX2},
+		  DX3=#{DX3},
+		  DX4=#{DX4},
+		  DX5=#{DX5},
+		  DX6=#{DX6},
+		  DX7=#{DX7},
+		  DX8=#{DX8},
+		  ZD=#{ZD},
+		  FZ=#{FZ},
+					
+		PIAOJU_ID = PIAOJU_ID
+		where 
+		PIAOJU_ID = #{PIAOJU_ID}
+	</update>
+	
+
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			PIAOJU_ID = #{PIAOJU_ID}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include> a
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					a.PIAOJU_CODE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.lastStart!=null and pd.lastStart!=''">
+			and a.CTIME &gt;= #{pd.lastStart} 
+		</if>
+		<if test="pd.lastEnd!=null and pd.lastEnd!=''">
+			and a.CTIME &lt;= #{pd.lastEnd} 
+		</if>
+		<if test="pd.USERNAME!= null and pd.USERNAME != ''">
+			and a.USERNAME = #{pd.USERNAME}
+		</if>
+
+		order by a.CTIME desc
+	</select>
+		
+
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include> a
+		where a.USERNAME = #{USERNAME}
+		order by a.RIQI desc
+	</select>
+	
+
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			PIAOJU_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

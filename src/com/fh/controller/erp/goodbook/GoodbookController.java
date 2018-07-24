@@ -164,9 +164,6 @@ public class GoodbookController extends BaseController {
 			feeSum = feeSumData.get("INFEE").toString();
 		}
 		
-		System.out.println("我要计算总进货价===========>"+feeSum);
-		
-		
 		page.setPd(pd);
 		List<PageData>	varList = goodbookService.list(page);	//列出Goods列表
 		List<PageData> spbrandList = spbrandService.listAll(Jurisdiction.getUsername()); 	//品牌列表
